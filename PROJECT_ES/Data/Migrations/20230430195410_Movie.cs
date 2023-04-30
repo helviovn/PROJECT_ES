@@ -19,6 +19,7 @@ namespace PROJECTES.Data.Migrations
                                     .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                                 Title = table.Column<string>(maxLength: 256, nullable: false),
                                 Description = table.Column<string>(nullable: true),
+                                Title = table.Column<string>(nullable: true),
                                 Diretor = table.Column<string>(nullable: true),
                                 Actor = table.Column<string>(nullable: true),
                                 Genre = table.Column<string>(nullable: true),
@@ -34,9 +35,7 @@ namespace PROJECTES.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "MovieIndex",
                 table: "Movie",
-                column: "Title",
                 unique: true,
-                filter: "[Title] IS NOT NULL");
         }
 
         /// <inheritdoc />
