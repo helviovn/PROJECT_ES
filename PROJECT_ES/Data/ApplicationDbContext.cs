@@ -9,5 +9,7 @@ namespace PROJECT_ES.Data
             : base(options)
         {
         }
+
+        public DbSet<Movie> Movie { get; set; }
     }
 }
