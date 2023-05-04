@@ -1,9 +1,94 @@
-﻿@page "/"
+﻿@page "/movies"
+@using System.Linq
 
-<PageTitle>Index</PageTitle>
+@using System.Net.Http.Json
+@using System.Threading.Tasks
+@using PROJECT_ES.Shared
+@using Microsoft.AspNetCore.Components
+@using Microsoft.Extensions.Configuration
+@using PROJECT_ES.Data
+@using System.Net.Http
+@inject HttpClient httpClient
 
-<h1>Hello, world!</h1>
 
-Welcome to your new app.
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+
+<h1>Movies</h1>
+
+@if (movies == null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (!movies.Any())
+{
+    <p><em>No movies found.</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Director</th>
+                <th>Actor</th>
+                <th>Genre</th>
+                <th>Code</th>
+                <th>Image</th>
+                <th>Date</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var movie in movies)
+            {
+                <tr>
+                    <td>@movie.Title</td>
+                    <td>@movie.Description</td>
+                    <td>@movie.Diretor</td>
+                    <td>@movie.Actor</td>
+                    <td>@movie.Genre</td>
+                    <td>@movie.Code</td>
+                    <td><img src="@movie.Image" width="50" height="70" /></td>
+                    <td>@movie.Date</td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <a class="btn btn-primary" href="/movies/edit/@movie.Id">Edit</a>
+                            <button class="btn btn-danger" @onclick="() => DeleteMovie(movie.Id)">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IEnumerable<Movie> movies;
+
+    [Inject]
+    private IConfiguration configuration { get; set; }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        httpClient = new HttpClient();
+        await LoadMoviesAsync();
+        
+    }
+   
+    private async Task LoadMoviesAsync()
+    {
+        var url = configuration.GetValue<string>("ApiUrl") + "/movies";
+        movies = await httpClient.GetFromJsonAsync<IEnumerable<Movie>>(url);
+    }
+    
+
+    private async Task DeleteMovie(int id)
+    {
+        var url = configuration.GetValue<string>("ApiUrl") + "/movies/" + id;
+        await httpClient.DeleteAsync(url);
+        await LoadMoviesAsync();
+    }
+
+   
+}
