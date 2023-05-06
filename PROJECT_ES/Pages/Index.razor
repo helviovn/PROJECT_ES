@@ -24,11 +24,12 @@
             <div class="form-group">
                 <label for="imdbId">IMDb ID</label>
                 <input type="text" class="form-control" id="imdbId" @bind="imdbId" required />
+                <div style="color: red">@statusMessage</div>
             </div>
             <br>
             <div>
                 <button type="submit" class="btn btn-primary">Add</button>
-                <div style="color: red">@statusMessage</div>
+                
             </div>
         </form>
 <br>
@@ -100,7 +101,7 @@ else
     private async Task DeleteMovie(int id)
     {
         await movieRepository.DeleteMovieAsync(id);
-        NavigationManager.NavigateTo("/movies");
+        NavigationManager.NavigateTo(NavigationManager.Uri, true);
         
     }
 
@@ -120,7 +121,7 @@ else
         var omdbMovie = await httpClient.GetFromJsonAsync<OmdbMovie>($"https://www.omdbapi.com/?i={imdbId}&apikey=f22543c5");
         var Responde = omdbMovie.Response;
         
-        if (Responde == "True" && omdbMovie.imdbID != imdbId)
+        if (Responde == "True")
         {
             var movie = new Movie
             {
