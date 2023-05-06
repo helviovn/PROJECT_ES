@@ -41,7 +41,7 @@ namespace PROJECT_ES.Migrations
                     Diretor = table.Column<string>(maxLength: 256, nullable: false),
                     Actor = table.Column<string>(maxLength: 256, nullable: false),
                     Genre = table.Column<string>(maxLength: 256, nullable: false),
-                    Code = table.Column<string>(maxLength: 256, nullable: false),
+                    Writers = table.Column<string>(maxLength: 256, nullable: false),
                     Image = table.Column<string>(maxLength: 256, nullable: false),
                     Date = table.Column<string>(maxLength: 256, nullable: false)
                 },
