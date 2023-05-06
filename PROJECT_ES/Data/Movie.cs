@@ -10,7 +10,7 @@ namespace PROJECT_ES.Data
         public string Diretor { get; set; }
         public string Actor { get; set; } 
         public string Genre { get; set; }
-        public string Code { get; set; }
+        public string Writers { get; set; }
         public string Image { get; set; }
         public string Date { get; set; }
         
