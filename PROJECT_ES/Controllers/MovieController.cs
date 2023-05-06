@@ -9,12 +9,12 @@ namespace PROJECT_ES.Controllers;
 public class MovieController : ControllerBase
 {
     private readonly MovieRepository _repository;
-    private readonly MovieService _service;
+    
 
-    public MovieController(MovieRepository repository, MovieService service)
+    public MovieController(MovieRepository repository)
     {
         _repository = repository;
-        _service = service;
+        
     }
 
     [HttpGet("{id}")]
@@ -73,16 +73,5 @@ public class MovieController : ControllerBase
         return NoContent();
     }
 
-    [HttpPost("search")]
-    public async Task<ActionResult<Movie>> SearchMovieAsync([FromBody] string title)
-    {
-        var movie = await _service.GetMovieAsync(title);
-
-        if (movie == null)
-        {
-            return NotFound();
-        }
-
-        return Ok(movie);
-    }
+    
 }

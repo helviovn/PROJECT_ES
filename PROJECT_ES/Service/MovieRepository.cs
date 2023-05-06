@@ -19,18 +19,18 @@ public class MovieRepository
         {
             await connection.OpenAsync();
 
-            var query = "INSERT INTO dbo.Movie (Title, Description, Director, Actor, Genre, Code, Image, Date) " +
-                        "VALUES (@Title, @Description, @Director, @Actor, @Genre, @Code, @Image, @Date);" +
+            var query = "INSERT INTO dbo.Movie (Title, Description, Diretor, Actor, Genre, Writers, Image, Date) " +
+                        "VALUES (@Title, @Description, @Diretor, @Actor, @Genre, @Writers, @Image, @Date);" +
                         "SELECT CAST(SCOPE_IDENTITY() as int)";
 
             var parameters = new
             {
                 Title = movie.Title,
                 Description = movie.Description,
-                Director = movie.Diretor,
+                Diretor = movie.Diretor,
                 Actor = movie.Actor,
                 Genre = movie.Genre,
-                Code = movie.Code,
+                Writers = movie.Writers,
                 Image = movie.Image,
                 Date = movie.Date
             };
@@ -76,7 +76,7 @@ public class MovieRepository
             await connection.OpenAsync();
 
             var query = "UPDATE dbo.Movie SET Title = @Title, Description = @Description, " +
-                        "Director = @Director, Actor = @Actor, Genre = @Genre, Code = @Code, " +
+                        "Director = @Director, Actor = @Actor, Genre = @Genre, Writers = @Writers, " +
                         "Image = @Image, Date = @Date WHERE Id = @Id";
 
             var parameters = new
@@ -87,7 +87,7 @@ public class MovieRepository
                 Director = movie.Diretor,
                 Actor = movie.Actor,
                 Genre = movie.Genre,
-                Code = movie.Code,
+                Writers = movie.Writers,
                 Image = movie.Image,
                 Date = movie.Date
             };
