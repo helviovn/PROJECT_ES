@@ -121,7 +121,9 @@ else
         var omdbMovie = await httpClient.GetFromJsonAsync<OmdbMovie>($"https://www.omdbapi.com/?i={imdbId}&apikey=f22543c5");
         var Responde = omdbMovie.Response;
         
-        if (Responde == "True")
+        var movieExist = await movieRepository.GetMovieAsync(omdbMovie.Title);
+        
+        if (Responde == "True" && movieExist==null)
         {
             var movie = new Movie
             {

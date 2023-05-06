@@ -1,4 +1,6 @@
-﻿using Dapper;
+﻿
+
+using Dapper;
 using Microsoft.Data.SqlClient;
 using PROJECT_ES.Data;
 
@@ -50,6 +52,20 @@ public class MovieRepository
             var query = "SELECT * FROM dbo.Movie WHERE Id = @Id";
 
             var parameters = new { Id = id };
+            var movie = await connection.QuerySingleOrDefaultAsync<Movie>(query, parameters);
+
+            return movie;
+        }
+    }
+    public async Task<Movie> GetMovieAsync(string title)
+    {
+        using (var connection = new SqlConnection(_connectionString))
+        {
+            await connection.OpenAsync();
+
+            var query = "SELECT * FROM dbo.Movie WHERE Title = @Title";
+
+            var parameters = new { Title = title };
             var movie = await connection.QuerySingleOrDefaultAsync<Movie>(query, parameters);
 
             return movie;
