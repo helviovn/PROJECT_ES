@@ -19,14 +19,19 @@
 <h1>Movies</h1>
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-4">
         <form @onsubmit="AddMovieAsync">
             <div class="form-group">
                 <label for="imdbId">IMDb ID</label>
                 <input type="text" class="form-control" id="imdbId" @bind="imdbId" required />
             </div>
-            <button type="submit"class="btn btn-primary">Add</button>
+            <br>
+            <div>
+                <button type="submit" class="btn btn-primary">Add</button>
+                <div style="color: red">@statusMessage</div>
+            </div>
         </form>
+<br>
     </div>
 </div>
 
@@ -48,7 +53,7 @@ else
                 <th>Director</th>
                 <th>Actor</th>
                 <th>Genre</th>
-                <th>Code</th>
+                <th>Writers</th>
                 <th>Image</th>
                 <th>Date</th>
                 <th></th>
@@ -107,14 +112,16 @@ else
     
         <!-- ADD MOVIE -->
     private string imdbId;
+    private string statusMessage;
+
 
     private async Task AddMovieAsync()
     {
         var omdbMovie = await httpClient.GetFromJsonAsync<OmdbMovie>($"https://www.omdbapi.com/?i={imdbId}&apikey=f22543c5");
-        //var response= omdbMovie.Response;
-        //Debug.WriteLine(response);
-
+        var Responde = omdbMovie.Response;
         
+        if (Responde == "True" && omdbMovie.imdbID != imdbId)
+        {
             var movie = new Movie
             {
                 Title = omdbMovie.Title,
@@ -128,9 +135,15 @@ else
 
             };
             await movieRepository.AddMovieAsync(movie);
+            NavigationManager.NavigateTo(NavigationManager.Uri, true);
+        }
+        else
+        {
+            statusMessage = "Movie not found or already exists.";
+        }
         
-        
-        NavigationManager.NavigateTo("/movies");
+
+        StateHasChanged();
     }
     
 }
