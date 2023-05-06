@@ -1,9 +1,136 @@
-﻿@page "/"
+﻿@page "/movies"
+@using System.Linq
 
-<PageTitle>Index</PageTitle>
+@using System.Net.Http.Json
+@using System.Threading.Tasks
+@using PROJECT_ES.Shared
+@using Microsoft.AspNetCore.Components
+@using Microsoft.Extensions.Configuration
+@using PROJECT_ES.Service
+@using System.Net.Http
+@using PROJECT_ES.Data
+@using System.Diagnostics
+@inject HttpClient httpClient
+@inject MovieRepository movieRepository
+@inject NavigationManager NavigationManager
 
-<h1>Hello, world!</h1>
 
-Welcome to your new app.
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+<h1>Movies</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <form @onsubmit="AddMovieAsync">
+            <div class="form-group">
+                <label for="imdbId">IMDb ID</label>
+                <input type="text" class="form-control" id="imdbId" @bind="imdbId" required />
+            </div>
+            <button type="submit"class="btn btn-primary">Add</button>
+        </form>
+    </div>
+</div>
+
+@if (movies == null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (!movies.Any())
+{
+    <p><em>No movies found.</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Director</th>
+                <th>Actor</th>
+                <th>Genre</th>
+                <th>Code</th>
+                <th>Image</th>
+                <th>Date</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var movie in movies)
+            {
+                <tr>
+                    <td>@movie.Title</td>
+                    <td>@movie.Description</td>
+                    <td>@movie.Diretor</td>
+                    <td>@movie.Actor</td>
+                    <td>@movie.Genre</td>
+                    <td>@movie.Writers</td>
+                    <td><img src="@movie.Image" width="50" height="70" /></td>
+                    <td>@movie.Date</td>
+                    <td>
+                        <div class="btn-group" role="group">
+                                                
+                            <button class="btn btn-danger" @onclick="() => DeleteMovie(movie.Id)">Delete</button>
+                        
+                        </div>
+                    </td>
+                    </tr>
+                            }
+                        </tbody>
+                    </table>
+}
+
+@code {
+    private IEnumerable<Movie> movies;
+
+    [Inject]
+    private IConfiguration configuration { get; set; }
+    
+    
+    protected override async Task OnInitializedAsync()
+    {
+        movies = await movieRepository.GetMoviesAsync();
+    }
+    
+
+    private async Task DeleteMovie(int id)
+    {
+        await movieRepository.DeleteMovieAsync(id);
+        NavigationManager.NavigateTo("/movies");
+        
+    }
+
+    private void RefreshPage()
+    {
+        NavigationManager.NavigateTo("/movies");
+    }
+    
+    
+        <!-- ADD MOVIE -->
+    private string imdbId;
+
+    private async Task AddMovieAsync()
+    {
+        var omdbMovie = await httpClient.GetFromJsonAsync<OmdbMovie>($"https://www.omdbapi.com/?i={imdbId}&apikey=f22543c5");
+        //var response= omdbMovie.Response;
+        //Debug.WriteLine(response);
+
+        
+            var movie = new Movie
+            {
+                Title = omdbMovie.Title,
+                Description = omdbMovie.Plot,
+                Diretor = omdbMovie.Director,
+                Actor = omdbMovie.Actors,
+                Genre = omdbMovie.Genre,
+                Writers = omdbMovie.Writer,
+                Image = omdbMovie.Poster,
+                Date = omdbMovie.Year,
+
+            };
+            await movieRepository.AddMovieAsync(movie);
+        
+        
+        NavigationManager.NavigateTo("/movies");
+    }
+    
+}
