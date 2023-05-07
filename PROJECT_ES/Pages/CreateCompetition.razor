@@ -5,6 +5,9 @@
 @inject CompetitionRepository competitionRepository
 @inject MovieRepository movieRepository
 @inject NavigationManager NavigationManager
+@using Microsoft.JSInterop
+@using System.ComponentModel
+@inject IJSRuntime JSRuntime
 
 <h1>Create Competition</h1>
 
@@ -31,7 +34,7 @@
         <input type="datetime" id="data_inicio" class="form-control" @bind="competition.data_fim" />
     </div>
 <br>
-  <select class="form-select form-select-sm"  @bind="selectedMovieIdsAsString">
+  <select class="form-select form-select-sm" aria-label=".form-select-sm example" multiple @bind="selectedMovieIdsAsString">
     @if (movies != null)
     {
       @foreach (var movie in movies)
@@ -71,4 +74,5 @@
         await competitionRepository.AddCompetitionWithMoviesAsync(competition, selectedMovieIds);
         NavigationManager.NavigateTo("/competitions");
     }
+    
 }
