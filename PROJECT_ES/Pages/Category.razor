@@ -1,0 +1,94 @@
+@page "/categories"
+@using System.Linq
+@using PROJECT_ES.Service
+
+@inject HttpClient httpClient
+@inject CategoryRepository categoryRepository
+@inject NavigationManager NavigationManager
+
+<form @onsubmit="AddCategoryAsync"> 
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Inisira o nome da Categoria</label>
+        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" @bind="categoryName">
+        <input type="datetime-local" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+
+    </div>
+    <button type="submit" class="btn btn-primary">Enviar</button>
+</form>
+@if (categories == null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (!categories.Any())
+{
+    <p><em>No categories found.</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var category in categories)
+        {
+            <tr>
+                <td>@category.Name</td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <div>
+                        <button class="btn btn-danger" @onclick="() => DeleteMovie(category.Id)">Delete</button>    
+                        </div>
+                        <div>
+                        <button class="btn btn-primary" @onclick="() => UpdateCategory(category.Id, category.Name)">Update</button>    
+                        </div>
+                        
+                        
+                    </div>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code
+{
+    
+    //CALL ALL CATEGORIES
+    private string categoryName;
+    private IEnumerable<Data.Category> categories;
+    protected override async Task OnInitializedAsync()
+    {
+        categories = await categoryRepository.GetAllCategoriesAsync();
+    }
+
+    
+    //ADD CATEGORY
+    private async Task AddCategoryAsync()
+    {
+        await categoryRepository.AddCategoryAsync(categoryName);
+        NavigationManager.NavigateTo(NavigationManager.Uri, true);
+    }
+    
+    //DELETE CATEGORY
+    private async Task DeleteMovie(int id)
+    {
+        await categoryRepository.DeleteMovieAsync(id);
+        NavigationManager.NavigateTo(NavigationManager.Uri, true);
+        
+    }
+    
+    private async Task UpdateCategory(int id, string newName)
+    {
+        await categoryRepository.UpdateCategoryAsync(id, newName);
+        NavigationManager.NavigateTo(NavigationManager.Uri, true);
+    }
+
+
+    
+
+
+}
