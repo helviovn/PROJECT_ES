@@ -25,11 +25,11 @@ public class CompetitionRepository
             using (var transaction = connection.BeginTransaction())
             {
                 var competitionId = await AddCompetitionAsync(competition);
-
                 var query =
                     "INSERT INTO dbo.Competition_has_Movie (CompetitionId, MovieId) VALUES (@CompetitionId, @MovieId)";
 
-                foreach (var movieId in movieIds)
+                var distinctMovieIds = movieIds.Distinct().ToList();
+                foreach (var movieId in distinctMovieIds)
                 {
                     var parameters = new { CompetitionId = competitionId, MovieId = movieId };
                     await connection.ExecuteAsync(query, parameters, transaction);
@@ -39,6 +39,7 @@ public class CompetitionRepository
             }
         }
     }
+
 
 
     private async Task<int> AddCompetitionAsync(Competition competition)

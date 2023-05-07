@@ -33,16 +33,17 @@
         <label for="name">End:</label>
         <input type="datetime" id="data_inicio" class="form-control" @bind="competition.data_fim" />
     </div>
-<br>
-  <select class="form-select form-select-sm" aria-label=".form-select-sm example" multiple @bind="selectedMovieIdsAsString">
-    @if (movies != null)
-    {
-      @foreach (var movie in movies)
+    <br>
+   
+  <select class="form-select form-select-sm" aria-label=".form-select-sm example" multiple @bind="selectedMovieIds">
+      @if (movies != null)
       {
-          <option value="@movie.Id">@movie.Title</option>
+        @foreach (var movie in movies)
+        {
+            <option value="@movie.Id">@movie.Title</option>
+        }
       }
-    }
-  </select>
+    </select>
 <br>
 
     <button type="submit" class="btn btn-primary">Create Competition</button>
@@ -50,16 +51,11 @@
 
 @code {
     
+    private int[] selectedMovieIds = new int[0];
+    
 
-    
-    private string selectedMovieIdsAsString
-    {
-        get => string.Join(",", selectedMovieIds);
-        set => selectedMovieIds = value?.Split(',').Select(int.Parse).ToList() ?? new List<int>();
-    }
-    
     private Competition competition = new();
-    private List<int> selectedMovieIds = new();
+
     private List<Movie> movies;
    
 
@@ -71,7 +67,7 @@
 
     private async Task CreateCompetitionn()
     {
-        await competitionRepository.AddCompetitionWithMoviesAsync(competition, selectedMovieIds);
+        await competitionRepository.AddCompetitionWithMoviesAsync(competition, selectedMovieIds.ToList());
         NavigationManager.NavigateTo("/competitions");
     }
     
