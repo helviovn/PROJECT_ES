@@ -23,7 +23,7 @@ namespace PROJECT_ES.Migrations
                     DataInicio = table.Column<DateTime>(maxLength: 256, nullable: false),
                     DataFim = table.Column<DateTime>(maxLength: 256, nullable: false),
                     Nparticipantes = table.Column<int>(maxLength: 256, nullable: false),
-                    Public = table.Column<bool>(maxLength: 256, nullable: false)
+                    Ispublic = table.Column<bool>(maxLength: 256, nullable: false)
                 },
                 constraints: table =>
                 {

@@ -48,8 +48,8 @@ public class CompetitionRepository
         {
             await connection.OpenAsync();
             
-            var query = "INSERT INTO dbo.Competition (Description, Name, DataInicio, DataFim, Nparticipantes) " +
-                        "VALUES (@Description, @Name, @data_inicio, @data_fim, 0);" +
+            var query = "INSERT INTO dbo.Competition (Description, Name, DataInicio, DataFim, Nparticipantes,Public) " +
+                        "VALUES (@Description, @Name, @data_inicio, @data_fim, 0,0);" +
                         "SELECT CAST(SCOPE_IDENTITY() as int)";
 
             var parameters = new
@@ -59,6 +59,7 @@ public class CompetitionRepository
                 data_inicio = competition.data_inicio,
                 data_fim = competition.data_fim,
                 n_participantes = competition.n_participantes,
+                Public = competition.Public,
                 //PUBLICCC PQ QUE NAO FUNCIONA?AFONSO
             };
 
