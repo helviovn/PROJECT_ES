@@ -1,0 +1,64 @@
+﻿@page "/createcompetition"
+@using PROJECT_ES.Data
+@using PROJECT_ES.Service
+@using Competition = PROJECT_ES.Data.Competition;
+@inject CompetitionRepository competitionRepository
+@inject MovieRepository movieRepository
+@inject NavigationManager NavigationManager
+
+<h1>Create Competition</h1>
+
+<EditForm Model="@competition" OnValidSubmit="CreateCompetitionn">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" class="form-control" @bind="competition.Name" />
+    </div>
+
+    <div class="form-group">
+        <label for="description">Description:</label>
+        <input type="text" id="description" class="form-control" @bind="competition.Description" />
+    </div>
+    
+    <div class="form-group">
+        <label for="name">Begin:</label>
+        <input type="datetime" id="data_inicio" class="form-control" @bind="competition.data_inicio" />
+    </div>
+    <div class="form-group">
+        <label for="name">End:</label>
+        <input type="datetime" id="data_inicio" class="form-control" @bind="competition.data_fim" />
+    </div>
+
+    
+    <div class="form-group">
+        <label for="movies">Select Movies (max 5):</label>
+        <InputSelect multiple class="form-control" size="5">
+            @foreach (var movie in movies)
+            {
+                <option value="@movie">@movie.Title</option>
+            }
+        </InputSelect>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create Competition</button>
+</EditForm>
+
+@code {
+    private Competition competition = new();
+    private List<Movie> movies;
+    private List<int> selectedMovieIds = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        movies = (await movieRepository.GetMoviesAsync()).ToList();
+    }
+    
+
+    private async Task CreateCompetitionn()
+    {
+        await competitionRepository.AddCompetitionWithMoviesAsync(competition, selectedMovieIds);
+        NavigationManager.NavigateTo("/competitions");
+    }
+}
