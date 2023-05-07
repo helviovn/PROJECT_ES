@@ -26,7 +26,7 @@ public class CompetitionRepository
             {
                 var competitionId = await AddCompetitionAsync(competition);
                 var query =
-                    "INSERT INTO dbo.Competition_has_Movie (CompetitionId, MovieId) VALUES (@CompetitionId, @MovieId)";
+                    "INSERT INTO dbo.Competition_has_Movie (CompetitionID, MovieID) VALUES (@CompetitionId, @MovieId)";
 
                 var distinctMovieIds = movieIds.Distinct().ToList();
                 foreach (var movieId in distinctMovieIds)
@@ -48,7 +48,7 @@ public class CompetitionRepository
         {
             await connection.OpenAsync();
             
-            var query = "INSERT INTO dbo.Competition (Description, Name, DataInicio, DataFim, Nparticipantes,Public) " +
+            var query = "INSERT INTO dbo.Competition (Description, Name, DataInicio, DataFim, Nparticipantes,Ispublic) " +
                         "VALUES (@Description, @Name, @data_inicio, @data_fim, 0,0);" +
                         "SELECT CAST(SCOPE_IDENTITY() as int)";
 
@@ -59,7 +59,7 @@ public class CompetitionRepository
                 data_inicio = competition.data_inicio,
                 data_fim = competition.data_fim,
                 n_participantes = competition.n_participantes,
-                Public = competition.Public,
+                Public = competition.Ispublic,
                 //PUBLICCC PQ QUE NAO FUNCIONA?AFONSO
             };
 

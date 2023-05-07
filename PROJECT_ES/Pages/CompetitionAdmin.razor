@@ -2,9 +2,12 @@
 @using PROJECT_ES.Data
 @using PROJECT_ES.Service
 @inject HttpClient httpClient
+@inject NavigationManager NavigationManager
 @inject CompetitionRepository competitionRepository
 
 <h1>Competitions</h1>
+<a href="/createcompetition" class="btn btn-primary">Add Competition</a>
+
 
 @if (competitions == null)
 {
@@ -46,5 +49,6 @@ else
     {
         competitions = await competitionRepository.GetCompetitionsAsync();
     }
+    
     
 }

@@ -10,7 +10,7 @@ namespace PROJECT_ES.Data
         public DateTime data_inicio { get; set; }
         public DateTime data_fim { get; set; }
         public int n_participantes { get; set; }
-        public bool Public { get; set; }
+        public bool Ispublic { get; set; }
         public ICollection<Competition_has_Movie> Competition_has_Movies { get; set; }
 
     }
