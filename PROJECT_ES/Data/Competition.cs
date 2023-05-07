@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 
 namespace PROJECT_ES.Data
 {
@@ -10,7 +10,8 @@ namespace PROJECT_ES.Data
         public DateTime data_inicio { get; set; }
         public DateTime data_fim { get; set; }
         public int n_participantes { get; set; }
-        public Movie movie { get; set; }
+        public bool Ispublic { get; set; }
+        public ICollection<Competition_has_Movie> Competition_has_Movies { get; set; }
 
     }
 }

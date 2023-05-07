@@ -1,0 +1,54 @@
+﻿@page "/competitions"
+@using PROJECT_ES.Data
+@using PROJECT_ES.Service
+@inject HttpClient httpClient
+@inject NavigationManager NavigationManager
+@inject CompetitionRepository competitionRepository
+
+<h1>Competitions</h1>
+<a href="/createcompetition" class="btn btn-primary">Add Competition</a>
+
+
+@if (competitions == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Participants</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var competition in competitions)
+        {
+            <tr>
+                <td>@competition.Name</td>
+                <td>@competition.Description</td>
+                <td>@competition.data_inicio</td>
+                <td>@competition.data_fim</td>
+                <td>@competition.n_participantes</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+    
+    private IEnumerable<PROJECT_ES.Data.Competition> competitions;
+    
+
+    protected override async Task OnInitializedAsync()
+    {
+        competitions = await competitionRepository.GetCompetitionsAsync();
+    }
+    
+    
+}

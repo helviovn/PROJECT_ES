@@ -21,6 +21,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
 builder.Services.AddScoped<MovieRepository>();
+builder.Services.AddScoped<CompetitionRepository>();
 builder.Services.AddScoped<CategoryRepository>();
 builder.Services.AddScoped(sp => new HttpClient() { BaseAddress = new Uri("http://www.omdbapi.com/")});
 

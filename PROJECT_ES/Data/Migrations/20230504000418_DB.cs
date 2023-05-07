@@ -87,7 +87,9 @@ namespace PROJECT_ES.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     UserID = table.Column<int>(type: "int", nullable: false),
-                    MovieID = table.Column<int>(type: "int", nullable: false)
+                    MovieID = table.Column<int>(type: "int", nullable: false),
+                    CompetitionID = table.Column<int>(type:"int", nullable: false),
+                    CategoryID = table.Column<int>(type:"int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -104,19 +106,32 @@ namespace PROJECT_ES.Migrations
                         principalTable: "Movie",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Competition",
+                        column: x => x.CompetitionID,
+                        principalTable: "Competition",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Category",
+                        column: x => x.CategoryID,
+                        principalTable: "Category",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Competition_has_Category",
                 columns: table => new
                 {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CompetitionID = table.Column<int>(type: "int", nullable: false),
                     CategoryID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Competition_has_Category_CompetitionId", x => x.CompetitionID);
-                    table.PrimaryKey("PK_Competition_has_Category_CategoryId", x => x.CategoryID);
+                    table.PrimaryKey("PK_Competition_has_Category_Id", x => x.Id);
                     table.ForeignKey(
                         name: "FK_CompetitionCategory",
                         column: x => x.CompetitionID,
@@ -135,13 +150,14 @@ namespace PROJECT_ES.Migrations
                 name: "Competition_has_Movie",
                 columns: table => new
                 {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CompetitionID = table.Column<int>(type: "int", nullable: false),
                     MovieID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Competition_has_Category_CompetitionId", x => x.CompetitionID);
-                    table.PrimaryKey("PK_Competition_has_Category_MovieId", x => x.MovieID);
+                    table.PrimaryKey("PK_Competition_has_Movie_Id", x => x.Id);
                     table.ForeignKey(
                         name: "FK_CompetitionMovie",
                         column: x => x.CompetitionID,
@@ -155,6 +171,8 @@ namespace PROJECT_ES.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            
 
             migrationBuilder.CreateIndex(
                 name: "CompetitionIndex",
@@ -194,16 +212,16 @@ namespace PROJECT_ES.Migrations
             migrationBuilder.CreateIndex(
                 name: "Competition_has_CategoryIndex",
                 table: "Competition_has_Category",
-                column: "CompetitionId",
+                column: "Id",
                 unique: true,
-                filter: "[CompetitionId] IS NOT NULL");
+                filter: "[Id] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "Competition_has_MovieIndex",
                 table: "Competition_has_Movie",
-                column: "CompetitionId",
+                column: "Id",
                 unique: true,
-                filter: "[CompetitionId] IS NOT NULL");
+                filter: "[Id] IS NOT NULL");
         }
 
         /// <inheritdoc />
