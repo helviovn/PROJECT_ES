@@ -101,27 +101,78 @@ public class CompetitionRepository
             await connection.OpenAsync();
 
             var query = "SELECT * FROM dbo.Competition";
-            var competitions = await connection.QueryAsync<Competition>(query);
 
-            return competitions;
+            using (var command = new SqlCommand(query, connection))
+            {
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    var competitions = new List<Competition>();
+                    while (await reader.ReadAsync())
+                    {
+                        var competition = new Competition
+                        {
+                            Id = reader.GetInt32(0),
+                            Description = reader.GetString(1),
+                            Name = reader.GetString(2),
+                            data_inicio = reader.GetDateTime(3),
+                            data_fim = reader.GetDateTime(4),
+                            n_participantes = reader.GetInt32(5),
+                            Ispublic = reader.GetBoolean(6),
+                        };
+
+                        competitions.Add(competition);
+                    }
+
+                    return competitions;
+                }
+            }
         }
     }
-
-    public async Task AllDetails(int id)
+    
+    public async Task UpdateCompetitionAsync(Competition competition)
     {
         using (var connection = new SqlConnection(_connectionString))
         {
             await connection.OpenAsync();
 
-            var query = "";
+            var query = "UPDATE dbo.Competition SET " +
+                        "Name = @name, " +
+                        "Description = @description, " +
+                        "DataInicio = @dataInicio, " +
+                        "DataFim = @dataFim, " +
+                        "NParticipantes = @nParticipantes, " +
+                        "Ispublic = @isPublic " +
+                        "WHERE Id = @id";
 
+            using (var command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@id", competition.Id);
+                command.Parameters.AddWithValue("@name", competition.Name);
+                command.Parameters.AddWithValue("@description", competition.Description);
+                command.Parameters.AddWithValue("@dataInicio", competition.data_inicio);
+                command.Parameters.AddWithValue("@dataFim", competition.data_fim);
+                command.Parameters.AddWithValue("@nParticipantes", competition.n_participantes);
+                command.Parameters.AddWithValue("@isPublic", competition.Ispublic);
+
+                await command.ExecuteNonQueryAsync();
+            }
         }
     }
-    
 
-    
-    
-    
-    
+
+
+    public async Task DeleteCompetitionAsync(int id)
+{
+    using (var connection = new SqlConnection(_connectionString))
+    {
+        await connection.OpenAsync();
+
+        var query = "DELETE FROM dbo.Competition WHERE Id = @Id";
+
+        var parameters = new { Id = id };
+
+        await connection.ExecuteAsync(query, parameters);
+    }
+}
 
 }

@@ -23,7 +23,7 @@ else
             <th>Description</th>
             <th>Start Date</th>
             <th>End Date</th>
-            <th>Participants</th>
+            <th>Public</th>
         </tr>
         </thead>
         <tbody>
@@ -34,14 +34,19 @@ else
                 <td>@competition.Description</td>
                 <td>@competition.data_inicio</td>
                 <td>@competition.data_fim</td>
-                <td>@competition.n_participantes</td>
+                <td>
+                       <input type="checkbox" @bind="competition.Ispublic" @onclick="() => UpdateIsPublic(competition)" />
+                   </td>
                 <td>
                     <div class="btn-group" role="group">
                         <button class="btn btn-primary" @onclick="() => ViewDetails(competition.Id)">Details</button>
                             
                     </div>
                     <div class="btn-group" role="group" >
-                          <button class="btn btn-secondary" @onclick="() => EditCompetition(competition.Id)">Edit</button>
+                        <button class="btn btn-secondary" @onclick="() => EditCompetition(competition.Id)">Edit</button>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button class="btn btn-danger" @onclick="() => DeleteMovie(competition.Id)">Delete</button>
                     </div>
                         
                 </td>
@@ -55,11 +60,12 @@ else
 
     private IEnumerable<PROJECT_ES.Data.Competition> competitions;
 
-
     protected override async Task OnInitializedAsync()
     {
-        competitions = await competitionRepository.GetCompetitionsAsync();
+        competitions = await competitionRepository.GetCompetitionsAsync();   
     }
+
+
 
 
     private async Task ViewDetails(int id)
@@ -75,8 +81,19 @@ else
     // Redireciona o usuário para a página de criação de competições, passando o ID da competição a ser editada como parâmetro.
         NavigationManager.NavigateTo($"/createcompetition?id={id}");
     }
+
+    private async Task DeleteMovie(int id)
+    {
+        await competitionRepository.DeleteCompetitionAsync(id);
+        NavigationManager.NavigateTo(NavigationManager.Uri, true);
+
+    }
     
-    
+    private async Task UpdateIsPublic(Competition competition)
+    {
+        competition.Ispublic = !competition.Ispublic;
+        await competitionRepository.UpdateCompetitionAsync(competition);
+    }
 
 }
 
