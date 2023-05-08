@@ -16,7 +16,7 @@ public class CompetitionRepository
     }
 
     
-    public async Task AddCompetitionWithMoviesAsync(Competition competition, List<int> movieIds)
+    public async Task AddCompetitionWithMoviesAsync(Competition competition, List<int> movieIds,List<int> categoriesIds)
     {
         using (var connection = new SqlConnection(_connectionString))
         {
@@ -25,16 +25,25 @@ public class CompetitionRepository
             using (var transaction = connection.BeginTransaction())
             {
                 var competitionId = await AddCompetitionAsync(competition);
+                var distinctMovieIds = movieIds.Distinct().ToList();
                 var query =
                     "INSERT INTO dbo.Competition_has_Movie (CompetitionID, MovieID) VALUES (@CompetitionId, @MovieId)";
-
-                var distinctMovieIds = movieIds.Distinct().ToList();
+                
                 foreach (var movieId in distinctMovieIds)
                 {
                     var parameters = new { CompetitionId = competitionId, MovieId = movieId };
                     await connection.ExecuteAsync(query, parameters, transaction);
                 }
+                var query2 =
+                    "INSERT INTO dbo.Competition_has_Category (CompetitionID, CategoryID) VALUES (@CompetitionId, @CategoryID)";
 
+                
+                var distinctCategoriesIds = categoriesIds.Distinct().ToList();
+                foreach (var categoriesId in distinctCategoriesIds)
+                {
+                    var parameters2 = new { CompetitionId = competitionId, CategoryID = categoriesId };
+                    await connection.ExecuteAsync(query2, parameters2, transaction);
+                }
                 transaction.Commit();
             }
         }
@@ -64,10 +73,26 @@ public class CompetitionRepository
             };
 
             var competitionId = await connection.ExecuteScalarAsync<int>(query, parameters);
+
             return competitionId;
         }
     }
 
+    public async Task<int> ViewDetails(int id)
+    {
+        using (var connection = new SqlConnection(_connectionString))
+        {
+            await connection.OpenAsync();
+
+            var query = "SELECT * FROM dbo.Movie WHERE Id = @Id";
+
+            var parameters = new { Id = id };
+
+            await connection.ExecuteAsync(query, parameters);
+
+            return id;
+        }
+    }
 
     public async Task<IEnumerable<Competition>> GetCompetitionsAsync()
     {

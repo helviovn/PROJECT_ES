@@ -1,6 +1,7 @@
 ﻿@page "/competitions"
 @using PROJECT_ES.Data
 @using PROJECT_ES.Service
+@using PROJECT_ES.Pages
 @inject HttpClient httpClient
 @inject NavigationManager NavigationManager
 @inject CompetitionRepository competitionRepository
@@ -34,6 +35,11 @@ else
                 <td>@competition.data_inicio</td>
                 <td>@competition.data_fim</td>
                 <td>@competition.n_participantes</td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <button class="btn btn-primary" @onclick="() => ViewDetails(competition.Id)">Details</button>
+                    </div>
+                </td>
             </tr>
         }
         </tbody>
@@ -41,14 +47,22 @@ else
 }
 
 @code {
-    
+
     private IEnumerable<PROJECT_ES.Data.Competition> competitions;
-    
+
 
     protected override async Task OnInitializedAsync()
     {
         competitions = await competitionRepository.GetCompetitionsAsync();
     }
-    
-    
+
+
+    private async Task ViewDetails(int id)
+    {
+        var competition = await competitionRepository.ViewDetails(id);
+
+        NavigationManager.NavigateTo($"competitiondetails/{id}");
+    }
+
 }
+
