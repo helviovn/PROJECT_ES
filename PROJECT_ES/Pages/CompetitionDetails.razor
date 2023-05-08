@@ -38,9 +38,13 @@
     </table>
 }
 
+
+
 @code {
     [Parameter]
     public int id { get; set; }
+    
+    private bool showEditModal = false;
     
     private IEnumerable<Data.Movie> Movies;
     private IEnumerable<Data.Category> Categories;
@@ -54,4 +58,7 @@
         Categories = await CompetitionDetailsRepository.GetAllCategoriesAsync(id);
         Details = await CompetitionDetailsRepository.GetAllDetailsAsync(id);
     }
+    
+    
+    
 }

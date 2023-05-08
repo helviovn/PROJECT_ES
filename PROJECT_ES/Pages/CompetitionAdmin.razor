@@ -38,7 +38,12 @@ else
                 <td>
                     <div class="btn-group" role="group">
                         <button class="btn btn-primary" @onclick="() => ViewDetails(competition.Id)">Details</button>
+                            
                     </div>
+                    <div class="btn-group" role="group" >
+                          <button class="btn btn-secondary" @onclick="() => EditCompetition(competition.Id)">Edit</button>
+                    </div>
+                        
                 </td>
             </tr>
         }
@@ -63,6 +68,15 @@ else
 
         NavigationManager.NavigateTo($"competitiondetails/{id}");
     }
+    private async Task EditCompetition(int id)
+    {
+        var competition = await competitionRepository.ViewDetails(id);
+    
+    // Redireciona o usuário para a página de criação de competições, passando o ID da competição a ser editada como parâmetro.
+        NavigationManager.NavigateTo($"/createcompetition?id={id}");
+    }
+    
+    
 
 }
 

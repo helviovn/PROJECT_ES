@@ -106,4 +106,22 @@ public class CompetitionRepository
             return competitions;
         }
     }
+
+    public async Task AllDetails(int id)
+    {
+        using (var connection = new SqlConnection(_connectionString))
+        {
+            await connection.OpenAsync();
+
+            var query = "";
+
+        }
+    }
+    
+
+    
+    
+    
+    
+
 }

@@ -76,14 +76,15 @@
     {
         movies = (await movieRepository.GetMoviesAsync()).ToList();
         categories = (await categoryRepository.GetAllCategoriesAsync()).ToList();
+        
     }
 
-    
     
     private async Task CreateCompetitionn()
     {
         await competitionRepository.AddCompetitionWithMoviesAsync(competition, selectedMovieIds.ToList(),selectedCategoriesIds.ToList());
         NavigationManager.NavigateTo("/competitions");
     }
+    
     
 }
