@@ -34,9 +34,10 @@ else
                 <td>@competition.Description</td>
                 <td>@competition.data_inicio</td>
                 <td>@competition.data_fim</td>
-                <td>
-                       <input type="checkbox" @bind="competition.Ispublic" @onclick="() => UpdateIsPublic(competition)" />
-                   </td>
+                <td><div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" @bind="competition.Ispublic" @onclick="() => UpdateIsPublic(competition)">
+                    </div>
+                </td>
                 <td>
                     <div class="btn-group" role="group">
                         <button class="btn btn-primary" @onclick="() => ViewDetails(competition.Id)">Details</button>

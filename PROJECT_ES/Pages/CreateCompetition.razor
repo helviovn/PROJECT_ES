@@ -78,7 +78,6 @@
     {
         movies = (await movieRepository.GetMoviesAsync()).ToList();
         categories = (await categoryRepository.GetAllCategoriesAsync()).ToList();
-        Details = await competitionRepository.GetInformation(competition.Id);
     }
 
     
