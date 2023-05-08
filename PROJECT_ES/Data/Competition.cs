@@ -12,6 +12,8 @@ namespace PROJECT_ES.Data
         public int n_participantes { get; set; }
         public bool Ispublic { get; set; }
         public ICollection<Competition_has_Movie> Competition_has_Movies { get; set; }
+        
+        public ICollection<Competition_has_Category> Competition_has_Category { get; set; }
 
     }
 }

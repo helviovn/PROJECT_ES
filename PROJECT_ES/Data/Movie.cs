@@ -14,6 +14,5 @@ namespace PROJECT_ES.Data
         public string Image { get; set; }
         public string Date { get; set; }
         public ICollection<Competition_has_Movie> Competition_has_Movies { get; set; }
-        
     }
 }
