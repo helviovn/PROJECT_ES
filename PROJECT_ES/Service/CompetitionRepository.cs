@@ -107,21 +107,49 @@ public class CompetitionRepository
         }
     }
 
-    public async Task AllDetails(int id)
+    public async Task<IEnumerable<Competition>> GetInformation(int id)
     {
         using (var connection = new SqlConnection(_connectionString))
         {
             await connection.OpenAsync();
 
-            var query = "";
+            var query = "SELECT * FROM dbo.Competition WHERE Id = @Id";
+            
+            var parameters = new { Id = id };
+
+            var competitionDetails = await connection.QueryAsync<Competition>(query, parameters);
+
+            return competitionDetails;
 
         }
     }
-    
 
-    
-    
-    
-    
+    public async Task<IEnumerable<Competition>> EditCompetition(int id, Competition competition)
+    {
+        using (var connection = new SqlConnection(_connectionString))
+        {
+            await connection.OpenAsync();
+
+            var query = "UPDATE dbo.Competition SET Description = @Description, Name = @Name, DataInicio = @DataInicio, DataFim = @DataFim, Ispublic = @Ispublic WHERE Id = @Id";
+
+            var parameters = new
+            {
+                Description = competition.Description,
+                Name = competition.Name,
+                DataInicio = competition.data_inicio,
+                DataFim = competition.data_fim,
+                n_participantes = competition.n_participantes,
+                Ispublic = competition.Ispublic,
+                Id = id
+            };
+
+        
+            await connection.ExecuteAsync(query, parameters);
+
+            var competitions = await connection.QueryAsync<Competition>("SELECT * FROM dbo.Competition");
+
+            return competitions;
+        }
+    }
 
 }

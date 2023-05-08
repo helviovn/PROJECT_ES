@@ -63,7 +63,5 @@ public class CompetitionDetailsRepository
             return details;
         }
     }
-
-    
     
 }

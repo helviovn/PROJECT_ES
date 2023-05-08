@@ -11,7 +11,6 @@
 @inject IJSRuntime JSRuntime
 
 <h1>Create Competition</h1>
-
 <EditForm Model="@competition" OnValidSubmit="CreateCompetitionn">
     <DataAnnotationsValidator />
     <ValidationSummary />
@@ -71,12 +70,15 @@
     private List<Movie> movies;
     private List<Data.Category> categories;
     
+    private IEnumerable<Data.Competition> Details;    
+    private IEnumerable<Data.Movie> Movies;
+    private IEnumerable<Data.Category> Categories;
     
     protected override async Task OnInitializedAsync()
     {
         movies = (await movieRepository.GetMoviesAsync()).ToList();
         categories = (await categoryRepository.GetAllCategoriesAsync()).ToList();
-        
+        Details = await competitionRepository.GetInformation(competition.Id);
     }
 
     
@@ -85,6 +87,5 @@
         await competitionRepository.AddCompetitionWithMoviesAsync(competition, selectedMovieIds.ToList(),selectedCategoriesIds.ToList());
         NavigationManager.NavigateTo("/competitions");
     }
-    
-    
+
 }

@@ -73,7 +73,7 @@ else
         var competition = await competitionRepository.ViewDetails(id);
     
     // Redireciona o usuário para a página de criação de competições, passando o ID da competição a ser editada como parâmetro.
-        NavigationManager.NavigateTo($"/createcompetition?id={id}");
+        NavigationManager.NavigateTo($"/editcompetition?id={id}");
     }
     
     
