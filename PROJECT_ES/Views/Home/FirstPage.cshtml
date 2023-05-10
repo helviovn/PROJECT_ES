@@ -15,34 +15,22 @@
 </head>
 <body>
 <header>
-    <img class="logo" style="width: 12%" src="images/logo1.png"/>
+    <img class="logo" style="width: 12%" src="/images/logo1.png"/>
     <nav class="navbar">
         <ul class="nav-links">
-    
             <div class="menu">
                 <li><a href="">Home</a></li>
                 <li><a href="competition">Competitions</a></li>
                 <li><a href="/welcome">Login</a></li>
-                <!--<AuthorizeView>
-                    <Authorized>
-                        <li><a href="Identity/Account/Manage">Hello, </a></li>
-                        <li><form method="post" action="Identity/Account/Logout">
-                            <button type="submit" class="nav-link btn btn-link">Log out</button>
-                        </form></li>
-                    </Authorized>
-                    <NotAuthorized>
-                        <li><a href="Identity/Account/Register">Register</a></li>
-                        <li><a href="Identity/Account/Login">Log in</a></li>
-                    </NotAuthorized>
-                </AuthorizeView>-->
             </div>
         </ul>
     </nav>
-    <img src="images/fundo.jpg" class="fundo">
+    <img src="/images/fundo.jpg" class="fundo">
     <p class="titulo">Welcome</p>
     <p class="subtitulo">to the website where the movie lovers get together to vote on the best movie competitions. </p>
     <p class="subtitulo2">Here, you have the chance to be the judge, choosing the winners of each category.</p>
 </header>
+<!--
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">MyApp</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,7 +44,7 @@
             </li>
         </ul>
     </div>
-</nav>
+</nav>-->
 
 <div class="slider">
     @foreach (var competition in Model)
@@ -68,6 +56,8 @@
         </div>
     }
 </div>
+
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
 <script>
@@ -89,6 +79,8 @@
         });
     </script>
 </body>
+
+
 <style>
     * {
     margin: 0;
@@ -96,7 +88,10 @@
     box-sizing: border-box;
     }
     
-    
+    .slide {
+      margin-top: 650px; /* ou outro valor maior que a altura da imagem */
+    }
+
     
     a {
     text-decoration: none;
@@ -223,5 +218,7 @@
         text-align: center;
         white-space: nowrap;
     }
+    
+
 </style>
 </html>
