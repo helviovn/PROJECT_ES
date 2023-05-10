@@ -1,0 +1,40 @@
+﻿@using PROJECT_ES.Data
+@inject VoteController voteController
+@model PROJECT_ES.ViewModels.VoteViewModel
+@{
+    ViewData["Title"] = "Voting Page";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" />
+</head>
+
+
+<body>
+<div class="container">
+    <h1>@Model.Competition.Name</h1>
+    <h1>@Model.Category.Name</h1>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var movie in Model.Movies)
+        {
+            <tr>
+                <td>@movie.Title</td>
+                <td>@movie.Description</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    
+   
+</div>
+</body>

@@ -107,6 +107,22 @@ public class CompetitionRepository
         }
     }
     
+    public async Task<Competition> GetCompetitionByIdAsync(int id)
+    {
+        using (var connection = new SqlConnection(_connectionString))
+        {
+            await connection.OpenAsync();
+
+            var query = "SELECT * FROM dbo.Competition WHERE Id = @Id ";
+
+            var parameters = new { Id = id };
+
+            var competition = await connection.QueryFirstOrDefaultAsync<Competition>(query, parameters);
+
+            return competition;
+        }
+    }
+    
 
     public async Task UpdateCompetitionAsync(Competition competition)
     {
