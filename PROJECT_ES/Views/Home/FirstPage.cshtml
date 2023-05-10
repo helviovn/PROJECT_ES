@@ -13,9 +13,36 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" />
         
 </head>
-
 <body>
-
+<header>
+    <img class="logo" style="width: 12%" src="images/logo1.png"/>
+    <nav class="navbar">
+        <ul class="nav-links">
+    
+            <div class="menu">
+                <li><a href="">Home</a></li>
+                <li><a href="competition">Competitions</a></li>
+                <li><a href="/welcome">Login</a></li>
+                <!--<AuthorizeView>
+                    <Authorized>
+                        <li><a href="Identity/Account/Manage">Hello, </a></li>
+                        <li><form method="post" action="Identity/Account/Logout">
+                            <button type="submit" class="nav-link btn btn-link">Log out</button>
+                        </form></li>
+                    </Authorized>
+                    <NotAuthorized>
+                        <li><a href="Identity/Account/Register">Register</a></li>
+                        <li><a href="Identity/Account/Login">Log in</a></li>
+                    </NotAuthorized>
+                </AuthorizeView>-->
+            </div>
+        </ul>
+    </nav>
+    <img src="images/fundo.jpg" class="fundo">
+    <p class="titulo">Welcome</p>
+    <p class="subtitulo">to the website where the movie lovers get together to vote on the best movie competitions. </p>
+    <p class="subtitulo2">Here, you have the chance to be the judge, choosing the winners of each category.</p>
+</header>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">MyApp</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,9 +57,6 @@
         </ul>
     </div>
 </nav>
-<div class="container">
-    <h1>Index Page</h1>
-</div>
 
 <div class="slider">
     @foreach (var competition in Model)
@@ -65,4 +89,139 @@
         });
     </script>
 </body>
+<style>
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    }
+    
+    
+    
+    a {
+    text-decoration: none;
+    }
+    
+    li {
+    list-style: none;
+    }
+    /* NAVBAR STYLING STARTS */
+    .navbar {
+    right: 25%;
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    padding: 40px;
+    background-color: transparent;
+    color: #fff;
+    z-index: 0;
+    }
+    
+    .nav-links a {
+    color: #fff;
+    }
+    
+    /* LOGO */
+    .logo {
+    position: absolute;
+    display: flex;
+    z-index: 0;
+    align-items: flex-start;
+    }
+    
+    /* NAVBAR MENU */
+    .menu {
+        position: absolute;
+        display: flex;
+        gap: 1em;
+        font-size: 18px;
+    }
+
+    
+    .menu li:hover {
+    background-color: rgba(62,69,69,0.56);
+    border-radius: 5px;
+    transition: 0.3s ease;
+    }
+    
+    .menu li {
+    padding: 5px 14px;
+    }
+    
+    /* DROPDOWN MENU */
+    .services {
+    position: relative; 
+    }
+    
+    .dropdown {
+    background-color: rgb(1, 139, 139);
+    padding: 1em 0;
+    position: absolute; /*WITH RESPECT TO PARENT*/
+    display: none;
+    border-radius: 8px;
+    top: 35px;
+    }
+    
+    .dropdown li + li {
+    margin-top: 10px;
+    }
+    
+    .dropdown li {
+    padding: 0.5em 1em;
+    width: 8em;
+    text-align: center;
+    }
+    
+    .dropdown li:hover {
+    background-color: #4c9e9e;
+    }
+    
+    .services:hover .dropdown {
+    display: block;
+    }
+    
+    .fundo{
+        width: 100%;
+        height: 80%;
+        position: absolute;
+        z-index: -1;
+    }
+    
+    .titulo{
+        position: absolute;
+        top: 25%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 70px;
+        color: white;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        text-shadow: 2px 2px 4px #000000;
+    }
+    
+    .subtitulo{
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 25px;
+        color: white;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        text-shadow: 2px 2px 4px #000000;
+        text-align: center;
+        white-space: nowrap;
+    }
+    
+    .subtitulo2{
+        position: absolute;
+        top: 47%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 25px;
+        color: white;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        text-shadow: 2px 2px 4px #000000;
+        text-align: center;
+        white-space: nowrap;
+    }
+</style>
 </html>
