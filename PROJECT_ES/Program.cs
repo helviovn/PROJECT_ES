@@ -23,6 +23,10 @@ builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuth
 builder.Services.AddScoped<MovieRepository>();
 builder.Services.AddScoped<CompetitionRepository>();
 builder.Services.AddScoped<CategoryRepository>();
+builder.Services.AddTransient<HomeController>();
+builder.Services.AddScoped<CompetitionDetailsRepository>();
+builder.Services.AddTransient<CategoryController>();
+
 builder.Services.AddScoped(sp => new HttpClient() { BaseAddress = new Uri("http://www.omdbapi.com/")});
 
 var app = builder.Build();
@@ -51,6 +55,8 @@ app.UseAuthorization();
 app.MapControllers();
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Home}/{id?}");
 app.MapRazorPages();
-
 app.Run();

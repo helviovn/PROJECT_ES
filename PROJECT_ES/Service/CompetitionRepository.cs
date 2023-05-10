@@ -6,7 +6,7 @@ using PROJECT_ES.Data;
 
 namespace PROJECT_ES.Service;
 
-public class CompetitionRepository
+public class CompetitionRepository 
 {
     private readonly string _connectionString;
 
@@ -81,4 +81,7 @@ public class CompetitionRepository
             return competitions;
         }
     }
+    
+    
+    
 }

@@ -1,0 +1,68 @@
+﻿
+@using PROJECT_ES.Data
+@model IEnumerable<PROJECT_ES.Data.Competition>
+@inject HomeController HomeController
+@{
+    ViewData["Title"] = "First Page";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" />
+        
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">MyApp</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/welcome">Admin</a>
+                <a class="nav-link" href="/allmovies">mvoies</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    <h1>Index Page</h1>
+</div>
+
+<div class="slider">
+    @foreach (var competition in Model)
+    {
+        <div class="slide">
+            <img src="/images/logo1.png" alt="Competition Image"/>
+            <h3>@competition.Name</h3>
+            <button class="entrar-btn" data-competition-id="@competition.Id">Entrar</button>
+        </div>
+    }
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+<script>
+        $(document).ready(function() {
+            $('.slider').slick({
+                autoplay: true,
+                autoplaySpeed: 5000,
+                dots: true,
+                slidesToShow: 5, // Show 5 slides at a time
+                slidesToScroll: 5 // Scroll 5 slides at a time
+            });
+
+            $('.entrar-btn').on('click', function() {
+                var competitionId = $(this).data('competition-id');
+                // Navigate to the Categories page with the competitionId as a parameter
+                
+                window.location.href = '/Category/CategoriesPage?competitionId=' + competitionId;
+            });
+        });
+    </script>
+</body>
+</html>
