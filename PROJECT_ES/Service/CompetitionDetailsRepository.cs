@@ -56,32 +56,11 @@ public class CompetitionDetailsRepository
         {
             await connection.OpenAsync();
 
-            var query = "SELECT * FROM dbo.Competition";
+            var query = @"SELECT * FROM Competition WHERE Competition.Id = @id";
 
-            using (var command = new SqlCommand(query, connection))
-            {
-                using (var reader = await command.ExecuteReaderAsync())
-                {
-                    var competitions = new List<Competition>();
-                    while (await reader.ReadAsync())
-                    {
-                        var competition = new Competition
-                        {
-                            Id = reader.GetInt32(0),
-                            Description = reader.GetString(1),
-                            Name = reader.GetString(2),
-                            data_inicio = reader.GetDateTime(3),
-                            data_fim = reader.GetDateTime(4),
-                            n_participantes = reader.GetInt32(5),
-                            Ispublic = reader.GetBoolean(6),
-                        };
+            var details = await connection.QueryAsync<Competition>(query, new { id });
 
-                        competitions.Add(competition);
-                    }
-
-                    return competitions;
-                }
-            }
+            return details;
         }
     }
     
