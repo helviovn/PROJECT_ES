@@ -6,7 +6,7 @@ using PROJECT_ES.Data;
 
 namespace PROJECT_ES.Service;
 
-public class CompetitionRepository
+public class CompetitionRepository 
 {
     private readonly string _connectionString;
 
@@ -107,6 +107,7 @@ public class CompetitionRepository
         }
     }
     
+
     public async Task UpdateCompetitionAsync(Competition competition)
     {
         using (var connection = new SqlConnection(_connectionString))
@@ -180,5 +181,6 @@ public class CompetitionRepository
             return competitions;
         }
     }
+
 
 }
