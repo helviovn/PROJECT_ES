@@ -1,0 +1,98 @@
+@page "/editcompetition"
+@using PROJECT_ES.Data
+@using PROJECT_ES.Service
+@inject HttpClient httpClient
+@inject NavigationManager NavigationManager
+@inject CompetitionDetailsRepository CompetitionDetailsRepository
+@inject CompetitionRepository competitionRepository
+
+<h1>Edit Competition</h1>
+
+@if (competition != null && competition.Id != null)
+{
+    <EditForm Model="@competition" OnValidSubmit="SaveChanges">
+        <DataAnnotationsValidator/>
+        <ValidationSummary/>
+
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" class="form-control" @bind="@competition.Name"/>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <input type="text" id="description" class="form-control" @bind="competition.Description"/>
+        </div>
+
+        <div class="form-group">
+            <label for="name">Start Date:</label>
+            <input type="datetime" id="data_inicio" class="form-control" @bind="competition.data_inicio"/>
+        </div>
+        <div class="form-group">
+            <label for="name">End Date:</label>
+            <input type="datetime" id="data_inicio" class="form-control" @bind="competition.data_fim"/>
+        </div>
+        <div class="form-group">
+            <label for="name">Public</label>
+            <div class="form-check form-switch">
+                                  <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" @bind="competition.Ispublic">
+                                </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Edit Competition</button>
+    </EditForm>
+}
+else
+{
+    <p><em>Loading...</em></p>
+}
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+    
+    private bool showEditModal = false;
+    
+    private Competition competition;
+
+    private IEnumerable<PROJECT_ES.Data.Competition> Details;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (id == 0 && int.TryParse(NavigationManager.Uri.Split("?id=")[1], out int competitionId))
+        {
+            id = competitionId;
+        }
+        await LoadDataAsync();
+    }
+    
+    protected override async Task OnParametersSetAsync()
+    {
+        await LoadDataAsync();
+    }
+    
+    private async Task LoadDataAsync()
+    {
+        Details = await CompetitionDetailsRepository.GetAllDetailsAsync(id);
+        
+        // Atualiza a propriedade 'competition' com os valores retornados pela lista 'Details'
+        competition = Details.FirstOrDefault();
+    }
+    
+    private async Task SaveChanges()
+    {
+        var competitionToUpdate = Details.FirstOrDefault();
+
+        if (competitionToUpdate != null)
+        {
+            competitionToUpdate.Name = competition.Name;
+            competitionToUpdate.Description = competition.Description;
+            competitionToUpdate.data_inicio = competition.data_inicio;
+            competitionToUpdate.data_fim = competition.data_fim;
+
+            await competitionRepository.EditCompetition(competitionToUpdate.Id, competitionToUpdate);
+            NavigationManager.NavigateTo("/competitions");
+        }
+    }
+
+}

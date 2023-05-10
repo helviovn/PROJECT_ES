@@ -1,0 +1,64 @@
+@page "/competitiondetails/{id:int}"
+
+@using PROJECT_ES.Data
+@using PROJECT_ES.Service
+@inject HttpClient httpClient
+@inject NavigationManager NavigationManager
+@inject CompetitionDetailsRepository CompetitionDetailsRepository
+
+<h1>Competition Details</h1>
+
+@if (Movies != null)
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Movies</th>
+            <th>Categories</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var detail in Details)
+        {
+            <tr>        
+                <td>@detail.Name</td>
+                <td>@detail.Description</td>
+                <td>@detail.data_inicio</td>
+                <td>@detail.data_fim</td>
+                <td>@string.Join(", ", Movies.Select(m => m.Title))</td>
+                <td>@string.Join(", ", Categories.Select(c => c.Name))</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+    
+    private bool showEditModal = false;
+    
+    private IEnumerable<Data.Movie> Movies;
+    private IEnumerable<Data.Category> Categories;
+    
+    private IEnumerable<PROJECT_ES.Data.Competition>Details;
+
+    
+    protected override async Task OnInitializedAsync()
+    {
+        Movies = await CompetitionDetailsRepository.GetAllMoviesAsync(id);
+        Categories = await CompetitionDetailsRepository.GetAllCategoriesAsync(id);
+        Details = await CompetitionDetailsRepository.GetAllDetailsAsync(id);
+    }
+    
+    
+    
+}

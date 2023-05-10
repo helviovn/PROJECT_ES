@@ -4,13 +4,13 @@
 @using Competition = PROJECT_ES.Data.Competition;
 @inject CompetitionRepository competitionRepository
 @inject MovieRepository movieRepository
+@inject CategoryRepository categoryRepository
 @inject NavigationManager NavigationManager
 @using Microsoft.JSInterop
 @using System.ComponentModel
 @inject IJSRuntime JSRuntime
 
 <h1>Create Competition</h1>
-
 <EditForm Model="@competition" OnValidSubmit="CreateCompetitionn">
     <DataAnnotationsValidator />
     <ValidationSummary />
@@ -35,12 +35,21 @@
     </div>
     <br>
    
-  <select class="form-select form-select-sm" aria-label=".form-select-sm example" multiple @bind="selectedMovieIds">
-      @if (movies != null)
+     <select class="form-select form-select-sm" aria-label=".form-select-sm example" multiple @bind="selectedMovieIds">
+          @if ( movies!= null)
+          {
+            @foreach (var movie in movies)
+            {
+                <option value="@movie.Id">@movie.Title</option>
+            }
+          }
+        </select>
+    <select class="form-select form-select-sm" aria-label=".form-select-sm example" multiple @bind="selectedCategoriesIds">
+      @if (categories != null)
       {
-        @foreach (var movie in movies)
+        @foreach (var category in categories)
         {
-            <option value="@movie.Id">@movie.Title</option>
+            <option value="@category.Id">@category.Name</option>
         }
       }
     </select>
@@ -53,22 +62,29 @@
     
     private int[] selectedMovieIds = new int[0];
     
+    private int[] selectedCategoriesIds = new int[0];
+    
 
     private Competition competition = new();
 
     private List<Movie> movies;
-   
-
+    private List<Data.Category> categories;
+    
+    private IEnumerable<Data.Competition> Details;    
+    private IEnumerable<Data.Movie> Movies;
+    private IEnumerable<Data.Category> Categories;
+    
     protected override async Task OnInitializedAsync()
     {
         movies = (await movieRepository.GetMoviesAsync()).ToList();
+        categories = (await categoryRepository.GetAllCategoriesAsync()).ToList();
     }
-    
 
+    
     private async Task CreateCompetitionn()
     {
-        await competitionRepository.AddCompetitionWithMoviesAsync(competition, selectedMovieIds.ToList());
+        await competitionRepository.AddCompetitionWithMoviesAsync(competition, selectedMovieIds.ToList(),selectedCategoriesIds.ToList());
         NavigationManager.NavigateTo("/competitions");
     }
-    
+
 }

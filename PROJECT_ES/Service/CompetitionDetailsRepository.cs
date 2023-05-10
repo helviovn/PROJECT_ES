@@ -1,4 +1,6 @@
+
 ﻿using System.Data;
+
 using Dapper;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
@@ -56,6 +58,7 @@ public class CompetitionDetailsRepository
         {
             await connection.OpenAsync();
 
+/*
             var query = "SELECT * FROM dbo.Competition";
 
             using (var command = new SqlCommand(query, connection))
@@ -82,6 +85,13 @@ public class CompetitionDetailsRepository
                     return competitions;
                 }
             }
+*/
+            var query = @"SELECT * FROM Competition WHERE Competition.Id = @id";
+
+            var details = await connection.QueryAsync<Competition>(query, new { id });
+
+            return details;
+
         }
     }
     

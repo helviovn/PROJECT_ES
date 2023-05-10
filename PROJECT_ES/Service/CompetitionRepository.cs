@@ -16,7 +16,7 @@ public class CompetitionRepository
     }
 
     
-    public async Task AddCompetitionWithMoviesAsync(Competition competition, List<int> movieIds)
+    public async Task AddCompetitionWithMoviesAsync(Competition competition, List<int> movieIds,List<int> categoriesIds)
     {
         using (var connection = new SqlConnection(_connectionString))
         {
@@ -25,16 +25,25 @@ public class CompetitionRepository
             using (var transaction = connection.BeginTransaction())
             {
                 var competitionId = await AddCompetitionAsync(competition);
+                var distinctMovieIds = movieIds.Distinct().ToList();
                 var query =
                     "INSERT INTO dbo.Competition_has_Movie (CompetitionID, MovieID) VALUES (@CompetitionId, @MovieId)";
-
-                var distinctMovieIds = movieIds.Distinct().ToList();
+                
                 foreach (var movieId in distinctMovieIds)
                 {
                     var parameters = new { CompetitionId = competitionId, MovieId = movieId };
                     await connection.ExecuteAsync(query, parameters, transaction);
                 }
+                var query2 =
+                    "INSERT INTO dbo.Competition_has_Category (CompetitionID, CategoryID) VALUES (@CompetitionId, @CategoryID)";
 
+                
+                var distinctCategoriesIds = categoriesIds.Distinct().ToList();
+                foreach (var categoriesId in distinctCategoriesIds)
+                {
+                    var parameters2 = new { CompetitionId = competitionId, CategoryID = categoriesId };
+                    await connection.ExecuteAsync(query2, parameters2, transaction);
+                }
                 transaction.Commit();
             }
         }
@@ -64,10 +73,26 @@ public class CompetitionRepository
             };
 
             var competitionId = await connection.ExecuteScalarAsync<int>(query, parameters);
+
             return competitionId;
         }
     }
 
+    public async Task<int> ViewDetails(int id)
+    {
+        using (var connection = new SqlConnection(_connectionString))
+        {
+            await connection.OpenAsync();
+
+            var query = "SELECT * FROM dbo.Movie WHERE Id = @Id";
+
+            var parameters = new { Id = id };
+
+            await connection.ExecuteAsync(query, parameters);
+
+            return id;
+        }
+    }
 
     public async Task<IEnumerable<Competition>> GetCompetitionsAsync()
     {
@@ -82,6 +107,80 @@ public class CompetitionRepository
         }
     }
     
+
+    public async Task UpdateCompetitionAsync(Competition competition)
+    {
+        using (var connection = new SqlConnection(_connectionString))
+        {
+            await connection.OpenAsync();
+
+            var query = "UPDATE dbo.Competition SET " +
+                        "Name = @name, " +
+                        "Description = @description, " +
+                        "DataInicio = @dataInicio, " +
+                        "DataFim = @dataFim, " +
+                        "NParticipantes = @nParticipantes, " +
+                        "Ispublic = @isPublic " +
+                        "WHERE Id = @id";
+
+            using (var command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@id", competition.Id);
+                command.Parameters.AddWithValue("@name", competition.Name);
+                command.Parameters.AddWithValue("@description", competition.Description);
+                command.Parameters.AddWithValue("@dataInicio", competition.data_inicio);
+                command.Parameters.AddWithValue("@dataFim", competition.data_fim);
+                command.Parameters.AddWithValue("@nParticipantes", competition.n_participantes);
+                command.Parameters.AddWithValue("@isPublic", competition.Ispublic);
+
+                await command.ExecuteNonQueryAsync();
+            }
+        }
+    }
+
+
+
+    public async Task DeleteCompetitionAsync(int id)
+{
+    using (var connection = new SqlConnection(_connectionString))
+    {
+        await connection.OpenAsync();
+
+        var query = "DELETE FROM dbo.Competition WHERE Id = @Id";
+
+        var parameters = new { Id = id };
+
+        await connection.ExecuteAsync(query, parameters);
+    }
+}
     
-    
+    public async Task<IEnumerable<Competition>> EditCompetition(int id, Competition competition)
+    {
+        using (var connection = new SqlConnection(_connectionString))
+        {
+            await connection.OpenAsync();
+
+            var query = "UPDATE dbo.Competition SET Description = @Description, Name = @Name, DataInicio = @DataInicio, DataFim = @DataFim, Ispublic = @Ispublic WHERE Id = @Id";
+
+            var parameters = new
+            {
+                Description = competition.Description,
+                Name = competition.Name,
+                DataInicio = competition.data_inicio,
+                DataFim = competition.data_fim,
+                n_participantes = competition.n_participantes,
+                Ispublic = competition.Ispublic,
+                Id = id
+            };
+
+
+            await connection.ExecuteAsync(query, parameters);
+
+            var competitions = await connection.QueryAsync<Competition>("SELECT * FROM dbo.Competition");
+
+            return competitions;
+        }
+    }
+
+
 }
