@@ -13,9 +13,8 @@ public class CategoryController : Controller
     public async Task<IActionResult> CategoriesPage(int competitionId)
     {
         var categories = await _competitionDetailsRepository.GetAllCategoriesAsync(competitionId);
+        var movies = await _competitionDetailsRepository.GetAllMoviesAsync(competitionId);
+
         return View("CategoriesPage", categories);
     }
-    
-    
-    
 }
