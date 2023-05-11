@@ -7,9 +7,13 @@ namespace PROJECT_ES.ViewModels
     {
         public Competition Competition { get; set; }
         public Category Category { get; set; }
-        
         public IEnumerable<Movie> Movies { get; set; }
         
-      
+        
+        public int CompetitionId { get; set; }
+        public int CategoryId { get; set; }
+        public int MovieId { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
     }
 }

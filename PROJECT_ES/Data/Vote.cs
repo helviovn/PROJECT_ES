@@ -7,10 +7,12 @@ public class Vote
 {
     [Required]
     public int Id { get; set; }
-    [ForeignKey("User")]
-    public string UserId { get; set; }
     [ForeignKey("Movie")]
-    public Guid MovieId { get; set; }
-    public virtual User User { get; set; }
-    public virtual Movie Movie { get; set; }
+    public int MovieId { get; set; }
+    [ForeignKey("Category")]
+    public int CategoryId { get; set; }
+    [ForeignKey("Competition")]
+    public int CompetitionId { get; set; }
+    public string Username { get; set; }
+    public string Email { get; set; } 
 }
