@@ -33,13 +33,14 @@
 }
 
 .movie-card .movie-title {
+    color: black;
     height: 20%;
 }
 
 .movie-card .entrar-btn {
     height: 20%;
     width: 100%;
-    background-color: #007bff;
+    background-color: #b6000e;
     border: none;
     color: #fff;
     border-radius: 0 0 10px 10px;
