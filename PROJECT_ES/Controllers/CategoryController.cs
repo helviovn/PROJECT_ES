@@ -19,6 +19,7 @@ public class CategoryController : Controller
         var categories = await _competitionDetailsRepository.GetAllCategoriesAsync(competitionId);
         var movies = await _competitionDetailsRepository.GetAllMoviesAsync(competitionId);
 
+
         var viewModel = new CategoryViewModel
         {
             Competition = competition,
@@ -28,5 +29,6 @@ public class CategoryController : Controller
         };
 
         return View("CategoriesPage", viewModel);
+
     }
 }

@@ -11,30 +11,52 @@
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" />
-        
+    <link rel="stylesheet" href="/css/styles.css" />    
 </head>
-
 <body>
-
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">MyApp</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="/welcome">Admin</a>
-                <a class="nav-link" href="/allmovies">mvoies</a>
-            </li>
+<header>
+    <img class="logo" style="width: 12%" src="/images/logo1.png"/>
+    <nav class="navbar">
+        <ul class="nav-links">
+            <div class="menu">
+                <li><a href="/Home/FirstPage">Home</a></li>
+                <li><a href="/competition">Competitions</a></li>
+                <li><a href="/welcome">Login</a></li>
+            </div>
         </ul>
-    </div>
-</nav>
-<div class="container">
-    <h1>Index Page</h1>
-</div>
+    </nav>
+    <img src="/images/fundo.jpg" class="fundo">
+    <p class="titulo">Welcome</p>
+    <p class="subtitulo">to the website where the movie lovers get together to vote on the best movie competitions. </p>
+    <p class="subtitulo2">Here, you have the chance to be the judge, choosing the winners of each category.</p>
+</header>
 
-<div class="slider">
+
+<div class="container text-center my-3">
+    <div id="recipeCarousel" class="carousel slide" data-ride="carousel">
+        <div class="movie-carousel" data-slick="movie-carousel">
+            @foreach (var competition in Model)
+            {
+                <div class="movie-card m-1">
+                    <div class="movie-img">
+                        <a href="/Category/CategoriesPage?competitionId=@competition.Id"><img src="/images/fundo.jpg" class="img-fluid"></a>
+                    </div>
+                    <div class="movie-title">
+                        <a href="/Category/CategoriesPage?competitionId=@competition.Id">
+                            <p class="text-white text-sm-center font-small flex-center">@competition.Name</p>
+                        </a>
+                    </div>
+                    <button class="entrar-btn" data-competition-id="@competition.Id">Aceder</button>
+                </div>
+            }
+        </div>
+        <div class="carousel-arrows">
+            <button class="slick-prev">&#8249;</button>
+            <button class="slick-next">&#8250;</button>
+          </div>
+    </div>
+
+<!--<div class="slider">
     @foreach (var competition in Model)
     {
         if (competition.Ispublic == true)
@@ -46,19 +68,30 @@
         </div>
         }
     }
-</div>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
-<script>
-        $(document).ready(function() {
-            $('.slider').slick({
-                autoplay: true,
-                autoplaySpeed: 5000,
-                dots: true,
-                slidesToShow: 5, // Show 5 slides at a time
-                slidesToScroll: 5 // Scroll 5 slides at a time
-            });
 
+</div>-->
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+
+<script>
+       $(document).ready(function() {
+         $('.movie-carousel').slick({
+           slidesToShow: 4,
+           slidesToScroll: 1,
+           prevArrow: '<button type="button" class="slick-prev"><i class="fa fa-angle-left"></i></button>',
+           nextArrow: '<button type="button" class="slick-next"><i class="fa fa-angle-right"></i></button>',
+           dots: true,
+           autoplay: true,
+           responsive: [{
+             breakpoint: 768,
+             settings: {
+               slidesToShow: 2
+             }
+           }]
+         }); 
             $('.entrar-btn').on('click', function() {
                 var competitionId = $(this).data('competition-id');
                 // Navigate to the Categories page with the competitionId as a parameter
@@ -67,5 +100,6 @@
             });
         });
     </script>
+    
 </body>
 </html>
