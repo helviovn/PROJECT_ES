@@ -7,6 +7,12 @@ public class Vote
 {
     [Required]
     public int Id { get; set; }
+
+  
+   
+    public string CategoryName { get; set; }
+    public string MovieTitle { get; set; }
+    public int VoteCount { get; set; }
     [ForeignKey("Movie")]
     public int MovieId { get; set; }
     [ForeignKey("Category")]

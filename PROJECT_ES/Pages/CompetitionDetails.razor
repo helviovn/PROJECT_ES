@@ -8,6 +8,7 @@
 
 <h1>Competition Details</h1>
 
+<div class="container">
 @if (Movies != null)
 {
     <table class="table">
@@ -28,15 +29,50 @@
             <tr>        
                 <td>@detail.Name</td>
                 <td>@detail.Description</td>
-                <td>@detail.data_inicio</td>
-                <td>@detail.data_fim</td>
+                <td>@detail.data_inicio.ToString()</td>
+                <td>@detail.data_fim.ToString()</td>
                 <td>@string.Join(", ", Movies.Select(m => m.Title))</td>
                 <td>@string.Join(", ", Categories.Select(c => c.Name))</td>
             </tr>
         }
+
         </tbody>
     </table>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Categories</th>
+            <th>Movies</th>
+            <th>Votes</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var group in Votes.GroupBy(v => v.CategoryName))
+        {
+            var category = group.Key;
+            var movies = group.Select(v => v.MovieTitle).ToList();
+            var voteCounts = group.Select(v => v.VoteCount).ToList();
+            var numMovies = movies.Count;
+
+            <tr>
+                <td style="vertical-align: middle" rowspan="@numMovies">@category</td>
+                <td>@movies[0]</td>x
+                <td>@voteCounts[0]</td>
+            </tr>
+            @for (var i = 1; i < numMovies; i++)
+            {
+                <tr>
+                    <td>@movies[i]</td>
+                    <td>@voteCounts[i]</td>
+                </tr>
+            }
+        }
+        </tbody>
+    </table>
+
+    
 }
+</div>
 
 
 
@@ -49,16 +85,16 @@
     private IEnumerable<Data.Movie> Movies;
     private IEnumerable<Data.Category> Categories;
     
-    private IEnumerable<PROJECT_ES.Data.Competition>Details;
-
+    private IEnumerable<PROJECT_ES.Data.Competition> Details;
+    private IEnumerable<Vote> Votes;
     
     protected override async Task OnInitializedAsync()
     {
         Movies = await CompetitionDetailsRepository.GetAllMoviesAsync(id);
         Categories = await CompetitionDetailsRepository.GetAllCategoriesAsync(id);
         Details = await CompetitionDetailsRepository.GetAllDetailsAsync(id);
+        Votes = await CompetitionDetailsRepository.GetEstatistic(id);
     }
     
-    
-    
 }
+
