@@ -37,11 +37,14 @@
 <div class="slider">
     @foreach (var competition in Model)
     {
-        <div class="slide">
+        if (competition.Ispublic == true)
+        {
+            <div class="slide">
             <img src="/images/logo1.png" alt="Competition Image"/>
             <h3>@competition.Name</h3>
             <button class="entrar-btn" data-competition-id="@competition.Id">Entrar</button>
         </div>
+        }
     }
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
