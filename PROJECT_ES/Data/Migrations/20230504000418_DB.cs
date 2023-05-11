@@ -50,22 +50,7 @@ namespace PROJECT_ES.Migrations
                     table.PrimaryKey("PK_Movie", x => x.Id);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "User",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(maxLength: 256, nullable: false),
-                    Age = table.Column<int>(nullable: true),
-                    Email = table.Column<string>(maxLength: 256, nullable: false),
-                    Password = table.Column<string>(maxLength: 256, nullable: false),
-                    AdminRole = table.Column<bool>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_User", x => x.Id);
-                });
+            
 
             migrationBuilder.CreateTable(
                 name: "Category",
@@ -86,20 +71,15 @@ namespace PROJECT_ES.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    UserID = table.Column<int>(type: "int", nullable: false),
+                    Username = table.Column<string>(maxLength: 256, nullable: false),
+                    Email = table.Column<string>(maxLength: 256, nullable: false),
                     MovieID = table.Column<int>(type: "int", nullable: false),
-                    CompetitionID = table.Column<int>(type:"int", nullable: false),
-                    CategoryID = table.Column<int>(type:"int", nullable: false)
+                    CompetitionID = table.Column<int>(type: "int", nullable: false),
+                    CategoryID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserId", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_User",
-                        column: x => x.UserID,
-                        principalTable: "User",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("PK_VoteId", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Movie",
                         column: x => x.MovieID,
@@ -194,13 +174,7 @@ namespace PROJECT_ES.Migrations
                 column: "Name",
                 unique: true,
                 filter: "[Name] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "UserIndex",
-                table: "User",
-                column: "Name",
-                unique: true,
-                filter: "[Name] IS NOT NULL");
+            
 
             migrationBuilder.CreateIndex(
                 name: "VoteIndex",
@@ -235,9 +209,7 @@ namespace PROJECT_ES.Migrations
 
             migrationBuilder.DropTable(
                 name: "Category");
-
-            migrationBuilder.DropTable(
-                name: "User");
+            
 
             migrationBuilder.DropTable(
                 name: "Vote");

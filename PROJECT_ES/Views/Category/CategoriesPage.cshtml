@@ -1,5 +1,5 @@
 ﻿@using PROJECT_ES.Data
-@model IEnumerable<PROJECT_ES.Data.Category>
+@model PROJECT_ES.ViewModels.CategoryViewModel
 @inject CategoryController categoryController
 @{
     ViewData["Title"] = "Categories";
@@ -11,16 +11,38 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" />
 </head>
-<body>
-    <div class="container">
-        <h1>Categories</h1>
-    </div>
 
+
+<body>
+
+
+<h1>@Model.Competition.Name</h1>
+
+<div class="container">
+    <h1>Movies</h1>
+</div>
 <div class="category-slider">
-    @foreach (var category in Model)
+    @foreach (var movie in Model.Movies)
     {
         <div class="category-slide">
+            <td><img src="@movie.Image" width="50" height="70" /></td>
+            <h3>@movie.Title</h3>
+        </div>
+    }
+</div>
+
+<div class="container">
+    <h1>Categories</h1>
+</div>
+<div class="category-slider">
+    @foreach (var category in Model.Categories)
+    {
+        <div class="category-slide">
+            
             <h3>@category.Name</h3>
+
+            <button class="vote-btn" data-competition-id="@Model.Competition.Id" data-category-id="@category.Id">Vote</button>
+            
 
         </div>
     }
@@ -29,15 +51,25 @@
 
 
 
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
-    <script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+<script>
         $(document).ready(function() {
             $('.category-slider').slick({
                 autoplay: true,
                 autoplaySpeed: 5000,
                 dots: true,
+                slidesToShow: 5, // Show 5 slides at a time
+                                slidesToScroll: 5 // Scroll 5 slides at a time
             });
+            
+            $('.vote-btn').on('click', function() {
+                            var competitionId = $(this).data('competition-id');
+                            var categoryId = $(this).data('category-id');
+                            // Navigate to the Voting page with the competitionId and categoryId as parameters
+                            window.location.href = '/Vote/VotingPage?competitionId=' + competitionId + '&categoryId=' + categoryId;
+                        });
         });
     </script>
 </body>

@@ -7,11 +7,10 @@
 @inject NavigationManager NavigationManager
 
 <form @onsubmit="AddCategoryAsync"> 
-    <div class="mb-3">
+    <div class="col-md-4">
         <label for="exampleInputEmail1" class="form-label">Inisira o nome da Categoria</label>
         <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" @bind="categoryName">
-
-    </div>
+    </div><br>
     <button type="submit" class="btn btn-primary">Enviar</button>
 </form>
 @if (categories == null)
@@ -28,6 +27,7 @@ else
         <thead>
         <tr>
             <th>Name</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>

@@ -31,6 +31,7 @@
     <p class="subtitulo2">Here, you have the chance to be the judge, choosing the winners of each category.</p>
 </header>
 
+
 <div class="container text-center my-3">
     <div id="recipeCarousel" class="carousel slide" data-ride="carousel">
         <div class="movie-carousel" data-slick="movie-carousel">
@@ -54,7 +55,21 @@
             <button class="slick-next">&#8250;</button>
           </div>
     </div>
-</div>
+
+<!--<div class="slider">
+    @foreach (var competition in Model)
+    {
+        if (competition.Ispublic == true)
+        {
+            <div class="slide">
+            <img src="/images/logo1.png" alt="Competition Image"/>
+            <h3>@competition.Name</h3>
+            <button class="entrar-btn" data-competition-id="@competition.Id">Entrar</button>
+        </div>
+        }
+    }
+
+</div>-->
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
