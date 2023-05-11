@@ -11,7 +11,7 @@
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" />
-        
+    <link rel="stylesheet" href="/css/styles.css" />    
 </head>
 <body>
 <header>
@@ -19,8 +19,8 @@
     <nav class="navbar">
         <ul class="nav-links">
             <div class="menu">
-                <li><a href="">Home</a></li>
-                <li><a href="competition">Competitions</a></li>
+                <li><a href="/Home/FirstPage">Home</a></li>
+                <li><a href="/competition">Competitions</a></li>
                 <li><a href="/welcome">Login</a></li>
             </div>
         </ul>
@@ -46,30 +46,53 @@
     </div>
 </nav>-->
 
-<div class="slider">
-    @foreach (var competition in Model)
-    {
-        <div class="slide">
-            <img src="/images/logo1.png" alt="Competition Image"/>
-            <h3>@competition.Name</h3>
-            <button class="entrar-btn" data-competition-id="@competition.Id">Entrar</button>
+<div class="container text-center my-3">
+    <div id="recipeCarousel" class="carousel slide" data-ride="carousel">
+        <div class="movie-carousel" data-slick="movie-carousel">
+            @foreach (var competition in Model)
+            {
+                <div class="movie-card m-1">
+                    <div class="movie-img">
+                        <a href="#"><img src="/images/fundo.jpg" class="img-fluid"></a>
+                    </div>
+                    <div class="movie-title">
+                        <a href="@competition.Id">
+                            <p class="text-white text-sm-center font-small flex-center">@competition.Name</p>
+                        </a>
+                    </div>
+                    <button class="entrar-btn" data-competition-id="@competition.Id">Entrar</button>
+                </div>
+            }
         </div>
-    }
+    </div>
 </div>
 
 
+
+
+
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+
 <script>
         $(document).ready(function() {
-            $('.slider').slick({
-                autoplay: true,
-                autoplaySpeed: 5000,
-                dots: true,
-                slidesToShow: 5, // Show 5 slides at a time
-                slidesToScroll: 5 // Scroll 5 slides at a time
+            $('.movie-carousel').slick({
+            slidesToShow: 4,
+            slidesToScroll: 1,
+            prevArrow: '<button type="button" class="slick-prev"><i class="fa fa-angle-left"></i></button>',
+            nextArrow: '<button type="button" class="slick-next"><i class="fa fa-angle-right"></i></button>',
+            dots: true,
+            responsive: [{
+            breakpoint: 768,
+            settings: {
+            slidesToShow: 2
+            }
+            }]
             });
-
+            
             $('.entrar-btn').on('click', function() {
                 var competitionId = $(this).data('competition-id');
                 // Navigate to the Categories page with the competitionId as a parameter
@@ -78,147 +101,6 @@
             });
         });
     </script>
+    
 </body>
-
-
-<style>
-    * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    }
-    
-    .slide {
-      margin-top: 650px; /* ou outro valor maior que a altura da imagem */
-    }
-
-    
-    a {
-    text-decoration: none;
-    }
-    
-    li {
-    list-style: none;
-    }
-    /* NAVBAR STYLING STARTS */
-    .navbar {
-    right: 25%;
-    position: absolute;
-    display: flex;
-    justify-content: space-between;
-    padding: 40px;
-    background-color: transparent;
-    color: #fff;
-    z-index: 0;
-    }
-    
-    .nav-links a {
-    color: #fff;
-    }
-    
-    /* LOGO */
-    .logo {
-    position: absolute;
-    display: flex;
-    z-index: 0;
-    align-items: flex-start;
-    }
-    
-    /* NAVBAR MENU */
-    .menu {
-        position: absolute;
-        display: flex;
-        gap: 1em;
-        font-size: 18px;
-    }
-
-    
-    .menu li:hover {
-    background-color: rgba(62,69,69,0.56);
-    border-radius: 5px;
-    transition: 0.3s ease;
-    }
-    
-    .menu li {
-    padding: 5px 14px;
-    }
-    
-    /* DROPDOWN MENU */
-    .services {
-    position: relative; 
-    }
-    
-    .dropdown {
-    background-color: rgb(1, 139, 139);
-    padding: 1em 0;
-    position: absolute; /*WITH RESPECT TO PARENT*/
-    display: none;
-    border-radius: 8px;
-    top: 35px;
-    }
-    
-    .dropdown li + li {
-    margin-top: 10px;
-    }
-    
-    .dropdown li {
-    padding: 0.5em 1em;
-    width: 8em;
-    text-align: center;
-    }
-    
-    .dropdown li:hover {
-    background-color: #4c9e9e;
-    }
-    
-    .services:hover .dropdown {
-    display: block;
-    }
-    
-    .fundo{
-        width: 100%;
-        height: 80%;
-        position: absolute;
-        z-index: -1;
-    }
-    
-    .titulo{
-        position: absolute;
-        top: 25%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        font-size: 70px;
-        color: white;
-        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-        text-shadow: 2px 2px 4px #000000;
-    }
-    
-    .subtitulo{
-        position: absolute;
-        top: 40%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        font-size: 25px;
-        color: white;
-        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-        text-shadow: 2px 2px 4px #000000;
-        text-align: center;
-        white-space: nowrap;
-    }
-    
-    .subtitulo2{
-        position: absolute;
-        top: 47%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        font-size: 25px;
-        color: white;
-        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-        text-shadow: 2px 2px 4px #000000;
-        text-align: center;
-        white-space: nowrap;
-    }
-    
-
-</style>
 </html>
