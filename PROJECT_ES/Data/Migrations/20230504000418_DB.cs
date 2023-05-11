@@ -71,8 +71,8 @@ namespace PROJECT_ES.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Username = table.Column<string>(type: "int", nullable: true),
-                    Email = table.Column<string>(type: "int", nullable: true),
+                    Username = table.Column<string>(maxLength: 256, nullable: false),
+                    Email = table.Column<string>(maxLength: 256, nullable: false),
                     MovieID = table.Column<int>(type: "int", nullable: false),
                     CompetitionID = table.Column<int>(type: "int", nullable: false),
                     CategoryID = table.Column<int>(type: "int", nullable: false)
