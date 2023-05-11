@@ -57,42 +57,55 @@ public class CompetitionDetailsRepository
         using (var connection = new SqlConnection(_connectionString))
         {
             await connection.OpenAsync();
-
-/*
-            var query = "SELECT * FROM dbo.Competition";
-
-            using (var command = new SqlCommand(query, connection))
-            {
-                using (var reader = await command.ExecuteReaderAsync())
-                {
-                    var competitions = new List<Competition>();
-                    while (await reader.ReadAsync())
-                    {
-                        var competition = new Competition
-                        {
-                            Id = reader.GetInt32(0),
-                            Description = reader.GetString(1),
-                            Name = reader.GetString(2),
-                            data_inicio = reader.GetDateTime(3),
-                            data_fim = reader.GetDateTime(4),
-                            n_participantes = reader.GetInt32(5),
-                            Ispublic = reader.GetBoolean(6),
-                        };
-
-                        competitions.Add(competition);
-                    }
-
-                    return competitions;
-                }
-            }
-*/
             var query = @"SELECT * FROM Competition WHERE Competition.Id = @id";
 
-            var details = await connection.QueryAsync<Competition>(query, new { id });
+           using (var command = new SqlCommand(query, connection))
+           {
+               command.Parameters.AddWithValue("@id", id);
+               using (var reader = await command.ExecuteReaderAsync())
+               {
+                   var competitions = new List<Competition>();
+                   while (await reader.ReadAsync())
+                   {
+                       var competition = new Competition
+                       {
+                           Id = reader.GetInt32(0),
+                           Description = reader.GetString(1),
+                           Name = reader.GetString(2),
+                           data_inicio = reader.GetDateTime(3),
+                           data_fim = reader.GetDateTime(4),
+                           n_participantes = reader.GetInt32(5),
+                           Ispublic = reader.GetBoolean(6),
+                       };
 
-            return details;
+                       competitions.Add(competition);
+                   }
+
+                   return competitions;
+               }
+           }
 
         }
     }
+
+
+    public async Task<IEnumerable<Vote>> GetEstatistic(int id)
+    {
+        using (var connection = new SqlConnection(_connectionString))
+        {
+            await connection.OpenAsync();
+            var query = @"SELECT DISTINCT Category.Name AS CategoryName, Movie.Title AS MovieTitle, COUNT(*) AS VoteCount
+            FROM Vote
+            INNER JOIN Competition ON Competition.Id = Vote.CompetitionID
+            INNER JOIN Category ON Category.Id = Vote.CategoryID
+            INNER JOIN Movie ON Movie.Id = Vote.MovieID
+            WHERE Competition.Id = @id
+            GROUP BY Category.Name, Movie.Title
+            ORDER BY Category.Name";
+            var votes = await connection.QueryAsync<Vote>(query, new { id });
+            return votes;
+        }
+    }
+
     
 }

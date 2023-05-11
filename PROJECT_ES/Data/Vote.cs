@@ -7,10 +7,16 @@ public class Vote
 {
     [Required]
     public int Id { get; set; }
+    
     [ForeignKey("User")]
     public string UserId { get; set; }
+    public virtual User User { get; set; }
+    
     [ForeignKey("Movie")]
     public Guid MovieId { get; set; }
-    public virtual User User { get; set; }
     public virtual Movie Movie { get; set; }
+    
+    public string CategoryName { get; set; }
+    public string MovieTitle { get; set; }
+    public int VoteCount { get; set; }
 }
