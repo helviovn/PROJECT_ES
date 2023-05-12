@@ -33,28 +33,29 @@
 
 
 <div class="container text-center my-3">
-    <div id="recipeCarousel" class="carousel slide" data-ride="carousel">
-        <div class="movie-carousel" data-slick="movie-carousel">
-            @foreach (var competition in Model)
-            {
-                <div class="movie-card m-1">
-                    <div class="movie-img">
-                        <a href="/Category/CategoriesPage?competitionId=@competition.Id"><img src="/images/fundo.jpg" class="img-fluid"></a>
-                    </div>
-                    <div class="movie-title">
-                        <a href="/Category/CategoriesPage?competitionId=@competition.Id">
-                            <p class="text-white text-sm-center font-small flex-center">@competition.Name</p>
-                        </a>
-                    </div>
-                    <button class="entrar-btn" data-competition-id="@competition.Id">Aceder</button>
+<div id="recipeCarousel" class="carousel slide" data-ride="carousel">
+    <div class="movie-carousel" data-slick="movie-carousel">
+        @foreach (var competition in Model)
+        {
+            <div class="movie-card m-1">
+                <div class="movie-img">
+                    <a href="/Category/CategoriesPage?competitionId=@competition.Id"><img src="/images/fundo.jpg" class="img-fluid"></a>
                 </div>
-            }
-        </div>
-        <div class="carousel-arrows">
-            <button class="slick-prev">&#8249;</button>
-            <button class="slick-next">&#8250;</button>
-          </div>
+                <div class="movie-title">
+                    <a href="/Category/CategoriesPage?competitionId=@competition.Id">
+                        <p class="text-white text-sm-center font-small flex-center">@competition.Name</p>
+                    </a>
+                </div>
+                <button class="entrar-btn" data-competition-id="@competition.Id">Aceder</button>
+            </div>
+        }
     </div>
+    <div class="carousel-arrows">
+        <button class="slick-prev">&#8249;</button>
+        <button class="slick-next">&#8250;</button>
+    </div>
+</div>
+</div>
 
 <!--<div class="slider">
     @foreach (var competition in Model)

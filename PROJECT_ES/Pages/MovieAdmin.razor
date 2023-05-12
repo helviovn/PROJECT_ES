@@ -13,30 +13,34 @@
 @inject HttpClient httpClient
 @inject MovieRepository movieRepository
 @inject NavigationManager NavigationManager
-
-
-
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+<div class="container">
 <h1>Movies</h1>
 
-<div class="row">
-    <div class="col-md-4">
-        <form @onsubmit="AddMovieAsync">
-            <div class="form-group">
-                <label for="imdbId">IMDb ID</label>
-                <input type="text" class="form-control" id="imdbId" @bind="imdbId" required />
-                <div style="color: red">@statusMessage</div>
-            </div>
-            <br>
-            <div>
-                <button type="submit" class="btn btn-primary">Add</button>
+    <div class="row">
+        <div class="col-md-4">
+            <form @onsubmit="AddMovieAsync">
+                <div class="form-group">
+                    <label for="imdbId">Name of Movies</label>
+                    <input style="border-radius: 20px;" type="text" class="form-control" id="imdbId" @bind="imdbId" required />
+                    <div style="color: red">@statusMessage</div>
+                </div>
+                <br>
+                <div>
+                    <button type="submit" class="btn btn-primary">Add</button>
                 
-            </div>
-        </form>
-<br>
+                </div>
+            </form>
+            <br>
+        </div>
     </div>
-</div>
-
-@if (movies == null)
+    
+    @if (movies == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -48,43 +52,41 @@ else
 {
     <table class="table">
         <thead>
-            <tr>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Director</th>
-                <th>Actor</th>
-                <th>Genre</th>
-                <th>Writers</th>
-                <th>Image</th>
-                <th>Date</th>
-                <th></th>
-            </tr>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Director</th>
+            <th>Actor</th>
+            <th>Genre</th>
+            <th>Writers</th>
+            <th>Image</th>
+            <th>Date</th>
+            <th>Actions</th>
+        </tr>
         </thead>
         <tbody>
-            @foreach (var movie in movies)
-            {
-                <tr>
-                    <td>@movie.Title</td>
-                    <td>@movie.Description</td>
-                    <td>@movie.Diretor</td>
-                    <td>@movie.Actor</td>
-                    <td>@movie.Genre</td>
-                    <td>@movie.Writers</td>
-                    <td><img src="@movie.Image" width="50" height="70" /></td>
-                    <td>@movie.Date</td>
-                    <td>
-                        <div class="btn-group" role="group">
-                                                
-                            <button class="btn btn-danger" @onclick="() => DeleteMovie(movie.Id)">Delete</button>
-                        
-                        </div>
-                    </td>
-                    </tr>
-                            }
-                        </tbody>
-                    </table>
+        @foreach (var movie in movies)
+        {
+            <tr>
+                <td>@movie.Title</td>
+                <td>@movie.Description</td>
+                <td>@movie.Diretor</td>
+                <td>@movie.Actor</td>
+                <td>@movie.Genre</td>
+                <td>@movie.Writers</td>
+                <td><img src="@movie.Image" width="50" height="70" /></td>
+                <td>@movie.Date</td>
+                <td>
+                    <a @onclick="() => DeleteMovie(movie.Id)"> <i class="fa fa-trash"></i></a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
 }
-
+</div>
+</body>
+</html>
 @code {
     private IEnumerable<Movie> movies;
 
@@ -118,7 +120,7 @@ else
 
     private async Task AddMovieAsync()
     {
-        var omdbMovie = await httpClient.GetFromJsonAsync<OmdbMovie>($"https://www.omdbapi.com/?i={imdbId}&apikey=f22543c5");
+        var omdbMovie = await httpClient.GetFromJsonAsync<OmdbMovie>($"https://www.omdbapi.com/?t={imdbId}&apikey=f22543c5");
         var Responde = omdbMovie.Response;
         
         var movieExist = await movieRepository.GetMovieAsync(omdbMovie.Title);
