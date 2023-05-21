@@ -9,7 +9,7 @@ public class Vote
     public int Id { get; set; }
 
   
-   
+    public string CompetitionName { get; set; }
     public string CategoryName { get; set; }
     public string MovieTitle { get; set; }
     public int VoteCount { get; set; }

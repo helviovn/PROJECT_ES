@@ -1,18 +1,14 @@
 ﻿@page "/movies"
 @using System.Linq
-
-@using System.Net.Http.Json
-@using System.Threading.Tasks
-@using PROJECT_ES.Shared
 @using Microsoft.AspNetCore.Components
 @using Microsoft.Extensions.Configuration
 @using PROJECT_ES.Service
-@using System.Net.Http
 @using PROJECT_ES.Data
-@using System.Diagnostics
 @inject HttpClient httpClient
 @inject MovieRepository movieRepository
 @inject NavigationManager NavigationManager
+
+
 <!doctype html>
 <html class="no-js" lang="en">
 <head>
@@ -21,38 +17,55 @@
 <body>
 <div class="container">
 <h1>Movies</h1>
-
     <div class="row">
         <div class="col-md-4">
-            <form @onsubmit="AddMovieAsync">
+            <form @onsubmit="SearchMovies">
                 <div class="form-group">
                     <label for="imdbId">Name of Movies</label>
-                    <input style="border-radius: 20px;" type="text" class="form-control" id="imdbId" @bind="imdbId" required />
+                    <br>
+                    <input style="border-radius: 20px;" type="text" class="form-control" id="imdbId" @bind="imdbname" required />
                     <div style="color: red">@statusMessage</div>
                 </div>
                 <br>
                 <div>
-                    <button type="submit" class="btn btn-primary">Add</button>
-                
+                    <button type="submit" class="btn btn-primary">Search</button>
                 </div>
             </form>
             <br>
         </div>
     </div>
     
+    @if (Movies != null)
+    {
+        <div class="row">
+            @foreach (var movie in Movies)
+            {
+                <div class="col-md-4">
+                    <img style="width: 60%"  src="@movie.Poster" class="card-img-top movie-img" alt="@movie.Title" @onclick="() => AddMovieAsync(movie)">
+
+                    <div class="card-body">
+                        <h5 class="card-title">@movie.Title</h5>
+                    </div>
+                </div>
+            }
+        </div>
+
+    }
+    
+
+
     @if (movies == null)
-{
+    {
     <p><em>Loading...</em></p>
-}
-else if (!movies.Any())
-{
+    }
+    else if (!movies.Any())
+    {
     <p><em>No movies found.</em></p>
-}
-else
-{
-    <table class="table">
-        <thead>
-        <tr>
+    }
+    else
+    {<table class="table">
+            <thead>
+            <tr>
             <th>Title</th>
             <th>Description</th>
             <th>Director</th>
@@ -62,9 +75,9 @@ else
             <th>Image</th>
             <th>Date</th>
             <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
+            </tr>
+            </thead>
+            <tbody>
         @foreach (var movie in movies)
         {
             <tr>
@@ -83,8 +96,8 @@ else
         }
         </tbody>
     </table>
-}
-</div>
+    }
+    </div>
 </body>
 </html>
 @code {
@@ -113,42 +126,92 @@ else
     }
     
     
-        <!-- ADD MOVIE -->
     private string imdbId;
     private string statusMessage;
+ ////////////////////////////////////
+    private List<OmdbMovie> Movies { get; set; }
 
+    private string imdbname;
 
-    private async Task AddMovieAsync()
+    private async Task SearchMovies()
     {
-        var omdbMovie = await httpClient.GetFromJsonAsync<OmdbMovie>($"https://www.omdbapi.com/?t={imdbId}&apikey=f22543c5");
-        var Responde = omdbMovie.Response;
-        
-        var movieExist = await movieRepository.GetMovieAsync(omdbMovie.Title);
-        
-        if (Responde == "True" && movieExist==null)
-        {
-            var movie = new Movie
-            {
-                Title = omdbMovie.Title,
-                Description = omdbMovie.Plot,
-                Diretor = omdbMovie.Director,
-                Actor = omdbMovie.Actors,
-                Genre = omdbMovie.Genre,
-                Writers = omdbMovie.Writer,
-                Image = omdbMovie.Poster,
-                Date = omdbMovie.Year,
+        var omdbResponse = await httpClient.GetFromJsonAsync<OmdbResponse>($"https://www.omdbapi.com/?s={imdbname}&apikey=f22543c5");
 
-            };
-            await movieRepository.AddMovieAsync(movie);
-            NavigationManager.NavigateTo(NavigationManager.Uri, true);
+        if (omdbResponse?.Response == "True")
+        {
+            Movies = omdbResponse.Search;
+        }
+    }
+    
+    public class OmdbResponse
+    {
+        public string Response { get; set; }
+        public List<OmdbMovie> Search { get; set; }
+    // Outras propriedades relevantes da resposta da API
+    }
+
+    public class OmdbMovie
+    {
+        public string imdbID { get; set; }
+        public string Title { get; set; }
+        public string Plot { get; set; }
+        public string Director { get; set; }
+        public string Actors { get; set; }
+        public string Genre { get; set; }
+        public string Writer { get; set; }
+        public string Poster { get; set; }
+        public string Year { get; set; }
+        
+        
+    }
+    
+    //////////////////////////////
+    private async Task AddMovieAsync(OmdbMovie omdbMovie)
+    {
+        var movieExist = await movieRepository.GetMovieAsync(omdbMovie.Title);
+
+        if (movieExist == null)
+        {
+            var omdbMovieDetails = await httpClient.GetFromJsonAsync<OmdbMovie>($"https://www.omdbapi.com/?i={omdbMovie.imdbID}&apikey=f22543c5");
+
+            if (omdbMovieDetails != null)
+            {
+                var movie = new Movie
+                {
+                    Title = omdbMovieDetails.Title,
+                    Description = omdbMovieDetails.Plot ?? "No description available",
+                    Diretor = omdbMovieDetails.Director ?? "No directors available",
+                    Actor = omdbMovieDetails.Actors ?? "No actors available",
+                    Genre = omdbMovieDetails.Genre ?? "No genre available",
+                    Writers = omdbMovieDetails.Writer ?? "No writers available",
+                    Image = omdbMovieDetails.Poster,
+                    Date = omdbMovieDetails.Year
+                };
+
+                await movieRepository.AddMovieAsync(movie);
+                NavigationManager.NavigateTo(NavigationManager.Uri, true);
+                
+            }
+            else
+            {
+                //meter amanha mensam de ero
+            }
         }
         else
         {
-            statusMessage = "Movie not found or already exists.";
         }
-        
 
         StateHasChanged();
     }
     
 }
+
+<style>
+        .movie-img {
+            transition: opacity 0.3s ease;
+        }
+    
+        .movie-img:hover {
+            opacity: 0.7;
+        }
+</style>
