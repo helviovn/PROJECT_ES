@@ -23,7 +23,6 @@ builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuth
 builder.Services.AddScoped<MovieRepository>();
 builder.Services.AddScoped<CompetitionRepository>();
 builder.Services.AddScoped<CategoryRepository>();
-
 builder.Services.AddTransient<HomeController>();
 builder.Services.AddScoped<CompetitionDetailsRepository>();
 builder.Services.AddTransient<CategoryController>();
