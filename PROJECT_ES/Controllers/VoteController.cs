@@ -43,6 +43,7 @@ public class VoteController : Controller
         return View("VotingPage", viewModel);
     }
 
+    //mesma pessoa não pode votar na mm categoria
     [HttpPost]
     public async Task<IActionResult> Vote(VoteViewModel viewModel)
     {

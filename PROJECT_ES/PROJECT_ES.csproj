@@ -27,6 +27,15 @@
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="wwwroot\js\limitSelection.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\custom.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\jquery.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\plugins.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\plugins2.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\site.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\images\categories\" />
   </ItemGroup>
 
 </Project>
