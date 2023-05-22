@@ -9,53 +9,92 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" />
-    <link rel="stylesheet" href="/css/styles.css" />    
+	
+    <!-- Basic need -->
+    <title>VoteCine</title>
+    <meta charset="UTF-8">
+    <!--Google Font-->
+    <link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Dosis:400,700,500|Nunito:300,400,600'/>
+    <!--Google Font-->
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="/css/navbar.css"/>
+    <link rel="stylesheet" href="/css/style.css"/>
+
 </head>
+
 <body>
-<header>
-    <img class="logo" style="width: 12%" src="/images/logo1.png"/>
-    <nav class="navbar">
-        <ul class="nav-links">
-            <div class="menu">
-                <li><a href="/Home/FirstPage">Home</a></li>
-                <li><a href="/competition">Competitions</a></li>
-                <li><a href="/welcome">Login</a></li>
-            </div>
-        </ul>
-    </nav>
-    <img src="/images/fundo.jpg" class="fundo">
-    <p class="titulo">Welcome</p>
-    <p class="subtitulo">to the website where the movie lovers get together to vote on the best movie competitions. </p>
-    <p class="subtitulo2">Here, you have the chance to be the judge, choosing the winners of each category.</p>
-</header>
 
+<div class="background">
+    <div class="container">
 
-<div class="container text-center my-3">
-<div id="recipeCarousel" class="carousel slide" data-ride="carousel">
-    <div class="movie-carousel" data-slick="movie-carousel">
-        @foreach (var competition in Model)
-        {
-            <div class="movie-card m-1">
-                <div class="movie-img">
-                    <a href="/Category/CategoriesPage?competitionId=@competition.Id"><img src="/images/fundo.jpg" class="img-fluid"></a>
+        <header>
+            <nav class="nav-bar">
+                <img class="logo"  href="/" src="/images/logo1.png"/>
+                <div class="nav-list flex-parent">
+                    <ul class="flex-child-menu menu-left">
+                        <li class="nav-item"><a href="#" class="nav-link">Home</a></li>
+                        <li class="nav-item"><a href="#" class="nav-link">Competitions</a></li>
+                                
+                        <div class="login-button" >
+                            <li class="nav-button"><button ><a href="/Welcome">ADMIN</a></button></li>
+                        </div>
+                    </ul>
                 </div>
-                <div class="movie-title">
-                    <a href="/Category/CategoriesPage?competitionId=@competition.Id">
-                        <p class="text-white text-sm-center font-small flex-center">@competition.Name</p>
-                    </a>
-                </div>
-                <button class="entrar-btn" data-competition-id="@competition.Id">Aceder</button>
-            </div>
-        }
-    </div>
-    <div class="carousel-arrows">
-        <button class="slick-prev">&#8249;</button>
-        <button class="slick-next">&#8250;</button>
+            </nav>
+        </header>
+	    
+        
+        <br><br>
+        <h1 class="titulo" style="color: white">BEM VINDO</h1>
+        <br><br><br>
+        <h3 class="subtitulo" style="color: white">to the website where the movie lovers get together to vote on the best movie competitions. </h3>
+        <br>
+        <h3 class="subtitulo2" style="color: white">Here, you have the chance to be the judge, choosing the winners of each category.</h3>
+        
+        <br><br><br><br><br>
+        
+        <br><br><br><br><br>
     </div>
 </div>
+
+
+
+<div class="container">
+    <div class="header-container">
+        <h1>Competições</h1>
+        <a href="#" class="more">Ver Mais  ></a>
+    </div>
+    
+     
+     <section class="product"> 
+            
+            <button class="pre-btn"><img src="images/arrow.png" ></button>
+         <button class="nxt-btn"><img src="images/arrow.png" ></button>
+         
+         <div class="product-container" id="product-container">
+              @foreach (var competition in Model){
+                  if (competition.Ispublic == true){
+                      <div class="product-card">
+                          <div class="product-image">
+                              <span class="discount-tag">@competition.n_participantes participantes</span>
+                              <img src="/images/competitions/error-bg.jpg" class="product-thumb" alt="">
+                              <button class="card-btn entrar-btn"  data-competition-id="@competition.Id">Visitar  ></button>
+                          </div>
+                          <div class="product-info">
+                              <h4 class="product-brand">@competition.Name</h4>
+                              <!-- <p class="product-short-description">a short line about the cloth..</p>-->
+                              <!-- <span class="price">$20</span><span class="actual-price">$40</span> -->
+                          </div>
+                      </div>
+                  }
+              }
+              </div>
+     </section>
+    
 </div>
+
 
 <!--<div class="slider">
     @foreach (var competition in Model)
@@ -63,44 +102,68 @@
         if (competition.Ispublic == true)
         {
             <div class="slide">
-            <img src="/images/logo1.png" alt="Competition Image"/>
-            <h3>@competition.Name</h3>
-            <button class="entrar-btn" data-competition-id="@competition.Id">Entrar</button>
-        </div>
+                <img src="/images/logo1.png" alt="Competition Image"/>
+                <h3>@competition.Name</h3>
+                <button class="entrar-btn" data-competition-id="@competition.Id">Entrar</button>
+            </div>
         }
     }
+
+
 
 </div>-->
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
-
 <script>
-       $(document).ready(function() {
-         $('.movie-carousel').slick({
-           slidesToShow: 4,
-           slidesToScroll: 1,
-           prevArrow: '<button type="button" class="slick-prev"><i class="fa fa-angle-left"></i></button>',
-           nextArrow: '<button type="button" class="slick-next"><i class="fa fa-angle-right"></i></button>',
-           dots: true,
-           autoplay: true,
-           responsive: [{
-             breakpoint: 768,
-             settings: {
-               slidesToShow: 2
-             }
-           }]
-         }); 
+
+       $(document).ready(function() {                
             $('.entrar-btn').on('click', function() {
                 var competitionId = $(this).data('competition-id');
                 // Navigate to the Categories page with the competitionId as a parameter
                 
                 window.location.href = '/Category/CategoriesPage?competitionId=' + competitionId;
             });
+           
         });
-    </script>
-    
+</script>
+<script> 
+
+const productContainer = document.getElementById('product-container');
+const items = productContainer.children;
+const itemWidth = items[0].getBoundingClientRect().width;
+const itemCount = items.length;
+const preBtn = document.querySelector('.pre-btn');
+const nxtBtn = document.querySelector('.nxt-btn');
+
+// Clone first and last item
+productContainer.appendChild(items[0].cloneNode(true));
+productContainer.insertBefore(items[itemCount - 1].cloneNode(true), items[0]);
+
+// Adjust scroll position to second item (first actual item)
+productContainer.scrollLeft = itemWidth;
+
+nxtBtn.addEventListener('click', () => {
+    if (productContainer.scrollLeft >= itemWidth * itemCount) {
+        // Jump to first item (second in list) without animation
+        productContainer.style.scrollBehavior = 'auto';
+        productContainer.scrollLeft = itemWidth;
+        productContainer.style.scrollBehavior = 'smooth';
+    }
+    // Scroll one item width
+    productContainer.scrollLeft += itemWidth;
+});
+
+preBtn.addEventListener('click', () => {
+    if (productContainer.scrollLeft <= itemWidth) {
+        // Jump to last item (second to last in list) without animation
+        productContainer.style.scrollBehavior = 'auto';
+        productContainer.scrollLeft = itemWidth * itemCount;
+        productContainer.style.scrollBehavior = 'smooth';
+    }
+    // Scroll one item width
+    productContainer.scrollLeft -= itemWidth;
+});
+</script>
+
 </body>
 </html>
