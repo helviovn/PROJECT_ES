@@ -5,68 +5,102 @@
 @inject HttpClient httpClient
 @inject NavigationManager NavigationManager
 @inject CompetitionRepository competitionRepository
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <link rel="shortcut icon" type="/image/png" href="/assets/images/icon/favicon.ico">
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/css/themify-icons.css">
+    <link rel="stylesheet" href="/assets/css/metisMenu.css">
+    <link rel="stylesheet" href="/assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/assets/css/slicknav.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
 
-<h1>Competitions</h1>
-<a href="/createcompetition" class="btn btn-primary">Add Competition</a>
+</head>
+<body>
+<div class="container">
+    <h1>Competitions</h1>
+    <div>
+        <a href="/createcompetition" class="btn btn-primary">Add Competition</a>
+    </div>
+    <br/>
+    <div style="padding-top: 10px" class="col-md-4">
+        <div class="form-group">
+            <input style="border-radius: 20px;" class="form-control col-md-4" @bind-value="searchTerm" @bind-value:event="oninput" list="datalistOptions" id="exampleDataList" placeholder="Search Competition">
+
+        </div>
+    </div>
+    <br/>
 
 
-@if (competitions == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Public</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var competition in competitions)
-        {
+
+    @if (competitions == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <table class="table" id="competitions-table">
+            <thead>
             <tr>
-                <td>@competition.Name</td>
-                <td>@competition.Description</td>
-                <td>@competition.data_inicio</td>
-                <td>@competition.data_fim</td>
-                <td><div class="form-check form-switch">
-                      <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" @bind="competition.Ispublic" @onclick="() => UpdateIsPublic(competition)">
-                    </div>
-                </td>
-                <td>
-                    <div class="btn-group" role="group">
-                        <button class="btn btn-primary" @onclick="() => ViewDetails(competition.Id)">Details</button>
-                            
-                    </div>
-                    <div class="btn-group" role="group" >
-                        <button class="btn btn-secondary" @onclick="() => EditCompetition(competition.Id)">Edit</button>
-                    </div>
-                    <div class="btn-group" role="group">
-                        <button class="btn btn-danger" @onclick="() => DeleteMovie(competition.Id)">Delete</button>
-                    </div>
-                        
-                </td>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Public</th>
+                <th>Actions</th>
             </tr>
-        }
-        </tbody>
-    </table>
-}
+            </thead>
+            <tbody>
+            @foreach (var competition in competitions)
+            {
+                <tr>
+                    <td>@competition.Name</td>
+                    <td>@competition.Description</td>
+                    <td>@competition.data_inicio</td>
+                    <td>@competition.data_fim</td>
+                    <td>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" @bind="competition.Ispublic" @onclick="() => UpdateIsPublic(competition)">
+                        </div>
+                    </td>
+                    <td>
+                        <a @onclick="() => ViewDetails(competition.Id)"><i class="fa fa-eye"></i></a>
+                        <a @onclick="() => EditCompetition(competition.Id)"><i class="fa fa-edit"></i></a>
+                        <a @onclick="() => DeleteMovie(competition.Id)"> <i class="fa fa-trash"></i></a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+</div>
+</body>
 
+
+
+</html>
 @code {
+    private string searchTerm = "";
+
 
     private IEnumerable<PROJECT_ES.Data.Competition> competitions;
 
     protected override async Task OnInitializedAsync()
     {
-        competitions = await competitionRepository.GetCompetitionsAsync();   
+        var allCompetitions = await competitionRepository.GetCompetitionsAsync();
+        competitions = allCompetitions.Where(c => c.Name.ToLower().Contains(searchTerm.ToLower()));
     }
 
 
+
+    private async Task OnSearch()
+    {
+        var allCompetitions = await competitionRepository.GetCompetitionsAsync();
+        competitions = allCompetitions.Where(c => c.Name.ToLower().Contains(searchTerm.ToLower()));
+    }
 
 
     private async Task ViewDetails(int id)
