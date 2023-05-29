@@ -46,6 +46,7 @@
     --fs-11: 12px;
     --fs-12: 11px;
 
+    --fw-300: 300;
     --fw-500: 500;
     --fw-700: 700;
 
@@ -166,7 +167,7 @@ body.active { overflow: hidden; }
 
 .badge-outline { border-color: var(--white); }
 
-.nparticipants {  font-size: var(--fs-8);}
+.nparticipants {  font-size: var(--fs-8); font-weight: var(--fw-300);}
 
 /**
  * MOVIE META
@@ -277,6 +278,7 @@ body.active { overflow: hidden; }
     overflow: hidden;
     margin-bottom: 20px;
     transition: var(--transition-1);
+    
 }
 
 .movie-card .card-banner::after {
@@ -284,16 +286,16 @@ body.active { overflow: hidden; }
     position: absolute;
     inset: 0;
     transition: var(--transition-1);
+    
 }
 
 .movie-card .card-banner:hover { box-shadow: 0 1px 2px hsla(0, 0%, 0%, 0.92); }
 
-.movie-card .card-banner:hover::after { background: hsla(0, 0%, 0%, 0.62); }
+.movie-card .card-banner:hover::after { background: hsla(0, 0%, 0%, 0.78); }
 
 .movie-card .card-banner:hover .hover-text {
     display: none;
     position: absolute;
-    text-transform: capitalize;
     font-weight: bold;
     font-size: 18px;
     top: 50%;
@@ -323,9 +325,14 @@ body.active { overflow: hidden; }
 
 .movie-card .card-title {
     color: var(--white);
-    font-size: var(--fs-4);
+    font-size: var(--fs-7);
     transition: var(--transition-1);
-    
+}
+.movie-card .card-title-alone {
+    color: var(--white);
+    font-size: var(--fs-5);
+    transition: var(--transition-1);
+    justify-content: center;
 }
 
 .movie-card .card-title:is(:hover, :focus) { color: var(--citrine); }
