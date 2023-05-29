@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Dapper;
@@ -8,7 +8,16 @@ using PROJECT_ES.Service;
 using PROJECT_ES.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using System.Net;
+using System.Net.Mail;
 
+
+
+//Interface do observer
+public interface IObserver
+{
+    void NotifyVote();
+}
 
 public class VoteController : Controller
 {
@@ -16,6 +25,7 @@ public class VoteController : Controller
     private readonly CompetitionRepository _competitionRepository;
     private readonly CompetitionDetailsRepository _competitionDetailsRepository;
     private readonly CategoryRepository _categoryRepository;
+    private readonly List<IObserver> _observers; //lista de observadores
 
     public VoteController(IConfiguration configuration, CompetitionRepository competitionRepository,
         CompetitionDetailsRepository competitionDetailsRepository, CategoryRepository categoryRepository)
@@ -25,6 +35,26 @@ public class VoteController : Controller
         _competitionRepository = competitionRepository;
         _competitionDetailsRepository = competitionDetailsRepository;
         _categoryRepository = categoryRepository;
+        
+        _observers = new List<IObserver>();
+    }
+
+    public void RegisterObserver(IObserver observer)
+    {
+        _observers.Add(observer);
+    }
+
+    public void UnregisterObserver(IObserver observer)
+    {
+        _observers.Remove(observer);
+    }
+
+    private void NotifyObservers()
+    {
+        foreach (var observer in _observers)
+        {
+            observer.NotifyVote();
+        }
     }
 
     public async Task<IActionResult> VotingPage(int competitionId, int categoryId)
@@ -47,11 +77,9 @@ public class VoteController : Controller
     [HttpPost]
     public async Task<IActionResult> Vote(VoteViewModel viewModel)
     {
-
         using (var connection = new SqlConnection(_connectionString))
         {
             await connection.OpenAsync();
-
 
             var query1 = @"
                         SELECT COUNT(*) FROM dbo.Vote
@@ -72,35 +100,101 @@ public class VoteController : Controller
         }
 
         using (var connection = new SqlConnection(_connectionString))
+        {
+            await connection.OpenAsync();
+
+            var query = @"
+        INSERT INTO dbo.Vote (Username, Email, MovieID, CategoryID, CompetitionID)
+        VALUES (@Username, @Email, @MovieID, @CategoryID, @CompetitionID)
+    ";
+
+            var parameters = new
             {
-                await connection.OpenAsync();
+                CompetitionID = viewModel.CompetitionId,
+                CategoryID = viewModel.CategoryId,
+                MovieID = viewModel.MovieId,
+                Username = viewModel.Name,
+                Email = viewModel.Email
+            };
 
-                var query = @"
-            INSERT INTO dbo.Vote (Username, Email, MovieID, CategoryID, CompetitionID)
-            VALUES (@Username, @Email, @MovieID, @CategoryID, @CompetitionID)
-        ";
+            await connection.ExecuteAsync(query, parameters);
 
-                var parameters = new
-                {
-                    CompetitionID = viewModel.CompetitionId,
-                    CategoryID = viewModel.CategoryId,
-                    MovieID = viewModel.MovieId,
-                    Username = viewModel.Name,
-                    Email = viewModel.Email
-                };
+            // Envio de e-mail 
 
-                await connection.ExecuteAsync(query, parameters);
-                return Json(new { done = true });
-                
+            string senderEmail = "webvotecine@gmail.com";
+            string senderPassword = "nzmvhgrsnsxetlco";
+            string smtpServer = "smtp.gmail.com";
+
+            MailMessage message = new MailMessage();
+            message.From = new MailAddress(senderEmail);
+            message.To.Add(viewModel.Email);
+            message.Subject = "Confirmação de Voto";
+            message.Body = "Obrigado por votar na competição!\nO seu voto foi registado com sucesso no filme " + viewModel.Name;
+
+
+
+            SmtpClient smtpClient = new SmtpClient(smtpServer, 587);
+            smtpClient.EnableSsl = true;
+            smtpClient.UseDefaultCredentials = false;
+            smtpClient.Credentials = new NetworkCredential(senderEmail, senderPassword);
+
+            try
+            {
+                smtpClient.Send(message);
             }
-        
+            catch (SmtpException ex)
+            {
+                //preciso de meter um erro aqui 
+            }
+
+            NotifyObservers();
+
+            return Json(new { done = true });
+        }
+
         return View("VotingPage", viewModel);
     }
 }
-    
 
+public class EmailSender : IObserver
+{
+    private readonly string _senderEmail;
+    private readonly string _senderPassword;
+    private readonly string _smtpServer;
 
- 
+    public EmailSender(string senderEmail, string senderPassword, string smtpServer)
+    {
+        _senderEmail = senderEmail;
+        _senderPassword = senderPassword;
+        _smtpServer = smtpServer;
+    }
 
-   
-    
+    public void NotifyVote()
+    {
+       /* string recipientEmail = ""; // Insira o endereço de e-mail do destinatário aqui
+        string subject = "Confirmação de Voto";
+        string body = "Obrigado por votar na competição!<br>\nO seu voto foi registrado com sucesso.";
+
+        MailMessage message = new MailMessage();
+        message.From = new MailAddress(_senderEmail);
+        message.To.Add(recipientEmail);
+        message.Subject = subject;
+        message.Body = body;
+        message.IsBodyHtml = true;
+
+        SmtpClient smtpClient = new SmtpClient(_smtpServer, 587);
+        smtpClient.EnableSsl = true;
+        smtpClient.UseDefaultCredentials = false;
+        smtpClient.Credentials = new NetworkCredential(_senderEmail, _senderPassword);
+
+        try
+        {
+            smtpClient.Send(message);
+        }
+        catch (SmtpException ex)
+        {
+            // Trate a exceção de envio de e-mail aqui
+        }*/
+    }
+}
+
