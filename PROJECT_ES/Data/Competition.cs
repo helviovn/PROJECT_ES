@@ -14,6 +14,8 @@ namespace PROJECT_ES.Data
         public ICollection<Competition_has_Movie> Competition_has_Movies { get; set; }
         
         public ICollection<Competition_has_Category> Competition_has_Category { get; set; }
+        
+        public string Image { get; set; }
 
     }
 }

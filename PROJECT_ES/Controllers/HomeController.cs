@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using PROJECT_ES.Data;
 using PROJECT_ES.Service;
+using PROJECT_ES.ViewModels;
 
 public class HomeController  : Controller
 {
@@ -29,13 +30,30 @@ public class HomeController  : Controller
     public async Task<IActionResult> FirstPage()
     {
         var competitions = await _competitionRepository.GetCompetitionsAsync();
-
+        
+        var images = new List<string>
+        {
+            "/images/competitions/1.jpg",
+            "/images/competitions/2.jpg",
+            "/images/competitions/3.jpg",
+            "/images/competitions/4.jpg",
+            "/images/competitions/5.jpg",
+            "/images/competitions/6.jpeg",
+            "/images/competitions/7.jpg",
+            "/images/competitions/8.jpg",
+            "/images/competitions/9.png",
+        };
+        
+        int index = 0;
         foreach (var competition in competitions)
         {
             var participantCount = GetParticipantCount(competition.Id);
             competition.n_participantes = participantCount;
+            competition.Image = images[index];
+            index++;
         }
-
+        
+        
         return View(competitions);
     }
     

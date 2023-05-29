@@ -112,8 +112,8 @@ public class CompetitionRepository
                         var competition = new Competition
                         {
                             Id = reader.GetInt32(0),
-                            Description = reader.GetString(1),
-                            Name = reader.GetString(2),
+                            Name = reader.GetString(1),
+                            Description = reader.GetString(2),
                             data_inicio = reader.GetDateTime(3),
                             data_fim = reader.GetDateTime(4),
                             n_participantes = reader.GetInt32(5),
