@@ -21,8 +21,8 @@ public class MovieRepository
         {
             await connection.OpenAsync();
 
-            var query = "INSERT INTO dbo.Movie (Title, Description, Diretor, Actor, Genre, Writers, Image, Date) " +
-                        "VALUES (@Title, @Description, @Diretor, @Actor, @Genre, @Writers, @Image, @Date);" +
+            var query = "INSERT INTO dbo.Movie (Title, Description, Diretor, Actor, Genre, Writers, Image, Date, Duration, Country, Rating) " +
+                        "VALUES (@Title, @Description, @Diretor, @Actor, @Genre, @Writers, @Image, @Date, @Duration, @Country, @Rating);" +
                         "SELECT CAST(SCOPE_IDENTITY() as int)";
 
             var parameters = new
@@ -34,7 +34,10 @@ public class MovieRepository
                 Genre = movie.Genre,
                 Writers = movie.Writers,
                 Image = movie.Image,
-                Date = movie.Date
+                Date = movie.Date,
+                Duration = movie.Duration,
+                Country = movie.Country,
+                Rating = movie.Rating
             };
 
             var id = await connection.ExecuteScalarAsync<int>(query, parameters);
@@ -92,20 +95,23 @@ public class MovieRepository
             await connection.OpenAsync();
 
             var query = "UPDATE dbo.Movie SET Title = @Title, Description = @Description, " +
-                        "Director = @Director, Actor = @Actor, Genre = @Genre, Writers = @Writers, " +
-                        "Image = @Image, Date = @Date WHERE Id = @Id";
+                        "Director = @Diretor, Actor = @Actor, Genre = @Genre, Writers = @Writers, " +
+                        "Image = @Image, Date = @Date, Duration = @Duration, Country = @Country, Rating = @Rating WHERE Id = @Id";
 
             var parameters = new
             {
                 Id = movie.Id,
                 Title = movie.Title,
                 Description = movie.Description,
-                Director = movie.Diretor,
+                Diretor = movie.Diretor,
                 Actor = movie.Actor,
                 Genre = movie.Genre,
                 Writers = movie.Writers,
                 Image = movie.Image,
-                Date = movie.Date
+                Date = movie.Date,
+                Duration = movie.Duration,
+                Country = movie.Country,
+                Rating = movie.Rating
             };
 
             await connection.ExecuteAsync(query, parameters);

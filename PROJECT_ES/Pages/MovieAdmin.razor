@@ -161,7 +161,9 @@
         public string Writer { get; set; }
         public string Poster { get; set; }
         public string Year { get; set; }
-        
+        public string Runtime { get; set; }
+        public string Country { get; set; }
+        public string imdbRating { get; set; }
         
     }
     
@@ -185,7 +187,10 @@
                     Genre = omdbMovieDetails.Genre ?? "No genre available",
                     Writers = omdbMovieDetails.Writer ?? "No writers available",
                     Image = omdbMovieDetails.Poster,
-                    Date = omdbMovieDetails.Year
+                    Date = omdbMovieDetails.Year,
+                    Duration = omdbMovieDetails.Runtime,
+                    Country = omdbMovieDetails.Country,
+                    Rating = omdbMovieDetails.imdbRating
                 };
 
                 await movieRepository.AddMovieAsync(movie);

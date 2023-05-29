@@ -13,6 +13,9 @@ namespace PROJECT_ES.Data
         public string Writers { get; set; }
         public string Image { get; set; }
         public string Date { get; set; }
+        public string Duration { get; set; }
+        public string Country { get; set; }
+        public string Rating { get; set; }
         public ICollection<Competition_has_Movie> Competition_has_Movies { get; set; }
     }
 }
