@@ -196,17 +196,17 @@
                   <button class="entrar-btn" data-competition-id="@competition.Id">
                     <figure class="card-banner">
                       <img src=@competition.Image />
-                      <div class="hover-text">ENTRAR</div>
+                      <div class="hover-text">@competition.Description</div>
                     </figure>
                   </button>
 
                   <div class="title-wrapper">
                     <button class="entrar-btn" data-competition-id="@competition.Id">
-                      <h3 class="card-title" >@competition.Name</h3>
+                      <h3 class="card-title-alone" >@competition.Name</h3>
                     </button>
                   </div>
                   <div class="card-meta">
-                    
+                    <div class="badge nparticipants">@competition.n_participantes participantes</div>
                   </div>
                 </div>
               </li>
@@ -264,25 +264,21 @@
               <li>
                 <div class="movie-card">
 
-                  <a href="./movie-details.html">
+                  <button>
                     <figure class="card-banner">
                       <img src=@competition.Image />
-                      <div class="hover-text">RESULTADOS</div>
+                      <div class="hover-text">VER RESULTADOS</div>
                     </figure>
-                  </a>
-                  <div class="card-meta" >
-                    <div class="badge nparticipants">@competition.n_participantes participantes</div>
+                  </button>
+                  
+                  <div class="title-wrapper">
+                    <button>
+                      <h3 class="card-title-alone" >@competition.Name</h3>
+                    </button>
+                  </div>
+                  <div class="card-meta">
                     
                   </div>
-
-                  <div class="title-wrapper">
-                    <a href="./movie-details.html">
-                      <h3 class="card-title">@competition.Name</h3>
-                    </a>
-
-                  </div>
-
-                  
                 </div>
               </li>
             }
@@ -1079,7 +1075,7 @@
 
         <div class="footer-brand-wrapper">
 
-          <a href="./index.html" class="logo">
+          <a href="/" class="logo">
             <img style="width: 30%" src="/images/logo1.png">
           </a>
 
