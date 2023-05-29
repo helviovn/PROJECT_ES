@@ -81,4 +81,30 @@ public class HomeController  : Controller
             return connection.ExecuteScalar<int>(query, parameters);
         }
     }
+
+    [HttpPost]
+    public async Task<IActionResult> Subscribe(string email)
+    {
+
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var query = @"
+            INSERT INTO dbo.Vote (Username, Email, MovieID, CategoryID, CompetitionID)
+            VALUES (null, @Email, null, null, null)
+        ";
+
+                var parameters = new
+                {
+                    Email = email
+                };
+
+                await connection.ExecuteAsync(query, parameters);
+            }
+
+            return RedirectToAction("FirstPage");
+        }
+    }
 }
