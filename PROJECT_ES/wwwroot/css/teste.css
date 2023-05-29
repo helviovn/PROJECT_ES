@@ -167,7 +167,7 @@ body.active { overflow: hidden; }
 
 .badge-outline { border-color: var(--white); }
 
-.nparticipants {  font-size: var(--fs-8); font-weight: var(--fw-300);}
+.nparticipants {  font-size: var(--fs-8);  font-weight: var(--fw-300);}
 
 /**
  * MOVIE META
@@ -765,12 +765,10 @@ body.active { overflow: hidden; }
     background-size: cover;
     background-position: center;
     padding-block: var(--section-padding);
+    padding-top: 100px;
 }
 
 .tv-series .section-title { margin-bottom: 50px; }
-
-
-
 
 
 /*-----------------------------------*\
@@ -783,6 +781,7 @@ body.active { overflow: hidden; }
     background-position: center;
     text-align: center;
     padding-block: 50px;
+    
 }
 
 .cta .title-wrapper { margin-bottom: 25px; }
