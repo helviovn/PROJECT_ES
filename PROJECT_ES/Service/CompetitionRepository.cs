@@ -3,6 +3,8 @@ using Dapper;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using PROJECT_ES.Data;
+using System.Net;
+using System.Net.Mail;
 
 namespace PROJECT_ES.Service;
 
@@ -47,6 +49,58 @@ public class CompetitionRepository
                 transaction.Commit();
             }
         }
+        using (var connection = new SqlConnection(_connectionString))
+        {
+            await connection.OpenAsync();
+
+            var query = "SELECT DISTINCT Email FROM Vote";
+
+            var emails = new List<string>();
+
+            using (var command = new SqlCommand(query, connection))
+            {
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        var email = reader.GetString(0);
+                        emails.Add(email);
+                    }
+                }
+            }
+
+            // Envio de e-mail 
+            string senderEmail = "webvotecine@gmail.com";
+            string senderPassword = "nzmvhgrsnsxetlco";
+            string smtpServer = "smtp.gmail.com";
+
+            MailMessage message = new MailMessage();
+            message.From = new MailAddress(senderEmail);
+
+// Adicione os destinatários à lista de e-mails BCC
+            foreach (var email in emails)
+            {
+                message.Bcc.Add(email);
+            }
+
+            message.Subject = "Nova COMPETIÇÃO";
+            message.Body = "Informamos que a competição " + @competition.Name + " foi criada";
+
+            SmtpClient smtpClient = new SmtpClient(smtpServer, 587);
+            smtpClient.EnableSsl = true;
+            smtpClient.UseDefaultCredentials = false;
+            smtpClient.Credentials = new NetworkCredential(senderEmail, senderPassword);
+
+            try
+            {
+                smtpClient.Send(message);
+            }
+            catch (SmtpException ex)
+            {
+                // Trate a exceção aqui
+            }
+
+        }
     }
 
 
@@ -58,7 +112,7 @@ public class CompetitionRepository
             await connection.OpenAsync();
             
             var query = "INSERT INTO dbo.Competition (Description, Name, DataInicio, DataFim, Nparticipantes,Ispublic) " +
-                        "VALUES (@Description, @Name, @data_inicio, @data_fim, 0,0);" +
+                        "VALUES (@Description, @Name, @data_inicio, @data_fim, 0,1);" +
                         "SELECT CAST(SCOPE_IDENTITY() as int)";
 
             var parameters = new
@@ -76,6 +130,7 @@ public class CompetitionRepository
 
             return competitionId;
         }
+        
     }
 
     public async Task<int> ViewDetails(int id)
@@ -174,6 +229,63 @@ public class CompetitionRepository
                 await command.ExecuteNonQueryAsync();
             }
         }
+        
+        using (var connection = new SqlConnection(_connectionString))
+        {
+            await connection.OpenAsync();
+
+            var query = "SELECT DISTINCT Email FROM Vote WHERE CompetitionID = @id";
+
+            var emails = new List<string>();
+
+            using (var command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@id", competition.Id);
+
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        var email = reader.GetString(0);
+                        emails.Add(email);
+                    }
+                }
+            }
+
+            // Envio de e-mail apenas se houver destinatários
+            if (emails.Count > 0)
+            {
+                string senderEmail = "webvotecine@gmail.com";
+                string senderPassword = "nzmvhgrsnsxetlco";
+                string smtpServer = "smtp.gmail.com";
+
+                MailMessage message = new MailMessage();
+                message.From = new MailAddress(senderEmail);
+
+                foreach (var email in emails)
+                {
+                    message.Bcc.Add(email);
+                }
+
+                message.Subject = "Encerramento da COMPETIÇÃO";
+                message.Body = "Informamos que a competição " + competition.Name + " que subscreveu encontra-se encerrada";
+
+                SmtpClient smtpClient = new SmtpClient(smtpServer, 587);
+                smtpClient.EnableSsl = true;
+                smtpClient.UseDefaultCredentials = false;
+                smtpClient.Credentials = new NetworkCredential(senderEmail, senderPassword);
+
+                try
+                {
+                    smtpClient.Send(message);
+                }
+                catch (SmtpException ex)
+                {
+                    // Lida com exceção do SmtpClient
+                }
+            }
+        }
+
     }
 
 
