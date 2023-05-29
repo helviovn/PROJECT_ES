@@ -188,7 +188,10 @@ namespace PROJECT_ES.Migrations
                     Genre = table.Column<string>(maxLength: 256, nullable: false),
                     Writers = table.Column<string>(maxLength: 256, nullable: false),
                     Image = table.Column<string>(maxLength: 256, nullable: false),
-                    Date = table.Column<string>(maxLength: 256, nullable: false)
+                    Date = table.Column<string>(maxLength: 256, nullable: false),
+                    Duration = table.Column<string>(maxLength: 256, nullable: false),
+                    Country = table.Column<string>(maxLength: 256, nullable: false),
+                    Rating = table.Column<string>(maxLength: 256, nullable: false)
                 },
                 constraints: table =>
                 {
