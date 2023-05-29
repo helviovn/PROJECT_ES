@@ -112,7 +112,7 @@ public class CompetitionRepository
             await connection.OpenAsync();
             
             var query = "INSERT INTO dbo.Competition (Description, Name, DataInicio, DataFim, Nparticipantes,Ispublic) " +
-                        "VALUES (@Description, @Name, @data_inicio, @data_fim, 0,0);" +
+                        "VALUES (@Description, @Name, @data_inicio, @data_fim, 0,1);" +
                         "SELECT CAST(SCOPE_IDENTITY() as int)";
 
             var parameters = new
@@ -234,7 +234,7 @@ public class CompetitionRepository
         {
             await connection.OpenAsync();
 
-            var query = "SELECT Email FROM Vote WHERE CompetitionID = @id";
+            var query = "SELECT DISTINCT Email FROM Vote WHERE CompetitionID = @id";
 
             var emails = new List<string>();
 
@@ -252,37 +252,40 @@ public class CompetitionRepository
                 }
             }
 
-            // Envio de e-mail 
-            string senderEmail = "webvotecine@gmail.com";
-            string senderPassword = "nzmvhgrsnsxetlco";
-            string smtpServer = "smtp.gmail.com";
-
-            MailMessage message = new MailMessage();
-            message.From = new MailAddress(senderEmail);
-    
-            // Adicione os destinatários da lista de e-mails
-            foreach (var email in emails)
+            // Envio de e-mail apenas se houver destinatários
+            if (emails.Count > 0)
             {
-                message.To.Add(email);
-            }
-    
-            message.Subject = "Encerramento da COMPETIÇÃO";
-            message.Body = "Informamos que a competição " + @competition.Name + " que subscreveu encontra-se encerrada";
+                string senderEmail = "webvotecine@gmail.com";
+                string senderPassword = "nzmvhgrsnsxetlco";
+                string smtpServer = "smtp.gmail.com";
 
-            SmtpClient smtpClient = new SmtpClient(smtpServer, 587);
-            smtpClient.EnableSsl = true;
-            smtpClient.UseDefaultCredentials = false;
-            smtpClient.Credentials = new NetworkCredential(senderEmail, senderPassword);
+                MailMessage message = new MailMessage();
+                message.From = new MailAddress(senderEmail);
 
-            try
-            {
-                smtpClient.Send(message);
-            }
-            catch (SmtpException ex)
-            {
-                // meter a exepção aqui
+                foreach (var email in emails)
+                {
+                    message.Bcc.Add(email);
+                }
+
+                message.Subject = "Encerramento da COMPETIÇÃO";
+                message.Body = "Informamos que a competição " + competition.Name + " que subscreveu encontra-se encerrada";
+
+                SmtpClient smtpClient = new SmtpClient(smtpServer, 587);
+                smtpClient.EnableSsl = true;
+                smtpClient.UseDefaultCredentials = false;
+                smtpClient.Credentials = new NetworkCredential(senderEmail, senderPassword);
+
+                try
+                {
+                    smtpClient.Send(message);
+                }
+                catch (SmtpException ex)
+                {
+                    // Lida com exceção do SmtpClient
+                }
             }
         }
+
     }
 
 
