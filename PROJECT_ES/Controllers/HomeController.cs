@@ -49,7 +49,7 @@ public class HomeController  : Controller
         {
             var participantCount = GetParticipantCount(competition.Id);
             competition.n_participantes = participantCount;
-            competition.Image = images[index];
+            competition.Image = images[index % images.Count];
             index++;
         }
         
