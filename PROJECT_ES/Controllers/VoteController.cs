@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using System.Net;
 using System.Net.Mail;
+using PROJECT_ES.Adapters;
 using PROJECT_ES.Models;
 
 
@@ -26,16 +27,17 @@ public class VoteController : Controller
     private readonly CompetitionDetailsRepository _competitionDetailsRepository;
     private readonly CategoryRepository _categoryRepository;
     private readonly List<IObserver> _observers; //lista de observadores
+    private readonly VoteAdapter _voteAdapter;
 
     public VoteController(IConfiguration configuration, CompetitionRepository competitionRepository,
-        CompetitionDetailsRepository competitionDetailsRepository, CategoryRepository categoryRepository)
+        CompetitionDetailsRepository competitionDetailsRepository, CategoryRepository categoryRepository, VoteAdapter voteAdapter)
     {
         _connectionString = configuration.GetConnectionString("DefaultConnection");
 
         _competitionRepository = competitionRepository;
         _competitionDetailsRepository = competitionDetailsRepository;
         _categoryRepository = categoryRepository;
-        
+        _voteAdapter = voteAdapter;
         _observers = new List<IObserver>();
     }
 
@@ -85,20 +87,24 @@ public class VoteController : Controller
                         SELECT COUNT(*) FROM dbo.Vote
                         WHERE CompetitionID=@CompetitionID AND CategoryID=@CategoryID AND Email=@Email";
             
-            // Usando o VoteBuilder para construir um objeto Vote
-            var vote = new VoteBuilder()
-                .WithCategoryId(viewModel.CategoryId)
-                .WithCompetitionId(viewModel.CompetitionId)
-                .WithMovieId(viewModel.MovieId)
-                .WithUsername(viewModel.Name)
-                .WithEmail(viewModel.Email)
-                .Build();
+            // Crie um novo objeto Vote com base nos dados do viewModel
+            var vote = new Vote
+            {
+                CompetitionId = viewModel.CompetitionId,
+                CategoryId = viewModel.CategoryId,
+                MovieId = viewModel.MovieId,
+                Username = viewModel.Name,
+                Email = viewModel.Email
+            };
+
+            // Adapte o objeto Vote para VoteViewModel usando o VoteAdapter
+            var adaptedVote = _voteAdapter.Adapt(vote);
             
             var parameters = new
             {
-                CompetitionID = vote.CompetitionId,
-                CategoryID = vote.CategoryId,
-                Email = vote.Email
+                CompetitionID = adaptedVote.CompetitionId,
+                CategoryID = adaptedVote.CategoryId,
+                Email = adaptedVote.Email
             };
             var AlreadyVote = await connection.ExecuteScalarAsync<int>(query1, parameters);
 
