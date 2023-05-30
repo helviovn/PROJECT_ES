@@ -18,9 +18,8 @@
   <!-- 
     - favicon
   -->
-  <link rel="shortcut icon" href="./logo1.png" type="image/svg+xml">
+  <link rel="shortcut icon" href="/images/logo1.png" type="image/png">
 
- 
   <link rel="stylesheet" href="/css/teste.css">
 
   <!-- 
@@ -171,7 +170,7 @@
         <div class="flex-wrapper">
 
           <div class="title-wrapper">
-            <p class="section-subtitle">ÁTIVAS</p>
+            <p class="section-subtitle">A DECORRER</p>
 
             <h2 class="h2 section-title" >Competições</h2>
           </div>
@@ -212,6 +211,7 @@
               </li>
             }
           }
+          
           </ul>
         </div>
       </div>
@@ -219,29 +219,21 @@
     <!-- FINAL COMPETIÇÕES-->
 
     
-    
-      <!-- 
-        - #SUBSCRIBE
-      -->
+    <!-- #SUBSCRIBE -->
     <section class="cta">
         <div class="container">
-
-          <div class="title-wrapper">
-            <h2 class="cta-title">Não percas!</h2>
-
-            <p class="cta-text">
-              Insere o teu email e fica a par de todas as competições.
-            </p>
-          </div>
-
-          <form action="" class="cta-form">
-            <input type="email" name="email" required placeholder="Insere o teu email" class="email-field">
-
-            <button type="submit" class="cta-form-btn">Enviar</button>
-          </form>
-
+            <div class="title-wrapper">
+                <h2 class="cta-title">Não percas!</h2>
+                <p class="cta-text">Insere o teu email e fica a par de todas as competições.</p>
+            </div>
+            <form class="cta-form" id="subscribe-form" action="@Url.Action("Subscribe", "Home")" method="post">
+                <input type="email" name="email" required placeholder="Insere o teu email" class="email-field">
+                <button type="submit" class="cta-form-btn">Enviar</button>
+            </form>
         </div>
-      </section>
+    </section>
+
+
 
 
     
@@ -256,13 +248,13 @@
 
           <h2 class="h2 section-title">Competições Encerradas</h2>
 
-          <ul class="movies-list">
+          <ul class="movies-list" style="grid-template-columns: repeat(5, 1fr);">
           @foreach (var competition in Model)
           {
             if (competition.Ispublic == false)
             {
               <li>
-                <div class="movie-card">
+                <div class="movie-card" style="width: 220px;">
 
                   <button>
                     <figure class="card-banner">
@@ -283,6 +275,7 @@
               </li>
             }
           }
+          
         </ul>
 
         </div>
@@ -1052,11 +1045,6 @@
 
         </div>
       </section>
-
-
-
-
-
     </article>
   </main>
 
