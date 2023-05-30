@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using System.Net;
 using System.Net.Mail;
-
+using PROJECT_ES.Models;
 
 
 //Interface do observer
@@ -84,12 +84,21 @@ public class VoteController : Controller
             var query1 = @"
                         SELECT COUNT(*) FROM dbo.Vote
                         WHERE CompetitionID=@CompetitionID AND CategoryID=@CategoryID AND Email=@Email";
-
+            
+            // Usando o VoteBuilder para construir um objeto Vote
+            var vote = new VoteBuilder()
+                .WithCategoryId(viewModel.CategoryId)
+                .WithCompetitionId(viewModel.CompetitionId)
+                .WithMovieId(viewModel.MovieId)
+                .WithUsername(viewModel.Name)
+                .WithEmail(viewModel.Email)
+                .Build();
+            
             var parameters = new
             {
-                CompetitionID = viewModel.CompetitionId,
-                CategoryID = viewModel.CategoryId,
-                Email = viewModel.Email
+                CompetitionID = vote.CompetitionId,
+                CategoryID = vote.CategoryId,
+                Email = vote.Email
             };
             var AlreadyVote = await connection.ExecuteScalarAsync<int>(query1, parameters);
 
@@ -107,15 +116,24 @@ public class VoteController : Controller
         INSERT INTO dbo.Vote (Username, Email, MovieID, CategoryID, CompetitionID)
         VALUES (@Username, @Email, @MovieID, @CategoryID, @CompetitionID)
     ";
-
+            // Usando o VoteBuilder para construir um objeto Vote
+            var vote = new VoteBuilder()
+                .WithCategoryId(viewModel.CategoryId)
+                .WithCompetitionId(viewModel.CompetitionId)
+                .WithMovieId(viewModel.MovieId)
+                .WithUsername(viewModel.Name)
+                .WithEmail(viewModel.Email)
+                .Build();
+            
             var parameters = new
             {
-                CompetitionID = viewModel.CompetitionId,
-                CategoryID = viewModel.CategoryId,
-                MovieID = viewModel.MovieId,
-                Username = viewModel.Name,
-                Email = viewModel.Email
+                CompetitionID = vote.CompetitionId,
+                CategoryID = vote.CategoryId,
+                MovieID = vote.MovieId,
+                Username = vote.Username,
+                Email = vote.Email
             };
+            
 
             await connection.ExecuteAsync(query, parameters);
 
