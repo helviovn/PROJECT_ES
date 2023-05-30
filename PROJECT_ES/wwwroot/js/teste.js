@@ -33,6 +33,7 @@ window.addEventListener("scroll", function () {
  * scroll the slider
  */
 const slider = document.getElementById('moviesSlider');
+
 let isDown = false;
 let startX;
 let scrollLeft;
@@ -63,8 +64,6 @@ window.addEventListener('mousemove', (e) => {
 });
 
 
-
-
 let scrollAmount = 0;
 let slideTimer = setInterval(autoScroll, 1);
 
@@ -84,5 +83,5 @@ slider.addEventListener('mouseover', () => {
 });
 
 slider.addEventListener('mouseout', () => {
-  slideTimer = setInterval(autoScroll, 50);
+  slideTimer = setInterval(autoScroll, 10);
 });
