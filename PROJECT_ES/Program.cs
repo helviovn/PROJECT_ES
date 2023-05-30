@@ -27,6 +27,7 @@ builder.Services.AddTransient<HomeController>();
 builder.Services.AddScoped<CompetitionDetailsRepository>();
 builder.Services.AddTransient<CategoryController>();
 builder.Services.AddTransient<VoteController>();
+builder.Services.AddTransient<MoviesController>();
 
 builder.Services.AddScoped(sp => new HttpClient() { BaseAddress = new Uri("http://www.omdbapi.com/")});
 

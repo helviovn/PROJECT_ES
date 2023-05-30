@@ -102,61 +102,83 @@
         - #Filmes
       -->
 
-      <section class="tv-series" style="padding-top: 150px;">
-        <div class="container">
+<section class="tv-series" style="padding-top: 150px; background: url(../images/banner1.png) no-repeat;height: 28vh;" >
+  <div class="container">
           
-          <div class="badge">
-            <p class="section-subtitle">Competição</p>
-            <h2 class="h2 section-title">@Model.Competition.Name</h2>
+    <div class="badge">
+      <p class="section-subtitle">Competição</p>
+      <h2 class="h2 section-title">@Model.Competition.Name</h2>
+    </div>
+  </div>
+</section>
+
+<!-- FILMES-->
+
+      <section class="upcoming" style="padding-top: 30px;!important;">
+        <div class="container">
+
+          <div class="flex-wrapper">
+
+            <div class="title-wrapper">
+              <p class="section-subtitle">COMPETIDORES</p>
+
+              <h2 class="h2 section-title">Filmes</h2>
+            </div>
+            
           </div>
-          <ul class="movies-list">
-            <li>
-              <div class="movie-card">
 
-                <a href="#">
-                  <figure class="card-banner">
-                    <img src="images/series-1.png" alt="Moon Knight movie poster">
-                  </figure>
-                </a>
+          <ul id="moviesSlider" class="movies-list  has-scrollbarMovie">
+              @foreach (var movie in Model.Movies)
+              {
+                  <li>
+                    <div class="movie-card" style="width: 200px;">
 
-                <div class="title-wrapper">
-                  <a href="./movie-details.html">
-                    <h3 class="card-title">Moon Knight</h3>
-                  </a>
+                      <button class="movie-btn" data-movie-id="@movie.Id">
+                        <figure class="card-banner">
+                          <img src="@movie.Image">
+                        </figure>
+                      </button>
 
-                  <time datetime="2022">2022</time>
-                </div>
+                      <button class="movie-btn" data-movie-id="@movie.Id">
+                        <div class="title-wrapper">
+                          <a href="./movie-details.html">
+                            <h3 class="card-title">@movie.Title</h3>
+                          </a>
 
-                <div class="card-meta">
-                  <div class="badge badge-outline">2K</div>
+                          <time datetime="2022">@movie.Date</time>
+                        </div>
+                      </button>
+                      <div class="card-meta">
+                        <div class="badge badge-outline">HD</div>
 
-                  <div class="duration">
-                    <ion-icon name="time-outline"></ion-icon>
+                        <div class="duration">
+                          <ion-icon name="time-outline"></ion-icon>
 
-                    <time datetime="PT47M">47 min</time>
-                  </div>
+                          <time datetime="PT137M">@movie.Duration</time>
+                        </div>
 
-                  <div class="rating">
-                    <ion-icon name="star"></ion-icon>
+                        <div class="rating">
+                          <ion-icon name="star"></ion-icon>
 
-                    <data>8.6</data>
-                  </div>
-                </div>
+                          <data>@movie.Rating</data>
+                        </div>
+                      </div>
 
-              </div>
-            </li>
-
+                    </div>
+                  </li>
+              }
           </ul>
-
+              
         </div>
       </section>
 
 
 <!--INICIO CATEGORIAS-->
 
-    <section class="upcoming" id="comp">
+<section class="upcoming" id="comp" style="padding-top: 30px;!important;background: url(../images/tv-series-bg.jpg) no-repeat;">
+   
       <div class="container">
-
+ 
         <div class="flex-wrapper">
 
           <div class="title-wrapper">
@@ -196,7 +218,7 @@
                 </div>
               </li>
             
-          }
+            }
           </ul>
         </div>
       </div>
@@ -204,32 +226,17 @@
     <!-- FINAL CATEGORIAS-->
 
 
-<div class="container">
-    <h1>Movies</h1>
-</div>
-<div class="category-slider">
-    @foreach (var movie in Model.Movies)
-    {
-        <div class="category-slide">
-            <td><img src="@movie.Image" width="50" height="70"/></td>
-            <h3>@movie.Title</h3>
-        </div>
-    }
-</div>
-
-
   <!-- 
     - #FOOTER
   -->
-
-  <footer class="footer">
+<footer class="footer">
 
     <div class="footer-top">
       <div class="container">
 
         <div class="footer-brand-wrapper">
 
-          <a href="./index.html" class="logo">
+          <a href="/" class="logo">
             <img style="width: 30%" src="/images/logo1.png">
           </a>
 
@@ -335,13 +342,22 @@
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
 <script>  
-    $('.vote-btn').on('click', function() {
-        var competitionId = $(this).data('competition-id');
-        var categoryId = $(this).data('category-id');
-        // Navigate to the Voting page with the competitionId and categoryId as parameters
-        window.location.href = '/Vote/VotingPage?competitionId=' + competitionId + '&categoryId=' + categoryId;
-    });  
+  $(document).ready(function() {   
+      $('.vote-btn').on('click', function() {
+          var competitionId = $(this).data('competition-id');
+          var categoryId = $(this).data('category-id');
+          // Navigate to the Voting page with the competitionId and categoryId as parameters
+          window.location.href = '/Vote/VotingPage?competitionId=' + competitionId + '&categoryId=' + categoryId;
+      });  
+      $('.movie-btn').on('click', function() {
+              var movieId = $(this).data('movie-id');
+              window.location.href = '/Movies/SingleMovie?movieId=' + movieId;
+      });
+  });
+      
   </script>
+
+
 
 </body>
 </html>
