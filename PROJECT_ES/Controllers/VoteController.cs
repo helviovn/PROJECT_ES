@@ -28,9 +28,10 @@ public class VoteController : Controller
     private readonly CategoryRepository _categoryRepository;
     private readonly List<IObserver> _observers; //lista de observadores
     private readonly VoteAdapter _voteAdapter;
+    private readonly IVoteStrategy _voteStrategy;
 
     public VoteController(IConfiguration configuration, CompetitionRepository competitionRepository,
-        CompetitionDetailsRepository competitionDetailsRepository, CategoryRepository categoryRepository, VoteAdapter voteAdapter)
+        CompetitionDetailsRepository competitionDetailsRepository, CategoryRepository categoryRepository, VoteAdapter voteAdapter, IVoteStrategy voteStrategy)
     {
         _connectionString = configuration.GetConnectionString("DefaultConnection");
 
@@ -38,6 +39,7 @@ public class VoteController : Controller
         _competitionDetailsRepository = competitionDetailsRepository;
         _categoryRepository = categoryRepository;
         _voteAdapter = voteAdapter;
+        _voteStrategy = voteStrategy;
         _observers = new List<IObserver>();
     }
 
@@ -106,9 +108,15 @@ public class VoteController : Controller
                 CategoryID = adaptedVote.CategoryId,
                 Email = adaptedVote.Email
             };
+            
+            bool canVote = await _voteStrategy.CanVote(viewModel);
             var AlreadyVote = await connection.ExecuteScalarAsync<int>(query1, parameters);
-
-            if (AlreadyVote > 0)
+            
+            if (!canVote)
+            {
+                return Json(new { errorData = true });
+            }
+            else if (AlreadyVote > 0)
             {
                 return Json(new { error = true });
             }

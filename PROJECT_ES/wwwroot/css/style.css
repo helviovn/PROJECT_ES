@@ -267,7 +267,7 @@ h3 {
     color: #FFFFFF;
 }
 
-#error-message, #success-message {
+#error-message, #success-message, #errorData-message {
     text-align: center;
     margin-bottom: 10px;
     font-size: 18px;
