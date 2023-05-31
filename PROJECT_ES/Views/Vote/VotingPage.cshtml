@@ -89,51 +89,193 @@
     </div>
   </header>
   
-<div class="container-vote">
-    <h1 class="competition-title">Competição: @Model.Competition.Name</h1>
-    <h1 class="category-title">Categoria: @Model.Category.Name</h1>
+
+
+<div style="background: url(../images/tv-series-bg.jpg) no-repeat;padding-top: 150px; padding-bottom: 10px">
+  <h2 class="h2 section-title" >@Model.Competition.Name</h2><br/>
+  <h3 class="h3 section-subtitle" style="font-size: 24px;!important;">@Model.Category.Name</h3>
+
 </div>
 
-<div class="category-slider">
-    @foreach (var movie in Model.Movies)
-    {
-        <div class="category-slide">
-            <td><img src="@movie.Image" width="50" height="70" /></td>
-            <h3>@movie.Title</h3>
-        </div>
-    }
-</div>
-<hr>
+<section class="upcoming" style="padding-top: 1px;!important;background: url(../images/tv-series-bg.jpg) no-repeat;;padding-bottom: 30px">
+  <div class="container">
+    <div class="flex-wrapper">
+      <div class="title-wrapper">
+      </div>
+    </div>
+    <div class="slider-wrapper">
+      <div class="movies-list-container">
+        <ul id="moviesSlider" class="movies-list has-scrollbarMovie">
+          @foreach (var movie in Model.Movies)
+          {
+            <li>
+              <div class="movie-card" style="width: 200px;">
+                <button class="movie-btn" data-movie-id="@movie.Id">
+                  <figure class="card-banner">
+                    <img src="@movie.Image">
+                  </figure>
+                </button>
+                <button class="movie-btn" data-movie-id="@movie.Id">
+                  <div class="title-wrapper">
+                    <a href="./movie-details.html">
+                      <h3 class="card-title">@movie.Title</h3>
+                    </a>
+                    <time datetime="2022">@movie.Date</time>
+                  </div>
+                </button>
+                <div class="card-meta">
+                  <div class="badge badge-outline">HD</div>
+                  <div class="duration">
+                    <ion-icon name="time-outline"></ion-icon>
+                    <time datetime="PT137M">@movie.Duration</time>
+                  </div>
+                  <div class="rating">
+                    <ion-icon name="star"></ion-icon>
+                    <data>@movie.Rating</data>
+                  </div>
+                </div>
+              </div>
+            </li>
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
 
-<div id="error-message" style="display:none;">Já votaste nesta categoria!!</div>
- 
+
+
+<div id="error-message" style="display:none;background: url(../images/ft-bg.jpg) no-repeat;">Já votaste nesta categoria!!</div>
+
 <div id="success-message" style="display:none;">Voto foi inserido com sucesso</div>
-    <form id="vote-form" method="post" action="@Url.Action("Vote", "Vote")">
-        <input type="hidden" name="competitionId" value="@Model.Competition.Id" />
-        <input type="hidden" name="categoryId" value="@Model.Category.Id" />
-    
-        <div class="form-group">
-            <label for="name">Nome:</label>
-            <input type="text" class="form-control" id="name" name="name" required>
+
+<section class="upcoming" style="padding-top: 0px;!important;background: url(../images/ft-bg.jpg) no-repeat;">
+<form id="vote-form" method="post" action="@Url.Action("Vote", "Vote")" >
+    <input type="hidden" name="competitionId" value="@Model.Competition.Id" />
+    <input type="hidden" name="categoryId" value="@Model.Category.Id" />
+      
+    <div class="form-group">
+      <label for="name">Nome:</label>
+      <input type="text" class="form-control" id="name" name="name" required>
+    </div>
+          
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" class="form-control" id="email" name="email" required>
+    </div>
+          
+    <div class="form-group">
+      <label for="movie-select">Escolha um filme:</label>
+      <select class="form-control" id="movie-select" name="movieId" required>
+        @foreach (var movie in Model.Movies)
+        {
+          <option value="@movie.Id">@movie.Title</option>
+        }
+      </select>
+    </div>
+          
+    <button type="submit" class="btn btn-primary">Confirmar voto</button>
+</form>
+
+</section>
+<!-- 
+    - #FOOTER
+  -->
+<footer class="footer">
+
+    <div class="footer-top">
+      <div class="container">
+
+        <div class="footer-brand-wrapper">
+
+          <a href="/" class="logo">
+            <img style="width: 30%" src="/images/logo1.png">
+          </a>
+
+          <ul class="footer-list">
+
+            <li>
+              <a href="./index.html" class="footer-link">Inicio</a>
+            </li>
+
+            <li>
+              <a href="#" class="footer-link">Competições</a>
+            </li>
+
+            <li>
+              <a href="#" class="footer-link">Filmes</a>
+            </li>
+<!--
+            <li>
+              <a href="#" class="footer-link">Web Series</a>
+            </li>
+
+            <li>
+              <a href="#" class="footer-link">Pricing</a>
+            </li>
+-->
+          </ul>
+
         </div>
-        
-        <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" class="form-control" id="email" name="email" required>
+
+        <div class="divider"></div>
+
+        <div class="quicklink-wrapper">
+
+          <ul class="quicklink-list">
+
+            <li>
+              <a href="#" class="quicklink-link">Faq</a>
+            </li>
+
+            <li>
+              <a href="#" class="quicklink-link">Centro de Ajuda</a>
+            </li>
+
+            <li>
+              <a href="#" class="quicklink-link">Termos de utilização</a>
+            </li>
+
+            <li>
+              <a href="#" class="quicklink-link">Privacidade</a>
+            </li>
+
+          </ul>
+
+          <ul class="social-list">
+
+            <li>
+              <a href="#" class="social-link">
+                <ion-icon name="logo-facebook"></ion-icon>
+              </a>
+            </li>
+
+            <li>
+              <a href="#" class="social-link">
+                <ion-icon name="logo-twitter"></ion-icon>
+              </a>
+            </li>
+
+            <li>
+              <a href="#" class="social-link">
+                <ion-icon name="logo-pinterest"></ion-icon>
+              </a>
+            </li>
+
+            <li>
+              <a href="#" class="social-link">
+                <ion-icon name="logo-linkedin"></ion-icon>
+              </a>
+            </li>
+
+          </ul>
+
         </div>
-        
-        <div class="form-group">
-            <label for="movie-select">Escolha um filme:</label>
-            <select class="form-control" id="movie-select" name="movieId" required>
-                @foreach (var movie in Model.Movies)
-                {
-                    <option value="@movie.Id">@movie.Title</option>
-                }
-            </select>
-        </div>
-        
-        <button type="submit" class="btn btn-primary">Confirmar voto</button>
-    </form>
+
+      </div>
+    </div>
+
+  </footer>
 
 <script src="/js/teste.js"></script>
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
@@ -173,6 +315,10 @@
                                }
                });
                });
+               $('.movie-btn').on('click', function() {
+                             var movieId = $(this).data('movie-id');
+                             window.location.href = '/Movies/SingleMovie?movieId=' + movieId;
+                     });
                });
            
            </script>
