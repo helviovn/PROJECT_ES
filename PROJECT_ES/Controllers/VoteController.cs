@@ -131,13 +131,16 @@ public class VoteController : Controller
             string senderEmail = "webvotecine@gmail.com";
             string senderPassword = "nzmvhgrsnsxetlco";
             string smtpServer = "smtp.gmail.com";
+            
+            var MovieName = await _competitionDetailsRepository.GetMovieNameByMovieIDAsync(viewModel.MovieId);
+            var CategoryName = await _competitionDetailsRepository.GetCategoryNameByCategoryIDAsync(viewModel.CategoryId);
+            var CompetitionName = await _competitionDetailsRepository.GetCompetitionNameByCompetitionIDAsync(viewModel.CompetitionId);
 
             MailMessage message = new MailMessage();
             message.From = new MailAddress(senderEmail);
             message.To.Add(viewModel.Email);
             message.Subject = "Confirmação de Voto";
-            message.Body = "Obrigado por votar na competição!\nO seu voto foi registado com sucesso no filme " + viewModel.Name;
-
+            message.Body = "Obrigado "+ viewModel.Name+" por votar na categoria "+CategoryName+" da competição "+CompetitionName+"!\nO seu voto foi registado com sucesso no filme "+MovieName+".";
 
 
             SmtpClient smtpClient = new SmtpClient(smtpServer, 587);
