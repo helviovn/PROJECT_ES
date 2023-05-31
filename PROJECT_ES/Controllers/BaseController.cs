@@ -29,6 +29,14 @@ public abstract class BaseController : Controller
             return NotFound();
         }
 
-        return View("FirstPage");
+        if (competitionId == 0 && categoryId == 0)
+        {
+            return View("FirstPage");
+        }
+        else
+        {
+            // Redirecionar para a página da categoria com base na competição selecionada
+            return View("~/Views/Category/CategoryPage.cshtml");
+        }
     }
 }
