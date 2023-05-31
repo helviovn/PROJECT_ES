@@ -22,9 +22,6 @@
 <body>
 <div class="container">
     <h1>Competitions</h1>
-    <div>
-        <a href="/createcompetition" class="btn btn-primary">Add Competition</a>
-    </div>
     <br/>
     <div style="padding-top: 10px" class="col-md-4">
         <div class="form-group">
@@ -33,9 +30,11 @@
         </div>
     </div>
     <br/>
-
-
-
+    <div>
+            <a href="/createcompetition" class="btn btn-primary">Add Competition</a>
+        </div>
+    <br/>
+    
     @if (competitions == null)
     {
         <p><em>Loading...</em></p>
@@ -129,6 +128,5 @@
         competition.Ispublic = !competition.Ispublic;
         await competitionRepository.UpdateCompetitionAsync(competition);
     }
-
 }
 

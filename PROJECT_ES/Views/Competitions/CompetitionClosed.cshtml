@@ -146,45 +146,74 @@
 
 
 <div>
-@foreach (var category in Model.Category)
-{
-  <p>categoria: @category.Name vencedor foi</p>
-                                                        
-}
 
-<table class="table">
-    <thead>
-        <tr>
-          <th>Category Name</th>
-            <th>Movie Winner</th>
-            <th>Vote Count</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (@Model.statistics != null && @Model.statistics.Any())
-        {
-            var previousCompetitionName = "";
-            var categoryCount = 0;
-            foreach (var vote in @Model.statistics)
-            {
+  <!--<table class="table">
+  <thead>
+  <tr>
+    <th>Category Name</th>
+    <th>Movie Winner</th>
+    <th>Vote Count</th>
+  </tr>
+  </thead>
+  <tbody>
+  @if (@Model.statistics != null && @Model.statistics.Any())
+  {
+    var previousCompetitionName = "";
+    var categoryCount = 0;
+    foreach (var vote in @Model.statistics)
+    {
                 
 
-                <tr>
+      <tr>
                     
-                    <td>@vote.CategoryName</td>
-                    <td>@vote.MovieTitle</td>
-                    <td>@vote.VoteCount</td>
-                </tr>
+        <td>@vote.CategoryName</td>
+        <td>@vote.MovieTitle</td>
+        <td>@vote.VoteCount</td>
+      </tr>
+    }
+  }
+  else
+  {
+    <tr>
+      <td colspan="4">Sem informação.</td>
+    </tr>
+  }
+  </tbody>
+</table>-->
+
+<section class="upcoming" id="comp">
+      <div class="container">
+        <div class="flex-wrapper">
+        </div>
+        <div class="slider-wrapper">
+          <ul class="movies-list  has-scrollbar " id="moviesSlider">
+          @foreach (var vote in @Model.statistics)
+          {
+            <li>
+                <div class="movie-card">
+
+                  
+                    <figure class="card-banner">
+                      <img/> <!-- colocar a imagem  -->
+                      <div class="hover-text">@vote.CategoryName</div>
+                    </figure>
+
+                  <div class="title-wrapper">
+                    <button class="entrar-btn" data-competition-id="">
+                      <h3 class="card-title-alone" >@vote.MovieTitle</h3>
+                    </button>
+                  </div>
+                  <div class="card-meta">
+                    <div class="badge nparticipants">@vote.VoteCount votos</div>
+                  </div>
+                </div>
+              </li>
             }
-        }
-        else
-        {
-            <tr>
-                <td colspan="4">Sem informação.</td>
-            </tr>
-        }
-    </tbody>
-</table>
+          }
+          </ul>
+        </div>
+      </div>
+    </section>
 </div>
 
 
@@ -193,6 +222,7 @@
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </body>
 
 </html>

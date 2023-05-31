@@ -69,7 +69,6 @@ public class CompetitionRepository
                 }
             }
 
-            // Envio de e-mail 
             string senderEmail = "webvotecine@gmail.com";
             string senderPassword = "nzmvhgrsnsxetlco";
             string smtpServer = "smtp.gmail.com";
@@ -77,14 +76,21 @@ public class CompetitionRepository
             MailMessage message = new MailMessage();
             message.From = new MailAddress(senderEmail);
 
-// Adicione os destinatários à lista de e-mails BCC
+            // Adicione os destinatários à lista de e-mails BCC
             foreach (var email in emails)
             {
                 message.Bcc.Add(email);
             }
 
             message.Subject = "Nova COMPETIÇÃO";
-            message.Body = "Informamos que a competição " + @competition.Name + " foi criada";
+
+            // Crie o corpo do e-mail com a assinatura
+            string body = "Informamos que a competição " + @competition.Name + " foi criada";
+
+
+            // Defina o corpo do e-mail como HTML
+            message.IsBodyHtml = true;
+            message.Body = body;
 
             SmtpClient smtpClient = new SmtpClient(smtpServer, 587);
             smtpClient.EnableSsl = true;
@@ -102,9 +108,7 @@ public class CompetitionRepository
 
         }
     }
-
-
-
+    
     private async Task<int> AddCompetitionAsync(Competition competition)
     {
         using (var connection = new SqlConnection(_connectionString))

@@ -7,7 +7,7 @@ using PROJECT_ES.Data;
 using PROJECT_ES.Service;
 using PROJECT_ES.ViewModels;
 
-public class HomeController  : Controller
+public class HomeController : Controller
 {
 
     private readonly CompetitionRepository _competitionRepository;
@@ -30,7 +30,7 @@ public class HomeController  : Controller
     public async Task<IActionResult> FirstPage()
     {
         var competitions = await _competitionRepository.GetCompetitionsAsync();
-        
+
         var images = new List<string>
         {
             "/images/competitions/1.jpg",
@@ -43,7 +43,7 @@ public class HomeController  : Controller
             "/images/competitions/8.jpg",
             "/images/competitions/9.png",
         };
-        
+
         int index = 0;
         foreach (var competition in competitions)
         {
@@ -52,17 +52,17 @@ public class HomeController  : Controller
             competition.Image = images[index % images.Count];
             index++;
         }
-        
-        
+
+
         return View(competitions);
     }
-    
+
     public async Task<IActionResult> Home()
     {
         return RedirectToAction("FirstPage");
     }
-    
-    public  int GetParticipantCount(int competitionId)
+
+    public int GetParticipantCount(int competitionId)
     {
         using (var connection = new SqlConnection(_connectionString))
         {
@@ -107,4 +107,29 @@ public class HomeController  : Controller
             return RedirectToAction("FirstPage");
         }
     }
+
+
+    /*[HttpPost]
+    public async Task<IActionResult> Vote(VoteViewModel viewModel)
+    {
+        using (var connection = new SqlConnection(_connectionString))
+        {
+            await connection.OpenAsync();
+
+            var query = @"
+            INSERT INTO dbo.Vote (Username, Email, MovieID, CategoryID, CompetitionID)
+            VALUES (null, @Email, null, null, null)
+        ";
+
+            var parameters = new
+            {
+                Email = viewModel.Email
+            };
+
+            await connection.ExecuteAsync(query, parameters);
+        }
+
+        return View("FirstPage");
+    }*/
+
 }
