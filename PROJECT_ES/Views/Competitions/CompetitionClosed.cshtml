@@ -96,34 +96,41 @@
     <p class="section-subtitle">Competição</p>
 
     <h2 class="h2 section-title">@Model.Competition.Name</h2>
-  <h2 class="h2 section-title" st>VENCEDORES</h2>
+  
     <ul class="movies-list" style="grid-template-columns: repeat(5, 1fr)">
-      @foreach (var vote in @Model.statistics)
-      {
-        <li>
-          
-          <p class="section-subtitle" style="font-size: 20px;text-align: center">@vote.CategoryName</p>
-          <div class="movie-card" style="width: 220px;">
-            <button class="comp-btn">
-              <figure class="card-banner">
-                <img src="@vote.MovieImage"/>
+      @if (@Model.statistics.Any())
+      {<h2 class="h2 section-title" st>VENCEDORES</h2>
+        @foreach (var vote in @Model.statistics)
+        {
+          <li>
 
-                <!--<div class="text-up" style="font-size: 24px">@vote.CategoryName</div>-->
-              </figure>
-            </button>
-
-            <div class="title-wrapper">
+            <p class="section-subtitle" style="font-size: 20px;text-align: center">@vote.CategoryName</p>
+            <div class="movie-card" style="width: 220px;">
               <button class="comp-btn">
+                <figure class="card-banner">
+                  <img src="@vote.MovieImage"/>
 
-                <h3 class="card-title-alone">@vote.MovieTitle</h3>
+                  <!--<div class="text-up" style="font-size: 24px">@vote.CategoryName</div>-->
+                </figure>
               </button>
+
+              <div class="title-wrapper">
+                <button class="comp-btn">
+
+                  <h3 class="card-title-alone">@vote.MovieTitle</h3>
+                </button>
+              </div>
+              <div class="card-meta">
+                <div class="badge badge-outline" style="font-size: 16px">@vote.VoteCount votos</div>
+              </div>
             </div>
-            <div class="card-meta">
-              <div class="badge badge-outline" style="font-size: 16px">@vote.VoteCount votos</div>
-            </div>
-          </div>
-        </li>
+          </li>
         }
+      }
+      else
+      {
+          <h2 class="h2 section-title" st>Sem votos</h2>
+      }
       
           
     </ul>
