@@ -173,19 +173,39 @@ public class CompetitionDetailsRepository
             await connection.OpenAsync();
 
             var query = @"WITH VoteCounts AS (
-                        SELECT Competition.Name AS CompetitionName, Category.Name AS CategoryName, Movie.Title AS MovieTitle, COUNT(*) AS VoteCount,
-                        ROW_NUMBER() OVER (PARTITION BY Competition.Name, Category.Name ORDER BY COUNT(*) DESC) AS RowNum
-                          FROM Vote
-                          INNER JOIN Competition ON Competition.Id = Vote.CompetitionID
-                          INNER JOIN Category ON Category.Id = Vote.CategoryID
-                          INNER JOIN Movie ON Movie.Id = Vote.MovieID
-                          WHERE Competition.Id = @competitionId
-                          GROUP BY Competition.Name, Category.Name, Movie.Title
-                        )
-                        SELECT CompetitionName, CategoryName, MovieTitle, VoteCount
-                        FROM VoteCounts
-                        WHERE RowNum = 1
-                        ORDER BY CompetitionName;";
+  SELECT
+    Competition.Name AS CompetitionName,
+    Category.Name AS CategoryName,
+    Movie.Title AS MovieTitle,
+    Movie.Image AS MovieImage, -- Adicionando a coluna da imagem
+    COUNT(*) AS VoteCount,
+    ROW_NUMBER() OVER (PARTITION BY Competition.Name, Category.Name ORDER BY COUNT(*) DESC) AS RowNum
+  FROM
+    Vote
+    INNER JOIN Competition ON Competition.Id = Vote.CompetitionID
+    INNER JOIN Category ON Category.Id = Vote.CategoryID
+    INNER JOIN Movie ON Movie.Id = Vote.MovieID
+  WHERE
+    Competition.Id = @competitionId
+  GROUP BY
+    Competition.Name,
+    Category.Name,
+    Movie.Title,
+    Movie.Image -- Adicionando a coluna da imagem
+)
+SELECT
+  CompetitionName,
+  CategoryName,
+  MovieTitle,
+  MovieImage, -- Incluindo a coluna da imagem na seleção
+  VoteCount
+FROM
+  VoteCounts
+WHERE
+  RowNum = 1
+ORDER BY
+  CompetitionName;
+;";
             var statistics = await connection.QueryAsync<Vote>(query,new { competitionId });
             return statistics;
         }
