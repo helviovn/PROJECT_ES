@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using System.Net;
 using System.Net.Mail;
-
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 
 //Interface do observer
@@ -101,8 +101,10 @@ public class VoteController : Controller
 
         using (var connection = new SqlConnection(_connectionString))
         {
+            
             await connection.OpenAsync();
-
+    
+                
             var query = @"
         INSERT INTO dbo.Vote (Username, Email, MovieID, CategoryID, CompetitionID)
         VALUES (@Username, @Email, @MovieID, @CategoryID, @CompetitionID)
@@ -114,9 +116,9 @@ public class VoteController : Controller
                 CategoryID = viewModel.CategoryId,
                 MovieID = viewModel.MovieId,
                 Username = viewModel.Name,
-                Email = viewModel.Email
+                Email = viewModel.Email,
             };
-
+            
             await connection.ExecuteAsync(query, parameters);
 
             // Envio de e-mail 
@@ -129,7 +131,7 @@ public class VoteController : Controller
             message.From = new MailAddress(senderEmail);
             message.To.Add(viewModel.Email);
             message.Subject = "Confirmação de Voto";
-            message.Body = "Obrigado por votar na competição!\nO seu voto foi registado com sucesso no filme " + viewModel.Name;
+            message.Body = "Obrigado por votar na competição!\nO seu voto foi registado com sucesso no filme " + viewModel.MovieTitle;
 
 
 

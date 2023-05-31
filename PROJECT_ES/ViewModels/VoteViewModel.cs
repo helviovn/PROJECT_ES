@@ -15,5 +15,7 @@ namespace PROJECT_ES.ViewModels
         public int MovieId { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
+        
+        public string MovieTitle { get; set; }
     }
 }
