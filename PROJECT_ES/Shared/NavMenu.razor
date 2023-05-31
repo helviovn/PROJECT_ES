@@ -1,7 +1,9 @@
 ﻿@inherits LayoutComponentBase
-<div class="top-row ps-3 navbar navbar-dark">
+<div class="top-row ps-3 navbar navbar-dark" style="padding-bottom: 100px">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/">Painel de Gestão</a>
+        <a href="/" class="logo">
+                <img style="width: 50%" src="/images/logo1.png"/>
+              </a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -10,14 +12,18 @@
 
 <div class="" @onclick="ToggleNavMenu">
     <nav class="flex-column">
-        
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="welcome" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
-        <AuthorizeView>
-            <Authorized>
+         <AuthorizeView>
+                    <Authorized>
+                        <div class="nav-item px-3">
+                            <NavLink class="nav-link" href="/Home/FirstPage" Match="NavLinkMatch.All">
+                                <span class="oi oi-home" aria-hidden="true"></span> Voltar Página Inicial
+                            </NavLink>
+                        </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="welcome" Match="NavLinkMatch.All">
+                        <span class="oi oi-eye" aria-hidden="true"></span> Geral
+                    </NavLink>
+                </div>
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="movies">
                         <span class="oi oi-monitor" aria-hidden="true"></span> Movies
