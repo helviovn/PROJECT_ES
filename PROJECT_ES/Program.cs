@@ -4,8 +4,11 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
+using PROJECT_ES.Adapters;
 using PROJECT_ES.Areas.Identity;
 using PROJECT_ES.Data;
+using PROJECT_ES.Factories;
+using PROJECT_ES.Interfaces;
 using PROJECT_ES.Service;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,8 +30,12 @@ builder.Services.AddTransient<HomeController>();
 builder.Services.AddScoped<CompetitionDetailsRepository>();
 builder.Services.AddTransient<CategoryController>();
 builder.Services.AddTransient<VoteController>();
+builder.Services.AddScoped<VoteAdapter>();
+builder.Services.AddScoped<VoteObservable>();
+builder.Services.AddScoped<ICompetitionRepositoryFactory, CompetitionRepositoryFactory>();
 builder.Services.AddTransient<MoviesController>();
 builder.Services.AddTransient<CompetitionsController>();
+
 
 builder.Services.AddScoped(sp => new HttpClient() { BaseAddress = new Uri("http://www.omdbapi.com/")});
 

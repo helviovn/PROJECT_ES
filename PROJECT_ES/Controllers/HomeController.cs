@@ -3,20 +3,21 @@ using System.Threading.Tasks;
 using Dapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using PROJECT_ES.Controllers;
 using PROJECT_ES.Data;
 using PROJECT_ES.Service;
 using PROJECT_ES.ViewModels;
 
-public class HomeController : Controller
-{
 
-    private readonly CompetitionRepository _competitionRepository;
+public class HomeController : BaseController
+{
     private readonly string _connectionString;
 
-    public HomeController(IConfiguration configuration, CompetitionRepository competitionRepository)
+    public HomeController(IConfiguration configuration, CompetitionRepository competitionRepository,
+        CompetitionDetailsRepository competitionDetailsRepository, CategoryRepository categoryRepository)
+        : base(competitionRepository, competitionDetailsRepository, categoryRepository)
     {
         _connectionString = configuration.GetConnectionString("DefaultConnection");
-        _competitionRepository = competitionRepository;
     }
 
 /*
@@ -27,7 +28,8 @@ public class HomeController : Controller
     }
     
     */
-    public async Task<IActionResult> FirstPage()
+    
+    protected override async Task<IActionResult> GetViewModel(int competitionId, int categoryId)
     {
         var competitions = await _competitionRepository.GetCompetitionsAsync();
 
@@ -53,16 +55,19 @@ public class HomeController : Controller
             index++;
         }
 
-
         return View(competitions);
     }
 
+    
+
     public async Task<IActionResult> Home()
     {
-        return RedirectToAction("FirstPage");
+        return await BaseAction(0, 0);
     }
 
-    public int GetParticipantCount(int competitionId)
+    
+    public  int GetParticipantCount(int competitionId)
+
     {
         using (var connection = new SqlConnection(_connectionString))
         {

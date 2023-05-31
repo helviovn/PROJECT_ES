@@ -129,12 +129,46 @@ public class CompetitionDetailsRepository
             return statistics;
         }
     }
+
+    public async Task<string> GetMovieNameByMovieIDAsync(int viewModelMovieId)
+    {
+        using (var connection = new SqlConnection(_connectionString))
+        {
+            await connection.OpenAsync();
+            var query = @"SELECT Movie.Title FROM Movie WHERE Movie.Id = @viewModelMovieId";
+            var movieName = await connection.ExecuteScalarAsync<string>(query, new { viewModelMovieId });
+            return movieName;
+        }
+    }
     
+
+    public async Task<string> GetCategoryNameByCategoryIDAsync(int viewModelCategoryId)
+
+            var query = @"SELECT Category.Name FROM Category WHERE Category.Id = @viewModelCategoryId";
+            var categoryName = await connection.ExecuteScalarAsync<string>(query, new { viewModelCategoryId });
+            return categoryName;
+        }
+    }
+    
+
+    public async Task<string> GetCompetitionNameByCompetitionIDAsync(int viewModelCompetitionId)
+    {
+        using (var connection = new SqlConnection(_connectionString))
+        {
+            await connection.OpenAsync();
+            var query = @"SELECT Competition.Name FROM Competition WHERE Competition.Id = @viewModelCompetitionId";
+            var competitionName = await connection.ExecuteScalarAsync<string>(query, new { viewModelCompetitionId });
+            return competitionName;
+        }
+    }
+
+
     public async Task<IEnumerable<Vote>> StatesByCompId(int competitionId)
     {
         using (var connection = new SqlConnection(_connectionString))
         {
             await connection.OpenAsync();
+
             var query = @"WITH VoteCounts AS (
                         SELECT Competition.Name AS CompetitionName, Category.Name AS CategoryName, Movie.Title AS MovieTitle, COUNT(*) AS VoteCount,
                         ROW_NUMBER() OVER (PARTITION BY Competition.Name, Category.Name ORDER BY COUNT(*) DESC) AS RowNum
@@ -153,5 +187,4 @@ public class CompetitionDetailsRepository
             return statistics;
         }
     }
-    
 }

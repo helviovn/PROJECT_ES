@@ -10,14 +10,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using System.Net;
 using System.Net.Mail;
+using PROJECT_ES.Adapters;
+using PROJECT_ES.Interfaces;
+using PROJECT_ES.Models;
 
 
-
-//Interface do observer
-public interface IObserver
-{
-    void NotifyVote();
-}
 
 public class VoteController : Controller
 {
@@ -25,36 +22,23 @@ public class VoteController : Controller
     private readonly CompetitionRepository _competitionRepository;
     private readonly CompetitionDetailsRepository _competitionDetailsRepository;
     private readonly CategoryRepository _categoryRepository;
-    private readonly List<IObserver> _observers; //lista de observadores
+    private readonly VoteAdapter _voteAdapter;
+    private readonly VoteObservable _voteObservable;
 
-    public VoteController(IConfiguration configuration, CompetitionRepository competitionRepository,
-        CompetitionDetailsRepository competitionDetailsRepository, CategoryRepository categoryRepository)
+    public VoteController(
+        IConfiguration configuration,
+        CompetitionRepository competitionRepository,
+        CompetitionDetailsRepository competitionDetailsRepository,
+        CategoryRepository categoryRepository,
+        VoteAdapter voteAdapter,
+        VoteObservable voteObservable)
     {
         _connectionString = configuration.GetConnectionString("DefaultConnection");
-
         _competitionRepository = competitionRepository;
         _competitionDetailsRepository = competitionDetailsRepository;
         _categoryRepository = categoryRepository;
-        
-        _observers = new List<IObserver>();
-    }
-
-    public void RegisterObserver(IObserver observer)
-    {
-        _observers.Add(observer);
-    }
-
-    public void UnregisterObserver(IObserver observer)
-    {
-        _observers.Remove(observer);
-    }
-
-    private void NotifyObservers()
-    {
-        foreach (var observer in _observers)
-        {
-            observer.NotifyVote();
-        }
+        _voteAdapter = voteAdapter;
+        _voteObservable = voteObservable;
     }
 
     public async Task<IActionResult> VotingPage(int competitionId, int categoryId)
@@ -84,15 +68,29 @@ public class VoteController : Controller
             var query1 = @"
                         SELECT COUNT(*) FROM dbo.Vote
                         WHERE CompetitionID=@CompetitionID AND CategoryID=@CategoryID AND Email=@Email";
-
-            var parameters = new
+            
+            // Crie um novo objeto Vote com base nos dados do viewModel
+            var vote = new Vote
             {
-                CompetitionID = viewModel.CompetitionId,
-                CategoryID = viewModel.CategoryId,
+                CompetitionId = viewModel.CompetitionId,
+                CategoryId = viewModel.CategoryId,
+                MovieId = viewModel.MovieId,
+                Username = viewModel.Name,
                 Email = viewModel.Email
             };
-            var AlreadyVote = await connection.ExecuteScalarAsync<int>(query1, parameters);
 
+            // Adapte o objeto Vote para VoteViewModel usando o VoteAdapter
+            var adaptedVote = _voteAdapter.Adapt(vote);
+            
+            var parameters = new
+            {
+                CompetitionID = adaptedVote.CompetitionId,
+                CategoryID = adaptedVote.CategoryId,
+                Email = adaptedVote.Email
+            };
+            
+            var AlreadyVote = await connection.ExecuteScalarAsync<int>(query1, parameters);
+            
             if (AlreadyVote > 0)
             {
                 return Json(new { error = true });
@@ -107,15 +105,24 @@ public class VoteController : Controller
         INSERT INTO dbo.Vote (Username, Email, MovieID, CategoryID, CompetitionID)
         VALUES (@Username, @Email, @MovieID, @CategoryID, @CompetitionID)
     ";
-
+            // Usando o VoteBuilder para construir um objeto Vote
+            var vote = new VoteBuilder()
+                .WithCategoryId(viewModel.CategoryId)
+                .WithCompetitionId(viewModel.CompetitionId)
+                .WithMovieId(viewModel.MovieId)
+                .WithUsername(viewModel.Name)
+                .WithEmail(viewModel.Email)
+                .Build();
+            
             var parameters = new
             {
-                CompetitionID = viewModel.CompetitionId,
-                CategoryID = viewModel.CategoryId,
-                MovieID = viewModel.MovieId,
-                Username = viewModel.Name,
-                Email = viewModel.Email
+                CompetitionID = vote.CompetitionId,
+                CategoryID = vote.CategoryId,
+                MovieID = vote.MovieId,
+                Username = vote.Username,
+                Email = vote.Email
             };
+            
 
             await connection.ExecuteAsync(query, parameters);
 
@@ -124,13 +131,16 @@ public class VoteController : Controller
             string senderEmail = "webvotecine@gmail.com";
             string senderPassword = "nzmvhgrsnsxetlco";
             string smtpServer = "smtp.gmail.com";
+            
+            var MovieName = await _competitionDetailsRepository.GetMovieNameByMovieIDAsync(viewModel.MovieId);
+            var CategoryName = await _competitionDetailsRepository.GetCategoryNameByCategoryIDAsync(viewModel.CategoryId);
+            var CompetitionName = await _competitionDetailsRepository.GetCompetitionNameByCompetitionIDAsync(viewModel.CompetitionId);
 
             MailMessage message = new MailMessage();
             message.From = new MailAddress(senderEmail);
             message.To.Add(viewModel.Email);
             message.Subject = "Confirmação de Voto";
-            message.Body = "Obrigado por votar na competição!\nO seu voto foi registado com sucesso no filme " + viewModel.Name;
-
+            message.Body = "Obrigado "+ viewModel.Name+" por votar na categoria "+CategoryName+" da competição "+CompetitionName+"!\nO seu voto foi registado com sucesso no filme "+MovieName+".";
 
 
             SmtpClient smtpClient = new SmtpClient(smtpServer, 587);
@@ -147,7 +157,7 @@ public class VoteController : Controller
                 //preciso de meter um erro aqui 
             }
 
-            NotifyObservers();
+            _voteObservable.NotifyObservers(vote);
 
             return Json(new { done = true });
         }

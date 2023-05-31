@@ -23,5 +23,5 @@ public class Vote
     public int CompetitionId { get; set; }
     public string Username { get; set; }
     public string Email { get; set; } 
-    
 }
+
