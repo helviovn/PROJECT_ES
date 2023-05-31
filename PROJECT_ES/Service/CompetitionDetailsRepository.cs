@@ -143,7 +143,10 @@ public class CompetitionDetailsRepository
     
 
     public async Task<string> GetCategoryNameByCategoryIDAsync(int viewModelCategoryId)
-
+    {
+        using (var connection = new SqlConnection(_connectionString))
+        {
+            await connection.OpenAsync();
             var query = @"SELECT Category.Name FROM Category WHERE Category.Id = @viewModelCategoryId";
             var categoryName = await connection.ExecuteScalarAsync<string>(query, new { viewModelCategoryId });
             return categoryName;

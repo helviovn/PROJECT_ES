@@ -109,7 +109,7 @@ public class HomeController : BaseController
                 await connection.ExecuteAsync(query, parameters);
             }
 
-            return RedirectToAction("FirstPage");
+            return RedirectToAction("Home");
         }
     }
 
@@ -136,5 +136,4 @@ public class HomeController : BaseController
 
         return View("FirstPage");
     }*/
-
 }
