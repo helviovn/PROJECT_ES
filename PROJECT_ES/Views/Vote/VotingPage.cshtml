@@ -151,7 +151,11 @@
 <p class="success-message" id="success-message" style="display:none;color: green;font-size: 25px;padding-bottom: 20px;padding-top: 20px">O teu voto foi inserido com sucesso!</p>
 
 <section class="upcoming" id="form" style="padding-top: 20px;!important;padding-bottom: 20px;">
-  
+  <div style="padding-top: 10px">
+    <h2 class="h2 section-title" style="text-align: center;">Insere o teu voto aqui</h2><br/>
+      
+  </div>
+
   <form id="vote-form" method="post" action="@Url.Action("Vote", "Vote")">
     <input type="hidden" name="competitionId" value="@Model.Competition.Id"/>
     <input type="hidden" name="categoryId" value="@Model.Category.Id"/>
@@ -176,7 +180,7 @@
       </select>
     </div>
 
-    <button type="submit"  class="btn btn-primary">Confirmar voto</button>
+    <button type="submit" class="btn btn-primary">Confirmar voto</button>
   </form>
 
 </section>
@@ -197,7 +201,7 @@
           <ul class="footer-list">
 
             <li>
-              <a href="./index.html" class="footer-link">Inicio</a>
+              <a href="#" class="footer-link">Inicio</a>
             </li>
 
             <li>
