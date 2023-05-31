@@ -109,9 +109,7 @@
  
 <div id="success-message" style="display:none;">Voto foi inserido com sucesso</div>
 
-<div id="errorData-message" style="display:none;">A competição não se encontra disponível para votar</div>
-
-    <form id="vote-form" method="post" action="@Url.Action("Vote", "Vote")">
+<form id="vote-form" method="post" action="@Url.Action("Vote", "Vote")">
         <input type="hidden" name="competitionId" value="@Model.Competition.Id" />
         <input type="hidden" name="categoryId" value="@Model.Category.Id" />
     
@@ -173,10 +171,6 @@
                                else if (response.error) {
                                 $('#vote-form').hide();
                                 $('#error-message').show();
-                               }
-                               else if (response.errorData){
-                                $('#vote-form').hide();
-                                $('#errorData-message').show();
                                }
                });
                });

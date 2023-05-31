@@ -31,7 +31,7 @@ builder.Services.AddScoped<CompetitionDetailsRepository>();
 builder.Services.AddTransient<CategoryController>();
 builder.Services.AddTransient<VoteController>();
 builder.Services.AddScoped<VoteAdapter>();
-builder.Services.AddScoped<IVoteStrategy, CompetitionDateStrategy>();
+builder.Services.AddScoped<VoteObservable>();
 builder.Services.AddScoped<ICompetitionRepositoryFactory, CompetitionRepositoryFactory>();
 
 builder.Services.AddScoped(sp => new HttpClient() { BaseAddress = new Uri("http://www.omdbapi.com/")});

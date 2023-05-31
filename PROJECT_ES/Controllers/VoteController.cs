@@ -11,14 +11,10 @@ using Microsoft.Data.SqlClient;
 using System.Net;
 using System.Net.Mail;
 using PROJECT_ES.Adapters;
+using PROJECT_ES.Interfaces;
 using PROJECT_ES.Models;
 
 
-//Interface do observer
-public interface IObserver
-{
-    void NotifyVote();
-}
 
 public class VoteController : Controller
 {
@@ -26,39 +22,23 @@ public class VoteController : Controller
     private readonly CompetitionRepository _competitionRepository;
     private readonly CompetitionDetailsRepository _competitionDetailsRepository;
     private readonly CategoryRepository _categoryRepository;
-    private readonly List<IObserver> _observers; //lista de observadores
     private readonly VoteAdapter _voteAdapter;
-    private readonly IVoteStrategy _voteStrategy;
+    private readonly VoteObservable _voteObservable;
 
-    public VoteController(IConfiguration configuration, CompetitionRepository competitionRepository,
-        CompetitionDetailsRepository competitionDetailsRepository, CategoryRepository categoryRepository, VoteAdapter voteAdapter, IVoteStrategy voteStrategy)
+    public VoteController(
+        IConfiguration configuration,
+        CompetitionRepository competitionRepository,
+        CompetitionDetailsRepository competitionDetailsRepository,
+        CategoryRepository categoryRepository,
+        VoteAdapter voteAdapter,
+        VoteObservable voteObservable)
     {
         _connectionString = configuration.GetConnectionString("DefaultConnection");
-
         _competitionRepository = competitionRepository;
         _competitionDetailsRepository = competitionDetailsRepository;
         _categoryRepository = categoryRepository;
         _voteAdapter = voteAdapter;
-        _voteStrategy = voteStrategy;
-        _observers = new List<IObserver>();
-    }
-
-    public void RegisterObserver(IObserver observer)
-    {
-        _observers.Add(observer);
-    }
-
-    public void UnregisterObserver(IObserver observer)
-    {
-        _observers.Remove(observer);
-    }
-
-    private void NotifyObservers()
-    {
-        foreach (var observer in _observers)
-        {
-            observer.NotifyVote();
-        }
+        _voteObservable = voteObservable;
     }
 
     public async Task<IActionResult> VotingPage(int competitionId, int categoryId)
@@ -109,14 +89,9 @@ public class VoteController : Controller
                 Email = adaptedVote.Email
             };
             
-            bool canVote = await _voteStrategy.CanVote(viewModel);
             var AlreadyVote = await connection.ExecuteScalarAsync<int>(query1, parameters);
             
-            if (!canVote)
-            {
-                return Json(new { errorData = true });
-            }
-            else if (AlreadyVote > 0)
+            if (AlreadyVote > 0)
             {
                 return Json(new { error = true });
             }
@@ -179,7 +154,7 @@ public class VoteController : Controller
                 //preciso de meter um erro aqui 
             }
 
-            NotifyObservers();
+            _voteObservable.NotifyObservers(vote);
 
             return Json(new { done = true });
         }
