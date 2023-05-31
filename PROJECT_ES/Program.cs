@@ -32,7 +32,7 @@ builder.Services.AddTransient<CategoryController>();
 builder.Services.AddTransient<VoteController>();
 builder.Services.AddScoped<VoteAdapter>();
 builder.Services.AddScoped<VoteObservable>();
-builder.Services.AddScoped<ICompetitionRepositoryFactory, CompetitionRepositoryFactory>();
+builder.Services.AddScoped<IRepositoryFactory, RepositoryFactory>();
 builder.Services.AddTransient<MoviesController>();
 builder.Services.AddTransient<CompetitionsController>();
 
