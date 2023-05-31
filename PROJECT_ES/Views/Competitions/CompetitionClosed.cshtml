@@ -158,8 +158,7 @@
   <tbody>
   @if (@Model.statistics != null && @Model.statistics.Any())
   {
-    var previousCompetitionName = "";
-    var categoryCount = 0;
+    
     foreach (var vote in @Model.statistics)
     {
                 
@@ -181,26 +180,29 @@
   </tbody>
 </table>-->
 
-<section class="upcoming" id="comp">
+<section class="upcoming" >
       <div class="container">
         <div class="flex-wrapper">
         </div>
         <div class="slider-wrapper">
           <ul class="movies-list  has-scrollbar " id="moviesSlider">
-          @foreach (var vote in @Model.statistics)
-          {
-            <li>
+            
+            @foreach (var vote in @Model.statistics)
+            {
+              <li>
                 <div class="movie-card">
 
-                  
-                    <figure class="card-banner">
-                      <img/> <!-- colocar a imagem  -->
-                      <div class="hover-text">@vote.CategoryName</div>
-                    </figure>
 
+                  <figure class="card-banner">
+                    @foreach (var movie in @Model.Movies){
+                        <img src="@movie.Image"/>
+                    }
+                    <div class="hover-text">@vote.CategoryName</div>
+                  </figure>
+            
                   <div class="title-wrapper">
                     <button class="entrar-btn" data-competition-id="">
-                      <h3 class="card-title-alone" >@vote.MovieTitle</h3>
+                      <h3 class="card-title-alone">@vote.MovieTitle</h3>
                     </button>
                   </div>
                   <div class="card-meta">
@@ -209,12 +211,116 @@
                 </div>
               </li>
             }
-          }
+           
           </ul>
         </div>
       </div>
     </section>
 </div>
+
+
+
+  <!-- 
+    - #FOOTER
+  -->
+
+  <footer class="footer">
+
+    <div class="footer-top">
+      <div class="container">
+
+        <div class="footer-brand-wrapper">
+
+          <a href="/" class="logo">
+            <img style="width: 30%" src="/images/logo1.png">
+          </a>
+
+          <ul class="footer-list">
+
+            <li>
+              <a href="#" class="footer-link">Inicio</a>
+            </li>
+
+            <li>
+              <a href="#" class="footer-link">Competições</a>
+            </li>
+
+            <li>
+              <a href="#" class="footer-link">Filmes</a>
+            </li>
+<!--
+            <li>
+              <a href="#" class="footer-link">Web Series</a>
+            </li>
+
+            <li>
+              <a href="#" class="footer-link">Pricing</a>
+            </li>
+-->
+          </ul>
+
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="quicklink-wrapper">
+
+          <ul class="quicklink-list">
+
+            <li>
+              <a href="#" class="quicklink-link">Faq</a>
+            </li>
+
+            <li>
+              <a href="#" class="quicklink-link">Centro de Ajuda</a>
+            </li>
+
+            <li>
+              <a href="#" class="quicklink-link">Termos de utilização</a>
+            </li>
+
+            <li>
+              <a href="#" class="quicklink-link">Privacidade</a>
+            </li>
+
+          </ul>
+
+          <ul class="social-list">
+
+            <li>
+              <a href="#" class="social-link">
+                <ion-icon name="logo-facebook"></ion-icon>
+              </a>
+            </li>
+
+            <li>
+              <a href="#" class="social-link">
+                <ion-icon name="logo-twitter"></ion-icon>
+              </a>
+            </li>
+
+            <li>
+              <a href="#" class="social-link">
+                <ion-icon name="logo-pinterest"></ion-icon>
+              </a>
+            </li>
+
+            <li>
+              <a href="#" class="social-link">
+                <ion-icon name="logo-linkedin"></ion-icon>
+              </a>
+            </li>
+
+          </ul>
+
+        </div>
+
+      </div>
+    </div>
+
+  </footer>
+
+
 
 
 <script src="/js/teste.js"></script>
