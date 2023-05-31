@@ -90,80 +90,82 @@
   </header>
   
 
+<div style="background: url(../images/ft-bg.jpg) no-repeat;!important;background-size: cover">
+  <div style="padding-top: 150px; padding-bottom: 10px">
+    <h2 class="h2 section-title" >@Model.Competition.Name</h2><br/>
+    <h3 class="h3 section-subtitle" style="font-size: 24px;!important;">@Model.Category.Name</h3>
 
-<div style="background: url(../images/tv-series-bg.jpg) no-repeat;padding-top: 150px; padding-bottom: 10px">
-  <h2 class="h2 section-title" >@Model.Competition.Name</h2><br/>
-  <h3 class="h3 section-subtitle" style="font-size: 24px;!important;">@Model.Category.Name</h3>
+  </div>
+
+  <section class="upcoming" style="padding-top: 1px;!important ;background:url(../images) no-repeat;!important;">
+    <div class="container">
+      <div class="flex-wrapper">
+        <div class="title-wrapper">
+        </div>
+      </div>
+      <div class="slider-wrapper">
+        <div class="movies-list-container">
+          <ul id="moviesSlider" class="movies-list has-scrollbarMovie">
+            @foreach (var movie in Model.Movies)
+            {
+              <li>
+                <div class="movie-card" style="width: 200px;">
+                  <button class="movie-btn" data-movie-id="@movie.Id">
+                    <figure class="card-banner">
+                      <img src="@movie.Image">
+                    </figure>
+                  </button>
+                  <button class="movie-btn" data-movie-id="@movie.Id">
+                    <div class="title-wrapper">
+                      <a href="./movie-details.html">
+                        <h3 class="card-title">@movie.Title</h3>
+                      </a>
+                      <time datetime="2022">@movie.Date</time>
+                    </div>
+                  </button>
+                  <div class="card-meta">
+                    <div class="badge badge-outline">HD</div>
+                    <div class="duration">
+                      <ion-icon name="time-outline"></ion-icon>
+                      <time datetime="PT137M">@movie.Duration</time>
+                    </div>
+                    <div class="rating">
+                      <ion-icon name="star"></ion-icon>
+                      <data>@movie.Rating</data>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            }
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
 
 </div>
 
-<section class="upcoming" style="padding-top: 1px;!important;background: url(../images/tv-series-bg.jpg) no-repeat;;padding-bottom: 30px">
-  <div class="container">
-    <div class="flex-wrapper">
-      <div class="title-wrapper">
-      </div>
-    </div>
-    <div class="slider-wrapper">
-      <div class="movies-list-container">
-        <ul id="moviesSlider" class="movies-list has-scrollbarMovie">
-          @foreach (var movie in Model.Movies)
-          {
-            <li>
-              <div class="movie-card" style="width: 200px;">
-                <button class="movie-btn" data-movie-id="@movie.Id">
-                  <figure class="card-banner">
-                    <img src="@movie.Image">
-                  </figure>
-                </button>
-                <button class="movie-btn" data-movie-id="@movie.Id">
-                  <div class="title-wrapper">
-                    <a href="./movie-details.html">
-                      <h3 class="card-title">@movie.Title</h3>
-                    </a>
-                    <time datetime="2022">@movie.Date</time>
-                  </div>
-                </button>
-                <div class="card-meta">
-                  <div class="badge badge-outline">HD</div>
-                  <div class="duration">
-                    <ion-icon name="time-outline"></ion-icon>
-                    <time datetime="PT137M">@movie.Duration</time>
-                  </div>
-                  <div class="rating">
-                    <ion-icon name="star"></ion-icon>
-                    <data>@movie.Rating</data>
-                  </div>
-                </div>
-              </div>
-            </li>
-          }
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
 
+<p class="error-message" id="error-message" style="display:none;color: red;font-size: 25px;padding-bottom: 20px;padding-top: 20px">Já votaste nesta categoria!</p>
 
+<p class="success-message" id="success-message" style="display:none;color: green;font-size: 25px;padding-bottom: 20px;padding-top: 20px">O teu voto foi inserido com sucesso!</p>
 
-<div id="error-message" style="display:none;background: url(../images/ft-bg.jpg) no-repeat;">Já votaste nesta categoria!!</div>
+<section class="upcoming" id="form" style="padding-top: 20px;!important;padding-bottom: 20px;">
+  
+  <form id="vote-form" method="post" action="@Url.Action("Vote", "Vote")">
+    <input type="hidden" name="competitionId" value="@Model.Competition.Id"/>
+    <input type="hidden" name="categoryId" value="@Model.Category.Id"/>
 
-<div id="success-message" style="display:none;">Voto foi inserido com sucesso</div>
-
-<section class="upcoming" style="padding-top: 0px;!important;background: url(../images/ft-bg.jpg) no-repeat;">
-<form id="vote-form" method="post" action="@Url.Action("Vote", "Vote")" >
-    <input type="hidden" name="competitionId" value="@Model.Competition.Id" />
-    <input type="hidden" name="categoryId" value="@Model.Category.Id" />
-      
     <div class="form-group">
       <label for="name">Nome:</label>
       <input type="text" class="form-control" id="name" name="name" required>
     </div>
-          
+
     <div class="form-group">
       <label for="email">Email:</label>
       <input type="email" class="form-control" id="email" name="email" required>
     </div>
-          
+
     <div class="form-group">
       <label for="movie-select">Escolha um filme:</label>
       <select class="form-control" id="movie-select" name="movieId" required>
@@ -173,9 +175,9 @@
         }
       </select>
     </div>
-          
-    <button type="submit" class="btn btn-primary">Confirmar voto</button>
-</form>
+
+    <button type="submit"  class="btn btn-primary">Confirmar voto</button>
+  </form>
 
 </section>
 <!-- 
@@ -306,11 +308,11 @@
            
                    $.post('@Url.Action("Vote", "Vote")', formData, function (response) {
                                if (response.done) {
-                                   $('#vote-form').hide();
+                                   $('#form').hide();
                                    $('#success-message').show();
                                }
                                else if (response.error) {
-                                $('#vote-form').hide();
+                                $('#form').hide();
                                 $('#error-message').show();
                                }
                });
