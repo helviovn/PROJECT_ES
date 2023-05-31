@@ -6,6 +6,15 @@
 @inject CompetitionDetailsRepository CompetitionDetailsRepository
 
 
+<AuthorizeView>
+    <NotAuthorized>
+        <br/><br/><br/><br/><br/>
+        <div style="text-align: center">
+            <h1>Bem-vindo à dashboard da VoteCine.</h1>
+            <h3>Se és admin, faz o teu login no canto superior direito.</h3>
+        </div>
+    </NotAuthorized>
+    <Authorized>
 <h3>Estatísticas VOTECINE</h3>
 
 
@@ -46,12 +55,13 @@
         else
         {
             <tr>
-                <td colspan="4">No data available.</td>
+                <td colspan="4">Sem informação.</td>
             </tr>
         }
     </tbody>
 </table>
-
+</Authorized>
+</AuthorizeView>
 
 @code
 {

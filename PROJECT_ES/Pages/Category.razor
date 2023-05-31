@@ -9,6 +9,28 @@
 <html>
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .container {
+            margin: 20px;
+        }
+        
+        .form-control {
+            border-radius: 20px;
+        }
+        
+        .btn {
+            border-radius: 20px;
+        }
+        
+        .table th {
+            font-weight: bold;
+        }
+        
+        .fa-trash {
+            color: red;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
@@ -57,29 +79,24 @@
 
 @code
 {
-    
-    //CALL ALL CATEGORIES
     private string categoryName;
     private IEnumerable<Data.Category> categories;
+    
     protected override async Task OnInitializedAsync()
     {
         categories = await categoryRepository.GetAllCategoriesAsync();
     }
 
-    
-    //ADD CATEGORY
     private async Task AddCategoryAsync()
     {
         await categoryRepository.AddCategoryAsync(categoryName);
         NavigationManager.NavigateTo(NavigationManager.Uri, true);
     }
     
-    //DELETE CATEGORY
     private async Task DeleteMovie(int id)
     {
         await categoryRepository.DeleteMovieAsync(id);
         NavigationManager.NavigateTo(NavigationManager.Uri, true);
-        
     }
     
     private async Task UpdateCategory(int id, string newName)
@@ -87,9 +104,4 @@
         await categoryRepository.UpdateCategoryAsync(id, newName);
         NavigationManager.NavigateTo(NavigationManager.Uri, true);
     }
-
-
-    
-
-
 }

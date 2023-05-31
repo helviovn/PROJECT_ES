@@ -1,0 +1,284 @@
+﻿@using PROJECT_ES.Data
+@inject CompetitionsController CompetitionsController
+@model PROJECT_ES.ViewModels.CompetitionsViewModel
+
+@{
+    ViewData["Title"] = "Competition Statics";
+}
+
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VoteCine</title>
+
+  <!-- 
+    - favicon
+  -->
+  <link rel="shortcut icon" href="/images/logo1.png" type="image/png">
+
+  <link rel="stylesheet" href="/css/teste.css">
+
+  <!-- 
+    - google font link
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body id="top">
+
+  <!-- 
+    - #HEADER
+  -->
+
+<header class="header" data-header>
+  <div class="container">
+
+    <div class="overlay" data-overlay></div>
+
+    <a href="/" class="logo">
+      <img style="width: 30%" src="/images/logo1.png"/>
+    </a>
+
+    <div class="header-actions">
+
+      <button class="search-btn">
+        <ion-icon name="search-outline"></ion-icon>
+      </button>
+
+      <div class="lang-wrapper">
+        <label for="language">
+          <ion-icon name="globe-outline"></ion-icon>
+        </label>
+
+        <select name="language" id="language">
+          <option value="en">PT</option>
+          <option value="au">ES</option>
+        </select>
+      </div>
+
+      <a class="btn btn-primary" href="/Welcome">ADMIN</a>
+
+    </div>
+      
+    <nav class="navbar" data-navbar>
+      <ul class="navbar-list">
+<!--
+        <li>
+          <a href="#" class="navbar-link">Inicio</a>
+        </li>
+
+        <li>
+          <a href="#" class="navbar-link">Competições</a>
+        </li>
+
+        <li>
+          <a href="#" class="navbar-link">Filmes</a>
+        </li>
+
+        -->
+      </ul>
+
+    </nav>
+
+  </div>
+</header>
+
+
+
+<section class="tv-series" style="padding-top: 150px;">
+  <div class="container">
+
+    <p class="section-subtitle">Competição</p>
+
+    <h2 class="h2 section-title">@Model.Competition.Name</h2>
+  <h2 class="h2 section-title" st>VENCEDORES</h2>
+    <ul class="movies-list" style="grid-template-columns: repeat(5, 1fr)">
+      @foreach (var vote in @Model.statistics)
+      {
+        <li>
+          
+          <p class="section-subtitle" style="font-size: 20px;text-align: center">@vote.CategoryName</p>
+          <div class="movie-card" style="width: 220px;">
+            <button class="comp-btn">
+              <figure class="card-banner">
+                <img src="@vote.MovieImage"/>
+
+                <div class="text-up" style="font-size: 24px">@vote.CategoryName</div>
+              </figure>
+            </button>
+
+            <div class="title-wrapper">
+              <button class="comp-btn">
+
+                <h3 class="card-title-alone">@vote.MovieTitle</h3>
+              </button>
+            </div>
+            <div class="card-meta">
+              <div class="badge badge-outline" style="font-size: 16px">@vote.VoteCount votos</div>
+            </div>
+          </div>
+        </li>
+        }
+      
+          
+    </ul>
+
+  </div>
+</section>
+<!--
+
+<section class="upcoming" >
+      <div class="container">
+        <div class="flex-wrapper">
+        </div>
+        <div class="slider-wrapper">
+          <ul class="movies-list  has-scrollbar " id="moviesSlider">
+            
+            @foreach (var vote in @Model.statistics)
+            {
+              <li>
+                <div class="movie-card">
+
+
+                  <figure class="card-banner">
+                    <img src=""/>
+                    <div class="hover-text">@vote.CategoryName</div>
+                  </figure>
+            
+                  <div class="title-wrapper">
+                    <button class="entrar-btn" data-competition-id="">
+                      <h3 class="card-title-alone">@vote.MovieTitle</h3>
+                    </button>
+                  </div>
+                  <div class="card-meta">
+                    <div class="badge nparticipants">@vote.VoteCount votos</div>
+                  </div>
+                </div>
+              </li>
+            }
+           
+          </ul>
+        </div>
+      </div>
+    </section>
+
+
+-->
+
+  <!-- 
+    - #FOOTER
+  -->
+
+  <footer class="footer">
+
+    <div class="footer-top">
+      <div class="container">
+
+        <div class="footer-brand-wrapper">
+
+          <a href="/" class="logo">
+            <img style="width: 30%" src="/images/logo1.png">
+          </a>
+
+          <ul class="footer-list">
+
+            <li>
+              <a href="#" class="footer-link">Inicio</a>
+            </li>
+
+            <li>
+              <a href="#" class="footer-link">Competições</a>
+            </li>
+
+            <li>
+              <a href="#" class="footer-link">Filmes</a>
+            </li>
+<!--
+            <li>
+              <a href="#" class="footer-link">Web Series</a>
+            </li>
+
+            <li>
+              <a href="#" class="footer-link">Pricing</a>
+            </li>
+-->
+          </ul>
+
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="quicklink-wrapper">
+
+          <ul class="quicklink-list">
+
+            <li>
+              <a href="#" class="quicklink-link">Faq</a>
+            </li>
+
+            <li>
+              <a href="#" class="quicklink-link">Centro de Ajuda</a>
+            </li>
+
+            <li>
+              <a href="#" class="quicklink-link">Termos de utilização</a>
+            </li>
+
+            <li>
+              <a href="#" class="quicklink-link">Privacidade</a>
+            </li>
+
+          </ul>
+
+          <ul class="social-list">
+
+            <li>
+              <a href="#" class="social-link">
+                <ion-icon name="logo-facebook"></ion-icon>
+              </a>
+            </li>
+
+            <li>
+              <a href="#" class="social-link">
+                <ion-icon name="logo-twitter"></ion-icon>
+              </a>
+            </li>
+
+            <li>
+              <a href="#" class="social-link">
+                <ion-icon name="logo-pinterest"></ion-icon>
+              </a>
+            </li>
+
+            <li>
+              <a href="#" class="social-link">
+                <ion-icon name="logo-linkedin"></ion-icon>
+              </a>
+            </li>
+
+          </ul>
+
+        </div>
+
+      </div>
+    </div>
+
+  </footer>
+
+
+
+
+<script src="/js/teste.js"></script>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</body>
+
+</html>

@@ -18,9 +18,8 @@
   <!-- 
     - favicon
   -->
-  <link rel="shortcut icon" href="./logo1.png" type="image/svg+xml">
+  <link rel="shortcut icon" href="/images/logo1.png" type="image/png">
 
- 
   <link rel="stylesheet" href="/css/teste.css">
 
   <!-- 
@@ -69,7 +68,7 @@
       
       <nav class="navbar" data-navbar>
         <ul class="navbar-list">
-
+<!--
           <li>
             <a href="#" class="navbar-link">Inicio</a>
           </li>
@@ -80,14 +79,6 @@
 
           <li>
             <a href="#" class="navbar-link">Filmes</a>
-          </li>
-<!--
-          <li>
-            <a href="#" class="navbar-link">Web Series</a>
-          </li>
-
-          <li>
-            <a href="#" class="navbar-link">Pricing</a>
           </li>
 -->
         </ul>
@@ -171,7 +162,7 @@
         <div class="flex-wrapper">
 
           <div class="title-wrapper">
-            <p class="section-subtitle">ÁTIVAS</p>
+            <p class="section-subtitle">A DECORRER</p>
 
             <h2 class="h2 section-title" >Competições</h2>
           </div>
@@ -212,6 +203,7 @@
               </li>
             }
           }
+          
           </ul>
         </div>
       </div>
@@ -219,29 +211,21 @@
     <!-- FINAL COMPETIÇÕES-->
 
     
-    
-      <!-- 
-        - #SUBSCRIBE
-      -->
+    <!-- #SUBSCRIBE -->
     <section class="cta">
         <div class="container">
-
-          <div class="title-wrapper">
-            <h2 class="cta-title">Não percas!</h2>
-
-            <p class="cta-text">
-              Insere o teu email e fica a par de todas as competições.
-            </p>
-          </div>
-
-          <form action="" class="cta-form">
-            <input type="email" name="email" required placeholder="Insere o teu email" class="email-field">
-
-            <button type="submit" class="cta-form-btn">Enviar</button>
-          </form>
-
+            <div class="title-wrapper">
+                <h2 class="cta-title">Não percas!</h2>
+                <p class="cta-text">Insere o teu email e fica a par de todas as competições.</p>
+            </div>
+            <form class="cta-form" id="subscribe-form" action="@Url.Action("Subscribe", "Home")" method="post">
+                <input type="email" name="email" required placeholder="Insere o teu email" class="email-field">
+                <button type="submit" class="cta-form-btn">Enviar</button>
+            </form>
         </div>
-      </section>
+    </section>
+
+
 
 
     
@@ -256,15 +240,15 @@
 
           <h2 class="h2 section-title">Competições Encerradas</h2>
 
-          <ul class="movies-list">
+          <ul class="movies-list" style="grid-template-columns: repeat(5, 1fr);">
           @foreach (var competition in Model)
           {
             if (competition.Ispublic == false)
             {
               <li>
-                <div class="movie-card">
+                <div class="movie-card" style="width: 220px;">
 
-                  <button>
+                  <button class="comp-btn" data-comp-id="@competition.Id">
                     <figure class="card-banner">
                       <img src=@competition.Image />
                       <div class="hover-text">VER RESULTADOS</div>
@@ -272,7 +256,7 @@
                   </button>
                   
                   <div class="title-wrapper">
-                    <button>
+                    <button class="comp-btn" data-comp-id="@competition.Id">
                       <h3 class="card-title-alone" >@competition.Name</h3>
                     </button>
                   </div>
@@ -283,6 +267,7 @@
               </li>
             }
           }
+          
         </ul>
 
         </div>
@@ -1052,11 +1037,6 @@
 
         </div>
       </section>
-
-
-
-
-
     </article>
   </main>
 
@@ -1082,7 +1062,7 @@
           <ul class="footer-list">
 
             <li>
-              <a href="./index.html" class="footer-link">Inicio</a>
+              <a href="#" class="footer-link">Inicio</a>
             </li>
 
             <li>
@@ -1177,9 +1157,6 @@
   </a>
 
 
-
-
-
 <script src="/js/teste.js"></script>
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
@@ -1194,8 +1171,12 @@
                 
                 window.location.href = '/Category/CategoriesPage?competitionId=' + competitionId;
             });
-           
+            $('.comp-btn').on('click', function() {
+               var competitionId = $(this).data('comp-id');
+               window.location.href = '/Competitions/CompetitionClosed?competitionId=' + competitionId;
+            });
         });
+        
 </script>
 </body>
 

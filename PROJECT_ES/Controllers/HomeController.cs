@@ -8,6 +8,7 @@ using PROJECT_ES.Data;
 using PROJECT_ES.Service;
 using PROJECT_ES.ViewModels;
 
+
 public class HomeController : BaseController
 {
     private readonly string _connectionString;
@@ -58,6 +59,7 @@ public class HomeController : BaseController
     }
 
     
+
     public async Task<IActionResult> Home()
     {
         return await BaseAction(0, 0);
@@ -65,6 +67,7 @@ public class HomeController : BaseController
 
     
     public  int GetParticipantCount(int competitionId)
+
     {
         using (var connection = new SqlConnection(_connectionString))
         {
@@ -83,4 +86,55 @@ public class HomeController : BaseController
             return connection.ExecuteScalar<int>(query, parameters);
         }
     }
+
+    [HttpPost]
+    public async Task<IActionResult> Subscribe(string email)
+    {
+
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var query = @"
+            INSERT INTO dbo.Vote (Username, Email, MovieID, CategoryID, CompetitionID)
+            VALUES (null, @Email, null, null, null)
+        ";
+
+                var parameters = new
+                {
+                    Email = email
+                };
+
+                await connection.ExecuteAsync(query, parameters);
+            }
+
+            return RedirectToAction("FirstPage");
+        }
+    }
+
+
+    /*[HttpPost]
+    public async Task<IActionResult> Vote(VoteViewModel viewModel)
+    {
+        using (var connection = new SqlConnection(_connectionString))
+        {
+            await connection.OpenAsync();
+
+            var query = @"
+            INSERT INTO dbo.Vote (Username, Email, MovieID, CategoryID, CompetitionID)
+            VALUES (null, @Email, null, null, null)
+        ";
+
+            var parameters = new
+            {
+                Email = viewModel.Email
+            };
+
+            await connection.ExecuteAsync(query, parameters);
+        }
+
+        return View("FirstPage");
+    }*/
+
 }

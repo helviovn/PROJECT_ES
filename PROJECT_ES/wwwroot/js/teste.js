@@ -33,6 +33,7 @@ window.addEventListener("scroll", function () {
  * scroll the slider
  */
 const slider = document.getElementById('moviesSlider');
+
 let isDown = false;
 let startX;
 let scrollLeft;
@@ -60,4 +61,27 @@ window.addEventListener('mousemove', (e) => {
     left: scrollLeft - walk,
     behavior: 'smooth' // Use smooth scrolling behavior
   });
+});
+
+
+let scrollAmount = 0;
+let slideTimer = setInterval(autoScroll, 1);
+
+function autoScroll() {
+  if(scrollAmount < slider.scrollWidth - slider.clientWidth){
+    slider.scrollTo({
+      left: ++scrollAmount,
+      behavior: 'smooth'
+    });
+  }else{
+    scrollAmount = 0;
+  }
+}
+
+slider.addEventListener('mouseover', () => {
+  clearInterval(slideTimer);
+});
+
+slider.addEventListener('mouseout', () => {
+  slideTimer = setInterval(autoScroll, 10);
 });
