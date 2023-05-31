@@ -35,4 +35,8 @@
     <_ContentIncludedByDefault Remove="wwwroot\js\site.js" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Shared\OmdbMovie.cs" />
+  </ItemGroup>
+
 </Project>
