@@ -3,6 +3,6 @@ Para conseguir correr o projeto, o professor terá que nos fornecer o seu IP pú
 
 Após isso deverá fazer clone do projeto, DESTE repositório.
 
-Afonso
-Pedro Andrade
+Afonso<br>
+Pedro Andrade<br>
 Hélvio Nóbrega nº 2077720
