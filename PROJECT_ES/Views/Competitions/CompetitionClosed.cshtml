@@ -67,7 +67,7 @@
       
     <nav class="navbar" data-navbar>
       <ul class="navbar-list">
-
+<!--
         <li>
           <a href="#" class="navbar-link">Inicio</a>
         </li>
@@ -79,14 +79,7 @@
         <li>
           <a href="#" class="navbar-link">Filmes</a>
         </li>
-        <!--
-        <li>
-          <a href="#" class="navbar-link">Web Series</a>
-        </li>
 
-        <li>
-          <a href="#" class="navbar-link">Pricing</a>
-        </li>
         -->
       </ul>
 
@@ -96,89 +89,48 @@
 </header>
 
 
-  <!--
-    - main container
-  -->
-<div class="container">
 
-  <!--
-  - MAIN SECTION
-  -->
-  <main>
+<section class="tv-series" style="padding-top: 150px;">
+  <div class="container">
 
-    <!--
-    - #BANNER SECTION
-    -->
-    <section class="banner">
-      <div class="banner-card">
+    <p class="section-subtitle">Competição</p>
 
-        <img src="/images/banner1.png" class="banner-img" alt="">
+    <h2 class="h2 section-title">@Model.Competition.Name</h2>
+  <h2 class="h2 section-title" st>VENCEDORES</h2>
+    <ul class="movies-list" style="grid-template-columns: repeat(5, 1fr)">
+      @foreach (var vote in @Model.statistics)
+      {
+        <li>
+          
+          <p class="section-subtitle" style="font-size: 20px;text-align: center">@vote.CategoryName</p>
+          <div class="movie-card" style="width: 220px;">
+            <button class="comp-btn">
+              <figure class="card-banner">
+                <img src="@vote.MovieImage"/>
 
-        <div class="card-content">
-          <div class="card-info">
+                <div class="text-up" style="font-size: 24px">@vote.CategoryName</div>
+              </figure>
+            </button>
 
-            <div class="genre">
-              <ion-icon name="film"></ion-icon>
-              <span>Action/Thriller</span>
+            <div class="title-wrapper">
+              <button class="comp-btn">
+
+                <h3 class="card-title-alone">@vote.MovieTitle</h3>
+              </button>
             </div>
-
-            <div class="year">
-              <ion-icon name="calendar"></ion-icon>
-              <span>2019</span>
+            <div class="card-meta">
+              <div class="badge badge-outline" style="font-size: 16px">@vote.VoteCount votos</div>
             </div>
-
-            <div class="duration">
-              <ion-icon name="time"></ion-icon>
-              <span>2h 11m</span>
-            </div>
-
-            <div class="quality">4K</div>
-
           </div>
+        </li>
+        }
+      
+          
+    </ul>
 
-          <h2 class="card-title">@Model.Competition.Name</h2>
-        </div>
-
-      </div>
-    </section>
-  </main>
-</div>
-
-
-<div>
-
-  <!--<table class="table">
-  <thead>
-  <tr>
-    <th>Category Name</th>
-    <th>Movie Winner</th>
-    <th>Vote Count</th>
-  </tr>
-  </thead>
-  <tbody>
-  @if (@Model.statistics != null && @Model.statistics.Any())
-  {
-    
-    foreach (var vote in @Model.statistics)
-    {
-                
-
-      <tr>
-                    
-        <td>@vote.CategoryName</td>
-        <td>@vote.MovieTitle</td>
-        <td>@vote.VoteCount</td>
-      </tr>
-    }
-  }
-  else
-  {
-    <tr>
-      <td colspan="4">Sem informação.</td>
-    </tr>
-  }
-  </tbody>
-</table>-->
+  </div>
+</section>
+<!--
 
 <section class="upcoming" >
       <div class="container">
@@ -194,9 +146,7 @@
 
 
                   <figure class="card-banner">
-                    @foreach (var movie in @Model.Movies){
-                        <img src="@movie.Image"/>
-                    }
+                    <img src=""/>
                     <div class="hover-text">@vote.CategoryName</div>
                   </figure>
             
@@ -216,9 +166,9 @@
         </div>
       </div>
     </section>
-</div>
 
 
+-->
 
   <!-- 
     - #FOOTER

@@ -293,9 +293,9 @@ body.active { overflow: hidden; }
     border-radius: 6px;
     overflow: hidden;
     margin-bottom: 20px;
-    
+
     transition: var(--transition-1);
-    
+
 }
 
 .movie-card .card-banner::after {
@@ -303,7 +303,7 @@ body.active { overflow: hidden; }
     position: absolute;
     inset: 0;
     transition: var(--transition-1);
-    
+
 }
 
 .movie-card .card-banner:hover { box-shadow: 0 1px 2px hsla(0, 0%, 0%, 0.92); }
@@ -321,8 +321,22 @@ body.active { overflow: hidden; }
     color: #e2d703;
     z-index: 1;
 }
+.movie-card .card-banner:hover .text-up {
+    
+    position: absolute;
+    font-weight: bold;
+    font-size: 18px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #e2d703;
+    
+}
 
 .movie-card .card-banner:hover .hover-text {
+    display: block;
+}
+.movie-card .card-banner:hover .text-up {
     display: block;
 }
 
@@ -423,111 +437,6 @@ body.active { overflow: hidden; }
     inset 0 -1px 0 var(--black);
 }
 
-/*-----------------------------------*\
- * #MOVIES SLIDER
-\*-----------------------------------*/
-.MOVIE-card {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 200px; /* size of cards*/
-}
-
-.MOVIE-card .card-banner {
-    position: relative;
-    background: var(--gunmetal-1);
-    aspect-ratio: 2 / 3;
-    border-radius: 6px;
-    overflow: hidden;
-    margin-bottom: 20px;
-
-    transition: var(--transition-1);
-
-}
-
-.MOVIE-card .card-banner::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    transition: var(--transition-1);
-
-}
-
-.MOVIE-card .card-banner:hover { box-shadow: 0 1px 2px hsla(0, 0%, 0%, 0.92); }
-
-.MOVIE-card .card-banner:hover::after { background: hsla(0, 0%, 0%, 0.78); }
-
-.MOVIE-card .card-banner:hover .hover-text {
-    display: none;
-    position: absolute;
-    font-weight: bold;
-    font-size: 18px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #e2d703;
-    z-index: 1;
-}
-
-.MOVIE-card .card-banner:hover .hover-text {
-    display: block;
-}
-
-.MOVIE-card .card-banner img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.MOVIE-card .title-wrapper {
-    display: flex;
-    justify-content: center;  /* Center the content horizontally */
-    align-items: center;      /* Center the content vertically */
-    gap: 20px;
-    margin-bottom: 10px;
-}
-
-.MOVIE-card .card-title {
-    color: var(--white);
-    font-size: var(--fs-7);
-    transition: var(--transition-1);
-}
-.MOVIE-card .card-title-alone {
-    color: var(--white);
-    font-size: var(--fs-5);
-    transition: var(--transition-1);
-    justify-content: center;
-}
-
-.MOVIE-card .card-title:is(:hover, :focus) { color: var(--citrine); }
-
-.MOVIE-card .title-wrapper time {
-    color: var(--citrine);
-    font-size: var(--fs-9);
-    font-weight: var(--fw-500);
-}
-
-.MOVIE-card .card-meta {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-}
-
-
-.MOVIE-card .badge { color: var(--citrine); }
-
-.MOVIE-card .duration { margin-left: auto; }
-
-.MOVIE-card :is(.duration, .rating) {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    color: var(--gainsboro);
-    font-size: var(--fs-11);
-    font-weight: var(--fw-500);
-}
 
 .movie-card :is(.duration, .rating) ion-icon {
     font-size: 13px;
@@ -914,7 +823,7 @@ body.active { overflow: hidden; }
     background-position: center;
     text-align: center;
     padding-block: 50px;
-    
+
 }
 
 .cta .title-wrapper { margin-bottom: 25px; }
@@ -1435,7 +1344,7 @@ body.active { overflow: hidden; }
     }
 
     .quicklink-list { margin-bottom: 0; }
-    
+
 
 
 
@@ -1798,10 +1707,13 @@ body.active { overflow: hidden; }
 
 
 
-
-/*
-    FORM VOTE PAGE
- */
+#error-message, #success-message {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #ff0000;
+}
 
 #vote-form {
     max-width: 400px;
