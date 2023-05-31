@@ -1,17 +1,15 @@
-Boa tarde!
-
 Visto que utilizamos o Azure Data Studio para manter a nossa base de dados online e todos termos acesso em tempo real.
 
 Para conseguir correr o projeto, o professor terá que nos fornecer o seu IP público pois o Azure Data Studio não permite conexões não autorizadas à base de dados.
 
-Para ter acesso à base de dados e aos dados/tabelas usamos a aplicação Azure Data Studio,os dados para aceder à base de dados são os seguintes:
-Nome do servidor: es.database.windows.net
-Authentication Type: SQL Login
-Username: es
-Password: 7kJY&2HzHerij*p
+Para ter acesso à base de dados e aos dados/tabelas usamos a aplicação Azure Data Studio,os dados para aceder à base de dados são os seguintes:<br>
+Nome do servidor: es.database.windows.net<br>
+Authentication Type: SQL Login<br>
+Username: es<br>
+Password: 7kJY&2HzHerij*p<br>
 
-Caso queira aceder à DASHBOARD do administrador, estes são os dados de Login:
-Email: admin@gmail.com
+Caso queira aceder à DASHBOARD do administrador, estes são os dados de Login:<br>
+Email: admin@gmail.com<br>
 Password: Aa!111
 
 Após isso deverá fazer clone do projeto da branch "master".
