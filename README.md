@@ -9,8 +9,10 @@ Caso pretenda
 Após isso deverá fazer clone do projeto da branch "master".
 
 Opções de contacto para o envio do IP:-------------
+
 2077720@student.uma.pt
 965197702
+
 ---------------------------------------------------
 
 Afonso<br>
