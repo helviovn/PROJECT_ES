@@ -123,7 +123,6 @@ public class CompetitionRepository
                 data_fim = competition.data_fim,
                 n_participantes = competition.n_participantes,
                 Public = competition.Ispublic,
-                //PUBLICCC PQ QUE NAO FUNCIONA?AFONSO
             };
 
             var competitionId = await connection.ExecuteScalarAsync<int>(query, parameters);

@@ -256,7 +256,7 @@
               <li>
                 <div class="movie-card" style="width: 220px;">
 
-                  <button>
+                  <button class="comp-btn" data-comp-id="@competition.Id">
                     <figure class="card-banner">
                       <img src=@competition.Image />
                       <div class="hover-text">VER RESULTADOS</div>
@@ -264,7 +264,7 @@
                   </button>
                   
                   <div class="title-wrapper">
-                    <button>
+                    <button class="comp-btn" data-comp-id="@competition.Id">
                       <h3 class="card-title-alone" >@competition.Name</h3>
                     </button>
                   </div>
@@ -1165,9 +1165,6 @@
   </a>
 
 
-
-
-
 <script src="/js/teste.js"></script>
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
@@ -1182,8 +1179,12 @@
                 
                 window.location.href = '/Category/CategoriesPage?competitionId=' + competitionId;
             });
-           
+            $('.comp-btn').on('click', function() {
+               var competitionId = $(this).data('comp-id');
+               window.location.href = '/Competitions/CompetitionClosed?competitionId=' + competitionId;
+            });
         });
+        
 </script>
 </body>
 
