@@ -46,11 +46,11 @@
       </a>
 
       <div class="header-actions">
-
+  <!--
         <button class="search-btn">
           <ion-icon name="search-outline"></ion-icon>
         </button>
-
+-->
         <div class="lang-wrapper">
           <label for="language">
             <ion-icon name="globe-outline"></ion-icon>
@@ -61,14 +61,30 @@
             <option value="au">ES</option>
           </select>
         </div>
+        @if (User.Identity.IsAuthenticated)
+        {
+          if (ViewBag.IsAdmin)
+          {
+            <p>admin</p>
+            <a class="btn btn-primary" href="/Welcome">DashBoard</a>
+          }
+          else
+          {
+            <p>normal</p>
+            <a class="btn btn-primary" href="/Welcome">Log In</a>
+          }
+        }
+        else
+        {
+          <a class="btn btn-primary" href="https://localhost:44336/Identity/Account/Login">Log In</a>
+        }
 
-        <a class="btn btn-primary" href="/Welcome">ADMIN</a>
 
       </div>
       
       <nav class="navbar" data-navbar>
         <ul class="navbar-list">
-<!--
+
           <li>
             <a href="#" class="navbar-link">Inicio</a>
           </li>
@@ -80,7 +96,7 @@
           <li>
             <a href="#" class="navbar-link">Filmes</a>
           </li>
--->
+
         </ul>
 
       </nav>
@@ -139,12 +155,12 @@
 
           </div>
           -->
-          <a href="#comp">
-          <button class="btn btn-primary" >
+          <a href="#comp" style="padding-top: 30px">
+          <button class="btn btn-primary" style="padding: 17px 36px;">
             
             <ion-icon name="play"></ion-icon>
 
-            <span >COMPETIÇÕES</span>
+            <span >VER COMPETIÇÕES</span>
           </button>
           </a>
 
@@ -323,19 +339,19 @@
           <ul class="quicklink-list">
 
             <li>
-              <a href="#" class="quicklink-link">Faq</a>
+              <a href="##" class="quicklink-link">Faq</a>
             </li>
 
             <li>
-              <a href="#" class="quicklink-link">Centro de Ajuda</a>
+              <a href="##" class="quicklink-link">Centro de Ajuda</a>
             </li>
 
             <li>
-              <a href="#" class="quicklink-link">Termos de utilização</a>
+              <a href="##" class="quicklink-link">Termos de utilização</a>
             </li>
 
             <li>
-              <a href="#" class="quicklink-link">Privacidade</a>
+              <a href="##" class="quicklink-link">Privacidade</a>
             </li>
 
           </ul>
@@ -343,25 +359,25 @@
           <ul class="social-list">
 
             <li>
-              <a href="#" class="social-link">
+              <a href="##" class="social-link">
                 <ion-icon name="logo-facebook"></ion-icon>
               </a>
             </li>
 
             <li>
-              <a href="#" class="social-link">
+              <a href="##" class="social-link">
                 <ion-icon name="logo-twitter"></ion-icon>
               </a>
             </li>
 
             <li>
-              <a href="#" class="social-link">
+              <a href="##" class="social-link">
                 <ion-icon name="logo-pinterest"></ion-icon>
               </a>
             </li>
 
             <li>
-              <a href="#" class="social-link">
+              <a href="##" class="social-link">
                 <ion-icon name="logo-linkedin"></ion-icon>
               </a>
             </li>

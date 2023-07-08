@@ -232,7 +232,7 @@ body.active { overflow: hidden; }
 
 .btn {
     color: var(--white);
-    font-size: var(--fs-11);
+    font-size: var(--fs-9);
     font-weight: var(--fw-700);
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -245,7 +245,7 @@ body.active { overflow: hidden; }
     transition: var(--transition-1);
 }
 
-.btn > ion-icon { font-size: 18px; }
+.btn > ion-icon { font-size: 22px; }
 
 .btn-primary { background: var(--rich-black-fogra-29); }
 
