@@ -18,10 +18,10 @@
 <body>
 
     <div class="container right-panel-active hidden" id="container">
-        <span class="form-container sign-up-container">
+        <div class="form-container sign-up-container">
             <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
                 <h1>Cria Conta</h1>
-                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                <span asp-validation-summary="ModelOnly" class="text-danger" role="alert"></span>
                  <div class="social-container">
                     <!--<a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
                     <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
@@ -47,7 +47,7 @@
                 <button id="registerSubmit" type="submit" >Registar</button>
 
             </form>
-        </span>
+        </div>
         <div class="form-container sign-in-container">
             <form id="account" method="post">
                 <h1>Log In</h1>
@@ -94,22 +94,7 @@
 </body>
 </html>
 <script>
-    const container = document.getElementById('container');
-    const overlayBtn = document.getElementById('overlayBtn');
-
-    // Wait for the page to load
-    window.addEventListener('load', () => {
-        // Remove the "hidden" class to reveal the container
-        container.classList.remove('hidden');
-    });
-
-    overlayBtn.addEventListener('click', () => {
-        container.classList.toggle('right-panel-active');
-        overlayBtn.classList.remove('btnScaled');
-        window.requestAnimationFrame(() => {
-            overlayBtn.classList.add("btnScaled");
-        });
-    });
+    
 </script>
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
