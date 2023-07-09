@@ -1244,7 +1244,7 @@ body.active { overflow: hidden; }
         display: flex;
         margin-left: auto;
         align-items: center;
-        gap: 35px;
+        gap: 20px;
     }
 
     .header-actions .btn-primary { display: none; }

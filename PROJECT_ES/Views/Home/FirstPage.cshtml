@@ -21,6 +21,7 @@
   <link rel="shortcut icon" href="/images/logo1.png" type="image/png">
 
   <link rel="stylesheet" href="/css/teste.css">
+  <link rel="stylesheet" href="/css/navbar.css">
 
   <!-- 
     - google font link
@@ -28,6 +29,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+      />
 </head>
 
 <body id="top">
@@ -65,13 +70,44 @@
         {
           if (ViewBag.IsAdmin)
           {
-            <p>admin</p>
+            <div class="action nav-item">
+              <div class="profile-dropdown-btn">
+                <div class="profile" onclick="toggle();">
+                  <img src="/images/profile-pic.jpg">
+                </div>
+              </div>
+              <div class="menu">
+                <h3>@User.Identity.Name<br><span>Administrador</span></h3>
+                <ul>
+                  <li>
+                    <form method="post" action="https://localhost:44336/Identity/Account/Logout">
+                      <button type="submit" style="color: #FFF"><i class="fa-solid fa-arrow-right-from-bracket"></i>   Terminar Sessão</button>
+                    </form>
+                  </li>
+                </ul>
+              </div>
+            </div>
             <a class="btn btn-primary" href="/Welcome">DashBoard</a>
           }
           else
           {
-            <p>normal</p>
-            <a class="btn btn-primary" href="/Welcome">Log In</a>
+            <div class="action nav-item">
+                <div class="profile-dropdown-btn">
+                  <div class="profile" onclick="toggle();">
+                    <img src="/images/profile-pic.jpg">
+                  </div>
+                </div>
+                <div class="menu">
+                  <h3>@User.Identity.Name<br><span>Utilizador</span></h3>
+                  <ul>
+                    <li>
+                      <form method="post" action="https://localhost:44336/Identity/Account/Logout">
+                          <button type="submit" style="color: #FFF"><i class="fa-solid fa-arrow-right-from-bracket"></i>   Terminar Sessão</button>
+                      </form>
+                    </li>
+                  </ul>
+                </div>
+              </div>
           }
         }
         else
@@ -86,7 +122,7 @@
         <ul class="navbar-list">
 
           <li>
-            <a href="#" class="navbar-link">Inicio</a>
+            <a href="/"  class="navbar-link">Inicio</a>
           </li>
 
           <li>
@@ -424,6 +460,17 @@
             });
         });
         
+        
+                    const toggleMenu = document.querySelector('.menu');
+                    let btn= document.querySelector(".profile-dropdown-btn");
+                    
+                    const toggle = () =>toggleMenu.classList.toggle('active');
+                    
+                    window.addEventListener("click", function (e) {
+                        if (!btn.contains(e.target)) toggleMenu.classList.remove("active");
+                    });
+                
+            
 </script>
 </body>
 
