@@ -27,8 +27,7 @@
             <br>
         </div>
     </div>
-    
-    @if (Movies != null)
+@if (Movies != null)
     {
         <div class="row">
             @foreach (var movie in Movies)
@@ -42,54 +41,52 @@
                 </div>
             }
         </div>
+    }
 
-    }
-    
+ <div class="recent-orders">
+     @if (movies == null)
+                        {
+                        <p><em>Loading...</em></p>
+                        }
+                        else if (!movies.Any())
+                        {
+                        <p><em>No movies found.</em></p>
+                        }
+                        else
+                        {
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Director</th>
+                        <th>Actor</th>
+                        <th>Genre</th>
+                        <th>Writers</th>
+                        <th>Image</th>
+                        <th>Date</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var movie in movies)
+                    {
+                                    <tr>
+                                        <td>@movie.Title</td>
+                                        <td>@movie.Description</td>
+                                        <td>@movie.Diretor</td>
+                                        <td>@movie.Actor</td>
+                                        <td>@movie.Genre</td>
+                                        <td>@movie.Writers</td>
+                                        <td><img src="@movie.Image" width="50" height="70" /></td>
+                                        <td>@movie.Date</td>
+                                    </tr>
+                                }
+                                </tbody>
+                  </table>
+                        }
+                </div>
+                <!-- =================== END OF RECENT ORDER =================== -->
 
-
-    @if (movies == null)
-    {
-    <p><em>Loading...</em></p>
-    }
-    else if (!movies.Any())
-    {
-    <p><em>No movies found.</em></p>
-    }
-    else
-    {<table class="table">
-            <thead>
-            <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Director</th>
-            <th>Actor</th>
-            <th>Genre</th>
-            <th>Writers</th>
-            <th>Image</th>
-            <th>Date</th>
-            <!--<th>Actions</th>-->
-            </tr>
-            </thead>
-            <tbody>
-        @foreach (var movie in movies)
-        {
-            <tr>
-                <td>@movie.Title</td>
-                <td>@movie.Description</td>
-                <td>@movie.Diretor</td>
-                <td>@movie.Actor</td>
-                <td>@movie.Genre</td>
-                <td>@movie.Writers</td>
-                <td><img src="@movie.Image" width="50" height="70" /></td>
-                <td>@movie.Date</td>
-                <!--<td>
-                    <a @onclick="() => DeleteMovie(movie.Id)"> <i class="fa fa-trash"></i></a>
-                </td>-->
-            </tr>
-        }
-        </tbody>
-    </table>
-    }
 
 @code {
     private IEnumerable<Movie> movies;
