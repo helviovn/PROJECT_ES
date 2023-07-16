@@ -13,6 +13,7 @@ using System.Net.Mail;
 using PROJECT_ES.Adapters;
 using PROJECT_ES.Interfaces;
 using PROJECT_ES.Models;
+using Microsoft.AspNetCore.Identity;
 
 
 
@@ -24,6 +25,7 @@ public class VoteController : Controller
     private readonly CategoryRepository _categoryRepository;
     private readonly VoteAdapter _voteAdapter;
     private readonly VoteObservable _voteObservable;
+    private readonly UserManager<IdentityUser> _userManager;
 
     public VoteController(
         IConfiguration configuration,
@@ -31,7 +33,7 @@ public class VoteController : Controller
         CompetitionDetailsRepository competitionDetailsRepository,
         CategoryRepository categoryRepository,
         VoteAdapter voteAdapter,
-        VoteObservable voteObservable)
+        VoteObservable voteObservable,UserManager<IdentityUser> userManager)
     {
         _connectionString = configuration.GetConnectionString("DefaultConnection");
         _competitionRepository = competitionRepository;
@@ -39,10 +41,13 @@ public class VoteController : Controller
         _categoryRepository = categoryRepository;
         _voteAdapter = voteAdapter;
         _voteObservable = voteObservable;
+        _userManager = userManager;
     }
 
     public async Task<IActionResult> VotingPage(int competitionId, int categoryId)
     {
+        
+        
         var competition = await _competitionRepository.GetCompetitionByIdAsync(competitionId);
         var category = await _categoryRepository.GetCategoryByIdAsync(categoryId);
         var movies = await _competitionDetailsRepository.GetAllMoviesAsync(competitionId);
@@ -53,7 +58,17 @@ public class VoteController : Controller
             Category = category,
             Movies = movies
         };
-
+        var user = await _userManager.GetUserAsync(User);
+        if (user != null)
+        {
+            var isAdmin = await _userManager.IsInRoleAsync(user, "Admin");
+            ViewBag.IsAdmin = isAdmin;
+        }
+        else
+        {
+            // Handle the case where the user is not found or not authenticated
+            ViewBag.IsAdmin = false; // Set a default value or handle accordingly
+        }
         return View("VotingPage", viewModel);
     }
 

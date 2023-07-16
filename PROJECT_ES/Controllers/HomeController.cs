@@ -25,14 +25,7 @@ public class HomeController : BaseController
         _userManager = userManager;
     }
 
-/*
-    public async Task<IActionResult> FirstPage()
-    {
-        var competitions = await _competitionRepository.GetCompetitionsAsync();
-        return View(competitions);
-    }
-    
-    */
+
     
     protected override async Task<IActionResult> GetViewModel(int competitionId, int categoryId)
     {

@@ -312,6 +312,17 @@ body.active { overflow: hidden; }
 
 .btn-primary { background: var(--rich-black-fogra-29); }
 
+.btn-primary1 {
+    background: var(--citrine);
+    color: var(--xiketic);
+    padding-bottom: 5px;
+    padding-top: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border: red;
+    border-radius: 50px;
+    
+}
 .btn-primary:is(:hover, :focus) {
     background: var(--citrine);
     color: var(--xiketic);
