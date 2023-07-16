@@ -88,15 +88,18 @@
         </div>
     </header>
 
-<section class="tv-series" style="padding-top: 150px;height: 28vh;" >
-  <div class="container">
-          
-    <div class="badge">
-      <p class="section-subtitle">Competição</p>
-      <h2 class="h2 section-title">@Model.Competition.Name</h2>
-    </div>
-  </div>
-</section>
+    <section class="tv-series" style="padding-top: 150px; height: 28vh;">
+        <div class="container">
+            <div class="badge">
+                <p class="section-subtitle">Competição</p>
+                <div class="title-wrapper">
+                    <h2 class="h2 section-title">@Model.Competition.Name</h2>
+                    <h3 class="h3 section-title">@Model.Competition.Description</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
 
 <!-- FILMES-->
 <section class="upcoming" style="padding-top: 30px;!important;background: url(../images/tv-series-bg.jpg) no-repeat;">
@@ -189,16 +192,12 @@
 
                   <button class="vote-btn" data-competition-id="@Model.Competition.Id" data-category-id="@category.Id">
                     <figure class="card-banner">
-                      <img src=@category.Image />
-                      
+                      <img class="Comp" src=@category.Image />
+                      <div class="hover-text">
+                        <h3 class="text-up" style="font-size: 30px">@category.Name</h3>
+                      </div>
                     </figure>
                   </button>
-
-                  <div class="title-wrapper">
-                    <button class="vote-btn" data-competition-id="@Model.Competition.Id" data-category-id="@category.Id">
-                      <h3 class="card-title-alone" >@category.Name</h3>
-                    </button>
-                  </div>
                   <div class="card-meta">
                   </div>
                 </div>

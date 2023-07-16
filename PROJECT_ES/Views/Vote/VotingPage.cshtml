@@ -283,44 +283,53 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
-<script>
-        $(document).ready(function() {
+    <script>
+        $(document).ready(function () {
             $('.category-slider').slick({
                 autoplay: true,
                 autoplaySpeed: 5000,
                 dots: true,
-                slidesToShow: 5, // Show 5 slides at a time
-                                slidesToScroll: 5 // Scroll 5 slides at a time
+                slidesToShow: 5,
+                slidesToScroll: 5
             });
-           
-           $('#vote-form').on('submit', function(e) {
-                   e.preventDefault(); // Prevent the form from submitting normally
-           
-                   var formData = {
-                       competitionId: $('input[name="competitionId"]').val(),
-                       categoryId: $('input[name="categoryId"]').val(),
-                       name: $('#name').val(),
-                       email: $('#email').val(),
-                       movieId: $('#movie-select').val()
-                   };
-           
-                   $.post('@Url.Action("Vote", "Vote")', formData, function (response) {
-                               if (response.done) {
-                                   $('#form').hide();
-                                   $('#success-message').show();
-                               }
-                               else if (response.error) {
-                                $('#form').hide();
-                                $('#error-message').show();
-                               }
-               });
-               });
-               $('.movie-btn').on('click', function() {
-                             var movieId = $(this).data('movie-id');
-                             window.location.href = '/Movies/SingleMovie?movieId=' + movieId;
-                     });
-               });
-           
-           </script>
+
+            $('#vote-form').on('submit', function (e) {
+                e.preventDefault();
+
+                var formData = {
+                    competitionId: $('input[name="competitionId"]').val(),
+                    categoryId: $('input[name="categoryId"]').val(),
+                    name: $('#name').val(),
+                    email: $('#email').val(),
+                    movieId: $('#movie-select').val()
+                };
+
+                $.post('@Url.Action("Vote", "Vote")', formData, function (response) {
+                    if (response.done) {
+                        $('#form').hide();
+
+                        // Show the success popup
+                        var popupOverlay = $('<div class="popup-overlay"></div>');
+                        var popup = $('<div class="popup"><img src="/images/404-tick.png"><h2>Obrigado!</h2><p>O seu voto foi inserido com sucesso!</p><button id="redirect-button">OK</button></div>');
+
+                        popupOverlay.append(popup);
+                        $('body').append(popupOverlay);
+
+                        $('#redirect-button').on('click', function () {
+                            window.location.href = '/';
+                        });
+                    } else if (response.error) {
+                        $('#form').hide();
+                        $('#error-message').show();
+                    }
+                });
+            });
+
+            $('.movie-btn').on('click', function () {
+                var movieId = $(this).data('movie-id');
+                window.location.href = '/Movies/SingleMovie?movieId=' + movieId;
+            });
+        });
+    </script>
 </body>
 </html>

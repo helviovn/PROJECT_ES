@@ -186,19 +186,12 @@
 
                   <button class="entrar-btn" data-competition-id="@competition.Id">
                     <figure class="card-banner">
-                      <img src=@competition.Image />
+                      <img class="Comp"src=@competition.Image />
+                      <h3 class="text-up hide-on-hover" style="font-size: 30px">@competition.Name</h3>
                       <div class="hover-text">@competition.Description</div>
+                      <div class="vote-count hide-on-hover">@competition.n_participantes participantes</div>
                     </figure>
                   </button>
-
-                  <div class="title-wrapper">
-                    <button class="entrar-btn" data-competition-id="@competition.Id">
-                      <h3 class="card-title-alone" >@competition.Name</h3>
-                    </button>
-                  </div>
-                  <div class="card-meta">
-                    <div class="badge nparticipants">@competition.n_participantes participantes</div>
-                  </div>
                 </div>
               </li>
             }

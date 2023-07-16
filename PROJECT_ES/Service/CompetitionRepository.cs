@@ -17,8 +17,8 @@ public class CompetitionRepository
         _connectionString = configuration.GetConnectionString("DefaultConnection");
     }
 
-    
-    public async Task AddCompetitionWithMoviesAsync(Competition competition, List<int> movieIds,List<int> categoriesIds)
+
+    public async Task AddCompetitionWithMoviesAsync(Competition competition, List<int> movieIds, List<int> categoriesIds)
     {
         using (var connection = new SqlConnection(_connectionString))
         {
@@ -30,7 +30,7 @@ public class CompetitionRepository
                 var distinctMovieIds = movieIds.Distinct().ToList();
                 var query =
                     "INSERT INTO dbo.Competition_has_Movie (CompetitionID, MovieID) VALUES (@CompetitionId, @MovieId)";
-                
+
                 foreach (var movieId in distinctMovieIds)
                 {
                     var parameters = new { CompetitionId = competitionId, MovieId = movieId };
@@ -39,7 +39,7 @@ public class CompetitionRepository
                 var query2 =
                     "INSERT INTO dbo.Competition_has_Category (CompetitionID, CategoryID) VALUES (@CompetitionId, @CategoryID)";
 
-                
+
                 var distinctCategoriesIds = categoriesIds.Distinct().ToList();
                 foreach (var categoriesId in distinctCategoriesIds)
                 {
@@ -69,46 +69,48 @@ public class CompetitionRepository
                 }
             }
 
-            string senderEmail = "webvotecine@gmail.com";
-            string senderPassword = "nzmvhgrsnsxetlco";
-            string smtpServer = "smtp.gmail.com";
-
-            MailMessage message = new MailMessage();
-            message.From = new MailAddress(senderEmail);
-
-            // Adicione os destinatários à lista de e-mails BCC
-            foreach (var email in emails)
+            if (emails.Count > 0)
             {
-                message.Bcc.Add(email);
+                string senderEmail = "webvotecine@gmail.com";
+                string senderPassword = "nzmvhgrsnsxetlco";
+                string smtpServer = "smtp.gmail.com";
+
+                MailMessage message = new MailMessage();
+                message.From = new MailAddress(senderEmail);
+
+                // Adicione os destinatários à lista de e-mails BCC
+                foreach (var email in emails)
+                {
+                    message.Bcc.Add(email);
+                }
+
+                message.Subject = "Nova COMPETIÇÃO";
+
+                // Crie o corpo do e-mail com a assinatura
+                string body = "Informamos que a competição " + @competition.Name + " foi criada";
+
+
+                // Defina o corpo do e-mail como HTML
+                message.IsBodyHtml = true;
+                message.Body = body;
+
+                SmtpClient smtpClient = new SmtpClient(smtpServer, 587);
+                smtpClient.EnableSsl = true;
+                smtpClient.UseDefaultCredentials = false;
+                smtpClient.Credentials = new NetworkCredential(senderEmail, senderPassword);
+
+                try
+                {
+                    smtpClient.Send(message);
+                }
+                catch (SmtpException ex)
+                {
+                    // Trate a exceção aqui
+                }
             }
-
-            message.Subject = "Nova COMPETIÇÃO";
-
-            // Crie o corpo do e-mail com a assinatura
-            string body = "Informamos que a competição " + @competition.Name + " foi criada";
-
-
-            // Defina o corpo do e-mail como HTML
-            message.IsBodyHtml = true;
-            message.Body = body;
-
-            SmtpClient smtpClient = new SmtpClient(smtpServer, 587);
-            smtpClient.EnableSsl = true;
-            smtpClient.UseDefaultCredentials = false;
-            smtpClient.Credentials = new NetworkCredential(senderEmail, senderPassword);
-
-            try
-            {
-                smtpClient.Send(message);
-            }
-            catch (SmtpException ex)
-            {
-                // Trate a exceção aqui
-            }
-
         }
     }
-    
+
     private async Task<int> AddCompetitionAsync(Competition competition)
     {
         using (var connection = new SqlConnection(_connectionString))

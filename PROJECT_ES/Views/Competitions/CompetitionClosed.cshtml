@@ -107,20 +107,12 @@
             <button class="comp-btn">
               <figure class="card-banner">
                 <img src="@vote.MovieImage"/>
-
-                <div class="text-up" style="font-size: 24px">@vote.CategoryName</div>
+                <div class="hover-text">
+                    <div class="text-up" style="font-size: 24px">@vote.MovieTitle</div>
+                </div>
+                                    <div class="vote-count" style="font-size: 16px">@vote.VoteCount votos</div>
               </figure>
             </button>
-
-            <div class="title-wrapper">
-              <button class="comp-btn">
-
-                <h3 class="card-title-alone">@vote.MovieTitle</h3>
-              </button>
-            </div>
-            <div class="card-meta">
-              <div class="badge badge-outline" style="font-size: 16px">@vote.VoteCount votos</div>
-            </div>
           </div>
         </li>
         }
