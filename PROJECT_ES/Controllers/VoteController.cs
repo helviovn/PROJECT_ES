@@ -166,45 +166,5 @@ public class VoteController : Controller
     }
 }
 
-public class EmailSender : IObserver
-{
-    private readonly string _senderEmail;
-    private readonly string _senderPassword;
-    private readonly string _smtpServer;
 
-    public EmailSender(string senderEmail, string senderPassword, string smtpServer)
-    {
-        _senderEmail = senderEmail;
-        _senderPassword = senderPassword;
-        _smtpServer = smtpServer;
-    }
-
-    public void NotifyVote()
-    {
-       /* string recipientEmail = ""; // Insira o endereço de e-mail do destinatário aqui
-        string subject = "Confirmação de Voto";
-        string body = "Obrigado por votar na competição!<br>\nO seu voto foi registrado com sucesso.";
-
-        MailMessage message = new MailMessage();
-        message.From = new MailAddress(_senderEmail);
-        message.To.Add(recipientEmail);
-        message.Subject = subject;
-        message.Body = body;
-        message.IsBodyHtml = true;
-
-        SmtpClient smtpClient = new SmtpClient(_smtpServer, 587);
-        smtpClient.EnableSsl = true;
-        smtpClient.UseDefaultCredentials = false;
-        smtpClient.Credentials = new NetworkCredential(_senderEmail, _senderPassword);
-
-        try
-        {
-            smtpClient.Send(message);
-        }
-        catch (SmtpException ex)
-        {
-            // Trate a exceção de envio de e-mail aqui
-        }*/
-    }
-}
 

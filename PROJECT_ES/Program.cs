@@ -18,8 +18,14 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+    {
+        options.SignIn.RequireConfirmedAccount = true;
+        
+    })
+    .AddRoles<IdentityRole>() // Add roles support
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
@@ -32,7 +38,7 @@ builder.Services.AddTransient<CategoryController>();
 builder.Services.AddTransient<VoteController>();
 builder.Services.AddScoped<VoteAdapter>();
 builder.Services.AddScoped<VoteObservable>();
-builder.Services.AddScoped<ICompetitionRepositoryFactory, CompetitionRepositoryFactory>();
+builder.Services.AddScoped<IRepositoryFactory, RepositoryFactory>();
 builder.Services.AddTransient<MoviesController>();
 builder.Services.AddTransient<CompetitionsController>();
 

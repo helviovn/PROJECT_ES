@@ -1,0 +1,101 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- font awesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/css/register.css">
+</head>
+<body>
+
+    <div class="container right-panel-active hidden" id="container">
+        <div class="form-container sign-up-container">
+            <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                <h1>Cria Conta</h1>
+                <span asp-validation-summary="ModelOnly" class="text-danger" role="alert"></span>
+                 <div class="social-container">
+                    <!--<a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+                    <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>-->
+                </div>
+                
+                <div class="infield">
+                    <input asp-for="Input.Email"  autocomplete="username" aria-required="true" placeholder="Email" />
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                    <label></label>
+                </div>
+                <div class="infield">
+                    <input asp-for="Input.Password"  autocomplete="new-password" aria-required="true" placeholder="Password" />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    <label></label>
+                </div>
+                <div class="infield">
+                    <input asp-for="Input.ConfirmPassword" autocomplete="new-password" aria-required="true" placeholder="Password" />
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                    
+                    <label></label>
+                </div>
+                <button id="registerSubmit" type="submit" >Registar</button>
+
+            </form>
+        </div>
+        <div class="form-container sign-in-container">
+            <form id="account" method="post">
+                <h1>Log In</h1>
+                <div class="social-container">
+                    <!--<a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+                    <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>-->
+                </div>
+                <span>Coloca as tuas credenciais</span>
+                <div class="infield">
+                    <input asp-for="Input.Email" autocomplete="username" aria-required="true" placeholder="Email" />
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                    <label></label>
+                </div>
+                <div class="infield">
+                    
+                    <input asp-for="Input.Password" autocomplete="current-password" aria-required="true" placeholder="Password" />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    <label></label>
+                </div>
+                 <a href="#" class="forgot">Esqueceste-te da tua password?</a> 
+                
+                <button id="login-submit" type="submit">Log in</button>
+            </form>
+        </div>
+        <div class="overlay-container" id="overlayCon">
+            <div class="overlay">
+                <div class="overlay-panel overlay-left">
+                     <img style="width: 50%;padding-bottom: 10px" src="/images/logo1.png"/>
+                     <p style="padding-bottom: 90px; font-size: 18px">Faz o teu registo e torna-te capaz de votar nos teus filmes preferidos!</p>
+                </div>
+                <div class="overlay-panel overlay-right">
+                    <a href="/" class="logo">
+                        <img style="width: 50%" src="/images/logo1.png"/>
+                    </a>
+                    <p style="padding-bottom: 50px">Bem-Vindo novamente!</p>
+                    
+                </div>
+            </div>
+            
+            <a href="https://localhost:44336/"><button id="VoltarBtn" >Voltar</button></a>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    
+</script>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

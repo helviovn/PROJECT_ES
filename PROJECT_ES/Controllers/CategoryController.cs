@@ -6,20 +6,20 @@ using PROJECT_ES.Interfaces;
 
 public class CategoryController : Controller
 {
-    private readonly ICompetitionRepositoryFactory _competitionRepositoryFactory;
+    private readonly IRepositoryFactory _repositoryFactory;
     private readonly CompetitionDetailsRepository _competitionDetailsRepository;
     private readonly IConfiguration _connectionString;
 
-    public CategoryController(ICompetitionRepositoryFactory competitionRepositoryFactory, CompetitionDetailsRepository competitionDetailsRepository, IConfiguration configuration)
+    public CategoryController(IRepositoryFactory competitionRepositoryFactory, CompetitionDetailsRepository competitionDetailsRepository, IConfiguration configuration)
     {
-        _competitionRepositoryFactory = competitionRepositoryFactory;
+        _repositoryFactory = competitionRepositoryFactory;
         _competitionDetailsRepository = competitionDetailsRepository;
         _connectionString = configuration;
     }
 
     public async Task<IActionResult> CategoriesPage(int competitionId)
     {
-        var competitionRepository = _competitionRepositoryFactory.Create(_connectionString);
+        var competitionRepository = _repositoryFactory.Create(_connectionString);
         
         var competition = await competitionRepository.GetCompetitionByIdAsync(competitionId);
         var categories = await _competitionDetailsRepository.GetAllCategoriesAsync(competitionId);

@@ -96,7 +96,7 @@
     <p class="section-subtitle">Competição</p>
 
     <h2 class="h2 section-title">@Model.Competition.Name</h2>
-  <h2 class="h2 section-title" st>VENCEDORES</h2>
+  
     <ul class="movies-list" style="grid-template-columns: repeat(5, 1fr)">
       @foreach (var vote in @Model.statistics)
       {
@@ -116,6 +116,11 @@
           </div>
         </li>
         }
+      }
+      else
+      {
+          <h2 class="h2 section-title" st>Sem votos</h2>
+      }
       
           
     </ul>
