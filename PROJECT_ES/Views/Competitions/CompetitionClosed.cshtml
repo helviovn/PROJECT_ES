@@ -146,33 +146,23 @@
     <h2 class="h2 section-title">@Model.Competition.Name</h2>
   
     <ul class="movies-list" style="grid-template-columns: repeat(5, 1fr)">
-      @if (@Model.statistics.Any())
-      {<h2 class="h2 section-title" st>VENCEDORES</h2>
-        @foreach (var vote in @Model.statistics)
-        {
-          <li>
-
-            <p class="section-subtitle" style="font-size: 20px;text-align: center">@vote.CategoryName</p>
-            <div class="movie-card" style="width: 220px;">
-              <button class="comp-btn">
-                <figure class="card-banner">
-                  <img src="@vote.MovieImage"/>
-
-                  <!--<div class="text-up" style="font-size: 24px">@vote.CategoryName</div>-->
-                </figure>
-              </button>
-
-              <div class="title-wrapper">
-                <button class="comp-btn">
-
-                  <h3 class="card-title-alone">@vote.MovieTitle</h3>
-                </button>
-              </div>
-              <div class="card-meta">
-                <div class="badge badge-outline" style="font-size: 16px">@vote.VoteCount votos</div>
-              </div>
-            </div>
-          </li>
+      @foreach (var vote in @Model.statistics)
+      {
+        <li>
+          
+          <p class="section-subtitle" style="font-size: 20px;text-align: center">@vote.CategoryName</p>
+          <div class="movie-card" style="width: 220px;">
+            <button class="comp-btn">
+              <figure class="card-banner">
+                <img src="@vote.MovieImage"/>
+                <div class="hover-text">
+                    <div class="text-up" style="font-size: 24px">@vote.MovieTitle</div>
+                </div>
+                                    <div class="vote-count" style="font-size: 16px">@vote.VoteCount votos</div>
+              </figure>
+            </button>
+          </div>
+        </li>
         }
       }
       else
