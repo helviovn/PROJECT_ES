@@ -21,6 +21,7 @@
   <link rel="shortcut icon" href="/images/logo1.png" type="image/png">
 
   <link rel="stylesheet" href="/css/teste.css">
+  <link rel="stylesheet" href="/css/navbar.css">
 
   <!-- 
     - google font link
@@ -28,6 +29,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+      />
 </head>
 
 <body id="top">
@@ -46,11 +51,11 @@
       </a>
 
       <div class="header-actions">
-
+  <!--
         <button class="search-btn">
           <ion-icon name="search-outline"></ion-icon>
         </button>
-
+-->
         <div class="lang-wrapper">
           <label for="language">
             <ion-icon name="globe-outline"></ion-icon>
@@ -61,16 +66,63 @@
             <option value="au">ES</option>
           </select>
         </div>
+        @if (User.Identity.IsAuthenticated)
+        {
+          if (ViewBag.IsAdmin)
+          {
+            <div class="action nav-item">
+              <div class="profile-dropdown-btn">
+                <div class="profile" onclick="toggle();">
+                  <img src="/images/profile-pic.jpg">
+                </div>
+              </div>
+              <div class="menu">
+                <h3>@User.Identity.Name<br><span>Administrador</span></h3>
+                <ul>
+                  <li>
+                    <form method="post" action="https://localhost:44336/Identity/Account/Logout">
+                      <button type="submit" style="color: #FFF"><i class="fa-solid fa-arrow-right-from-bracket"></i>   Terminar Sessão</button>
+                    </form>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <a class="btn btn-primary" href="/Welcome">DashBoard</a>
+          }
+          else
+          {
+            <div class="action nav-item">
+                <div class="profile-dropdown-btn">
+                  <div class="profile" onclick="toggle();">
+                    <img src="/images/profile-pic.jpg">
+                  </div>
+                </div>
+                <div class="menu">
+                  <h3>@User.Identity.Name<br><span>Utilizador</span></h3>
+                  <ul>
+                    <li>
+                      <form method="post" action="https://localhost:44336/Identity/Account/Logout">
+                          <button type="submit" style="color: #FFF"><i class="fa-solid fa-arrow-right-from-bracket"></i>   Terminar Sessão</button>
+                      </form>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+          }
+        }
+        else
+        {
+          <a class="btn btn-primary" href="https://localhost:44336/Identity/Account/Login">Log In</a>
+        }
 
-        <a class="btn btn-primary" href="/Welcome">ADMIN</a>
 
       </div>
       
       <nav class="navbar" data-navbar>
         <ul class="navbar-list">
-<!--
+
           <li>
-            <a href="#" class="navbar-link">Inicio</a>
+            <a href="/"  class="navbar-link">Inicio</a>
           </li>
 
           <li>
@@ -80,7 +132,7 @@
           <li>
             <a href="#" class="navbar-link">Filmes</a>
           </li>
--->
+
         </ul>
 
       </nav>
@@ -139,12 +191,12 @@
 
           </div>
           -->
-          <a href="#comp">
-          <button class="btn btn-primary" >
+          <a href="#comp" style="padding-top: 30px">
+          <button class="btn btn-primary" style="padding: 17px 36px;">
             
             <ion-icon name="play"></ion-icon>
 
-            <span >COMPETIÇÕES</span>
+            <span >VER COMPETIÇÕES</span>
           </button>
           </a>
 
@@ -323,19 +375,19 @@
           <ul class="quicklink-list">
 
             <li>
-              <a href="#" class="quicklink-link">Faq</a>
+              <a href="##" class="quicklink-link">Faq</a>
             </li>
 
             <li>
-              <a href="#" class="quicklink-link">Centro de Ajuda</a>
+              <a href="##" class="quicklink-link">Centro de Ajuda</a>
             </li>
 
             <li>
-              <a href="#" class="quicklink-link">Termos de utilização</a>
+              <a href="##" class="quicklink-link">Termos de utilização</a>
             </li>
 
             <li>
-              <a href="#" class="quicklink-link">Privacidade</a>
+              <a href="##" class="quicklink-link">Privacidade</a>
             </li>
 
           </ul>
@@ -343,25 +395,25 @@
           <ul class="social-list">
 
             <li>
-              <a href="#" class="social-link">
+              <a href="##" class="social-link">
                 <ion-icon name="logo-facebook"></ion-icon>
               </a>
             </li>
 
             <li>
-              <a href="#" class="social-link">
+              <a href="##" class="social-link">
                 <ion-icon name="logo-twitter"></ion-icon>
               </a>
             </li>
 
             <li>
-              <a href="#" class="social-link">
+              <a href="##" class="social-link">
                 <ion-icon name="logo-pinterest"></ion-icon>
               </a>
             </li>
 
             <li>
-              <a href="#" class="social-link">
+              <a href="##" class="social-link">
                 <ion-icon name="logo-linkedin"></ion-icon>
               </a>
             </li>
@@ -408,6 +460,17 @@
             });
         });
         
+        
+                    const toggleMenu = document.querySelector('.menu');
+                    let btn= document.querySelector(".profile-dropdown-btn");
+                    
+                    const toggle = () =>toggleMenu.classList.toggle('active');
+                    
+                    window.addEventListener("click", function (e) {
+                        if (!btn.contains(e.target)) toggleMenu.classList.remove("active");
+                    });
+                
+            
 </script>
 </body>
 

@@ -7,17 +7,22 @@ using PROJECT_ES.Controllers;
 using PROJECT_ES.Data;
 using PROJECT_ES.Service;
 using PROJECT_ES.ViewModels;
+using Microsoft.AspNetCore.Identity;
 
 
 public class HomeController : BaseController
 {
     private readonly string _connectionString;
+    
+    private readonly UserManager<IdentityUser> _userManager;
 
     public HomeController(IConfiguration configuration, CompetitionRepository competitionRepository,
-        CompetitionDetailsRepository competitionDetailsRepository, CategoryRepository categoryRepository)
+        CompetitionDetailsRepository competitionDetailsRepository, CategoryRepository categoryRepository
+        ,UserManager<IdentityUser> userManager)
         : base(competitionRepository, competitionDetailsRepository, categoryRepository)
     {
         _connectionString = configuration.GetConnectionString("DefaultConnection");
+        _userManager = userManager;
     }
 
 /*
@@ -32,6 +37,18 @@ public class HomeController : BaseController
     protected override async Task<IActionResult> GetViewModel(int competitionId, int categoryId)
     {
         var competitions = await _competitionRepository.GetCompetitionsAsync();
+        
+        var user = await _userManager.GetUserAsync(User);
+        if (user != null)
+        {
+            var isAdmin = await _userManager.IsInRoleAsync(user, "Admin");
+            ViewBag.IsAdmin = isAdmin;
+        }
+        else
+        {
+            // Handle the case where the user is not found or not authenticated
+            ViewBag.IsAdmin = false; // Set a default value or handle accordingly
+        }
 
         var images = new List<string>
         {
@@ -57,7 +74,7 @@ public class HomeController : BaseController
 
         return View(competitions);
     }
-
+    
     
 
     public async Task<IActionResult> Home()
