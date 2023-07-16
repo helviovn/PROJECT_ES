@@ -5,35 +5,7 @@
 @inject HttpClient httpClient
 @inject CategoryRepository categoryRepository
 @inject NavigationManager NavigationManager
-<!doctype html>
-<html>
-<head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <style>
-        .container {
-            margin: 20px;
-        }
-        
-        .form-control {
-            border-radius: 20px;
-        }
-        
-        .btn {
-            border-radius: 20px;
-        }
-        
-        .table th {
-            font-weight: bold;
-        }
-        
-        .fa-trash {
-            color: red;
-            cursor: pointer;
-        }
-    </style>
-</head>
-<body>
-<div class="container">
+
     <h1>Categories</h1>
     <form @onsubmit="AddCategoryAsync">
         <div class="col-md-4">
@@ -73,9 +45,6 @@
             </tbody>
         </table>
     }
-</div>
-</body>
-</html>
 
 @code
 {

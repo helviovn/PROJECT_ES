@@ -11,7 +11,7 @@
 @inject IJSRuntime JSRuntime
 
 
-<div class="container">
+
     <h1>Create Competition</h1>
 <EditForm Model="@competition" OnValidSubmit="CreateCompetitionn">
     <DataAnnotationsValidator />
@@ -72,7 +72,7 @@
 
     <button type="submit" class="btn btn-primary">Create Competition</button>
 </EditForm>
-</div>
+
 @code {
     
     private int[] selectedMovieIds = new int[0];

@@ -5,82 +5,68 @@
 @inject HttpClient httpClient
 @inject NavigationManager NavigationManager
 @inject CompetitionRepository competitionRepository
-<!doctype html>
-<html class="no-js" lang="en">
-<head>
-    <link rel="shortcut icon" type="/image/png" href="/assets/images/icon/favicon.ico">
-    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/assets/css/themify-icons.css">
-    <link rel="stylesheet" href="/assets/css/metisMenu.css">
-    <link rel="stylesheet" href="/assets/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="/assets/css/slicknav.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    
-
-</head>
-<body>
-<div class="container">
-    <h1>Competitions</h1>
-    <br/>
-    <div style="padding-top: 10px" class="col-md-4">
-        <div class="form-group">
-            <input style="border-radius: 20px;" class="form-control col-md-4" @bind-value="searchTerm" @bind-value:event="oninput" list="datalistOptions" id="exampleDataList" placeholder="Search Competition">
-
-        </div>
-    </div>
-    <br/>
-    <div>
-            <a href="/createcompetition" class="btn btn-primary">Add Competition</a>
-        </div>
-    <br/>
-    
-    @if (competitions == null)
-    {
-        <p><em>Loading...</em></p>
-    }
-    else
-    {
-        <table class="table" id="competitions-table">
-            <thead>
-            <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Public</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach (var competition in competitions)
-            {
-                <tr>
-                    <td>@competition.Name</td>
-                    <td>@competition.Description</td>
-                    <td>@competition.data_inicio</td>
-                    <td>@competition.data_fim</td>
-                    <td>
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" @bind="competition.Ispublic" @onclick="() => UpdateIsPublic(competition)">
-                        </div>
-                    </td>
-                    <td>
-                        <a @onclick="() => ViewDetails(competition.Id)"><i class="fa fa-eye"></i></a>
-                        <a @onclick="() => EditCompetition(competition.Id)"><i class="fa fa-edit"></i></a>
-                        <!--<a @onclick="() => DeleteMovie(competition.Id)"> <i class="fa fa-trash"></i></a>-->
-                    </td>
-                </tr>
-            }
-            </tbody>
-        </table>
-    }
-</div>
-</body>
 
 
 
-</html>
+        <!-- =================== START OF RECENT ORDER =================== -->
+                <div class="recent-orders">
+                    <h1>Competitions <a href="/createcompetition" class="btn btn-primary">Add Competition</a></h1>
+                    <div class="form-group">
+                        <input style="border-radius: 20px;" class="form-control col-md-4" @bind-value="searchTerm" @bind-value:event="oninput" list="datalistOptions" id="exampleDataList" placeholder="Search Competition">
+                    </div>
+                    @if (competitions == null)
+                        {
+                            <p><em>Loading...</em></p>
+                        }else{
+                  <table>
+                    <thead>
+                      <tr>
+                          <th>Nome</th>
+                          
+                          <th>Começa</th>
+                          <th>Encerra</th>
+                          <th>Publica</th>
+                          <th>Ações</th>
+                          
+                          
+                      </tr>
+                    </thead>
+                    <tbody>
+                                @foreach (var competition in competitions)
+                                {
+                                    <tr>
+                                        <td>@competition.Name</td>
+                                        
+                                        <td>@competition.data_inicio</td>
+                                        <td>@competition.data_fim</td>
+                                        <td>
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" @bind="competition.Ispublic" @onclick="() => UpdateIsPublic(competition)">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <a @onclick="() => ViewDetails(competition.Id)">
+                                                <span @onclick="() => ViewDetails(competition.Id)"><i class="fa fa-eye"></i></span>
+                                                aaaaaa
+                                            </a>
+
+                                            <a @onclick="() => EditCompetition(competition.Id)">
+                                                <span @onclick="() => EditCompetition(competition.Id)"><i class="fa fa-edit"></i></span>
+                                            </a>
+
+                                            <a @onclick="() => DeleteMovie(competition.Id)">
+                                                <span @onclick="() => DeleteMovie(competition.Id)"><i class="fa fa-trash"></i></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                                </tbody>
+                  </table>
+                        }
+                </div>
+                <!-- =================== END OF RECENT ORDER =================== -->
+
+
 @code {
     private string searchTerm = "";
 

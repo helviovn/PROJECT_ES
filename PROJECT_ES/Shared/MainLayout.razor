@@ -2,135 +2,105 @@
 
 <PageTitle>PROJECT_ES</PageTitle>
 
-<div class="page">
-    <div class="sidebar">
-           <NavMenu />
-    </div>
-    <main>
-        
-        <div class="top-row px-4 auth">
+<AuthorizeView>
+  <Authorized>
+    <!-- =================== START OF CONTAINER =================== -->
+    <div class="container">
+      <!-- =================== START OF ASIDE =================== -->
+      <aside>
+        <!-- =================== START OF TOP =================== -->
+        <div class="top" style="justify-content: center">
+          <!-- =================== START OF LOGO =================== -->
+          <div class="logo" >
+            <!--
+            <img src="images/logo1.png"/>-->
+            <h1>VOTE<span class="danger">CINE</span></h1>
 
-            <LoginDisplay/>
-            <!--<a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>-->
-
+          </div>
+          <!-- =================== END OF LOGO =================== -->
+    
+          <!-- =================== START OF CLOSE ICON =================== -->
+          <div class="close" id="close-btn">
+            <span class="material-icons-sharp">close</span>
+          </div>
+          <!-- =================== END OF CLOSE ICON =================== -->
         </div>
+        <!-- =================== END OF TOP =================== -->
+    
+        <!-- =================== START OF SIDEBAR =================== -->
+        <div class="sidebar">
+              <a href="/">
+                <span class="material-icons-sharp">home</span>
+                <h3>Página Principal</h3>
+              </a>
+          <a href="welcome" class="active">
+            <span class="material-icons-sharp">leaderboard</span>
+            <h3>Geral</h3>
+          </a>
+          <a href="movies">
+            <span class="material-icons-sharp">theaters</span>
+            <h3>Filmes</h3>
+          </a>          
+              <a href="competitions">
+                <span class="material-icons-sharp">folder_copy</span>
+                <h3>Competições</h3>
+              </a>
+              <a href="categories">
+                <span class="material-icons-sharp">storage</span>
+                <h3>Categorias</h3>
+              </a>
+              <a>
+                <span class="material-icons-sharp">logout</span>
+                <form method="post" action="Identity/Account/Logout">
+                  <button style="background-color:rgba(0,128,0,0);font-family: poppins, sans-serif;color: var(--color-info-dark);" type="submit"><h3>Terminar Sessão</h3></button>
+                </form>
+              </a>
+                  
+            </div>
+        <!-- =================== END OF SIDEBAR =================== -->
+      </aside>
+      <!-- =================== END OF ASIDE =================== -->
         
-
-        <!--<nav  class="navbar">
         
-            <div class="logo"></div>
-
         
-            <ul class="nav-links">
-        
-                <div class="menu">
-
-                    <li><a href="">Home</a></li>
-                    <li><a href="competition">Competitions</a></li>
-
-                    <AuthorizeView>
-                        <Authorized>
-                            <li><a href="Identity/Account/Manage">Hello, @context.User.Identity?.Name!</a></li>
-                            <li><form method="post" action="Identity/Account/Logout">
-                                <button type="submit" class="nav-link btn btn-link">Log out</button>
-                            </form></li>
-                        </Authorized>
-                        <NotAuthorized>
-                            <li><a href="Identity/Account/Register">Register</a></li>
-                            <li><a href="Identity/Account/Login">Log in</a></li>
-                        </NotAuthorized>
-                    </AuthorizeView>
-                </div>
-            </ul>
-        </nav>-->
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
-<style>
-    * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    }
-    
-    
-    
-    a {
-    text-decoration: none;
-    }
-    
-    li {
-    list-style: none;
-    }
-    /* NAVBAR STYLING STARTS */
-    .navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px;
-    background-color: teal;
-    color: #fff;
-    }
-    
-    .nav-links a {
-    color: #fff;
-    }
-    
-    /* LOGO */
-    .logo {
-    font-size: 32px;
-    }
-    
-    /* NAVBAR MENU */
-    .menu {
-    display: flex;
-    gap: 1em;
-    font-size: 18px;
-    }
-    
-    .menu li:hover {
-    background-color: #4c9e9e;
-    border-radius: 5px;
-    transition: 0.3s ease;
-    }
-    
-    .menu li {
-    padding: 5px 14px;
-    }
-    
-    /* DROPDOWN MENU */
-    .services {
-    position: relative; 
-    }
-    
-    .dropdown {
-    background-color: rgb(1, 139, 139);
-    padding: 1em 0;
-    position: absolute; /*WITH RESPECT TO PARENT*/
-    display: none;
-    border-radius: 8px;
-    top: 35px;
-    }
-    
-    .dropdown li + li {
-    margin-top: 10px;
-    }
-    
-    .dropdown li {
-    padding: 0.5em 1em;
-    width: 8em;
-    text-align: center;
-    }
-    
-    .dropdown li:hover {
-    background-color: #4c9e9e;
-    }
-    
-    .services:hover .dropdown {
-    display: block;
-    }
-
-</style>
-
+      <!-- =================== START OF MAIN =================== -->
+      <main>
+        <!-- =================== START OF RIGHT =================== -->
+        <div class="right">
+          <!-- =================== START OF TOP =================== -->
+          <div class="top">
+            <button id="menu-btn">
+              <span class="material-icons-sharp">menu</span>
+            </button>
+            <div class="theme-toggler">
+              <span class="active material-icons-sharp">light_mode</span>
+              <span class="material-icons-sharp">dark_mode</span>
+            </div>
+            <div class="profile">
+              <div class="info">
+                <p>Olá, <b>@context.User.Identity?.Name!
+                </b></p>
+                <small style="color: red" class="text-muted">Admin</small>
+              </div>
+              <div class="profile-photo">
+                <img src="images/profile-pic.jpg" />
+              </div>
+            </div>
+          </div>
+          <!-- =================== END OF TOP =================== -->
+        </div>
+        <!-- =================== END OF RIGHT =================== -->
+      
+      
+      
+        @Body
+      
+      </main>
+      <!-- =================== END OF MAIN =================== -->
+          
+          
+          
+    </div>
+    <!-- =================== END OF CONTAINER =================== -->
+  </Authorized>
+</AuthorizeView>
