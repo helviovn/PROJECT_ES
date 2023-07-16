@@ -14,37 +14,43 @@
         </div><br>
         <button type="submit" class="btn btn-primary">Add</button>
     </form>
-    <br/>
-    @if (categories == null)
-    {
-        <p><em>Loading...</em></p>
-    }
-    else if (!categories.Any())
-    {
-        <p><em>No categories found.</em></p>
-    }
-    else
-    {
-        <table class="table">
-            <thead>
-            <tr>
-                <th>Name</th>
-                <!--<th>Actions</th>-->
-            </tr>
-            </thead>
-            <tbody>
-            @foreach (var category in categories)
-            {
-                <tr>
-                    <td>@category.Name</td>
-                    <!--<td>
-                        <a @onclick="() => DeleteMovie(category.Id)"> <i class="fa fa-trash"></i></a>
-                    </td>-->
-                </tr>
-            }
-            </tbody>
-        </table>
-    }
+
+
+ <!-- =================== START OF RECENT ORDER =================== -->
+                <div class="recent-orders">
+                    
+                    @if (categories == null)
+                        {
+                            <p><em>Loading...</em></p>
+                        }
+                        else if (!categories.Any())
+                        {
+                            <p><em>No categories found.</em></p>
+                        }
+                        else
+                        {
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Nome</th>
+                        <th>Apagar</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var category in categories)
+                    {
+                                    <tr>
+                                        <td>@category.Name</td>
+                                                            <td>
+                                                                <a @onclick="() => DeleteMovie(category.Id)"> <i class="fa fa-trash"></i></a>
+                                                            </td>
+                                    </tr>
+                                }
+                                </tbody>
+                  </table>
+                        }
+                </div>
+                <!-- =================== END OF RECENT ORDER =================== -->
 
 @code
 {
