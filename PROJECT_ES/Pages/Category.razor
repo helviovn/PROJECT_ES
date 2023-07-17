@@ -5,77 +5,59 @@
 @inject HttpClient httpClient
 @inject CategoryRepository categoryRepository
 @inject NavigationManager NavigationManager
-<!doctype html>
-<html>
-<head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <style>
-        .container {
-            margin: 20px;
-        }
+<div class="recent-orders">
+ <h1>Categorias</h1><br/>
+    <p>Cria uma categoria</p>
+    <div class="wrapper">
         
-        .form-control {
-            border-radius: 20px;
-        }
-        
-        .btn {
-            border-radius: 20px;
-        }
-        
-        .table th {
-            font-weight: bold;
-        }
-        
-        .fa-trash {
-            color: red;
-            cursor: pointer;
-        }
-    </style>
-</head>
-<body>
-<div class="container">
-    <h1>Categories</h1>
-    <form @onsubmit="AddCategoryAsync">
-        <div class="col-md-4">
-            <label for="exampleInputEmail1" class="form-label">Insira o nome da Categoria</label>
-            <input style="border-radius: 20px;" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" @bind="categoryName" placeholder="Add Category">
-        </div><br>
-        <button type="submit" class="btn btn-primary">Add</button>
-    </form>
+        <form @onsubmit="AddCategoryAsync" style="display: flex; align-items: center;">
+
+            <input placeholder="Insere o da categoria" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" @bind="categoryName" required/>
+            <button type="submit">
+                🔍
+            </button>
+        </form>
+    </div>
+    
     <br/>
-    @if (categories == null)
-    {
-        <p><em>Loading...</em></p>
-    }
-    else if (!categories.Any())
-    {
-        <p><em>No categories found.</em></p>
-    }
-    else
-    {
-        <table class="table">
-            <thead>
-            <tr>
-                <th>Name</th>
-                <!--<th>Actions</th>-->
-            </tr>
-            </thead>
-            <tbody>
-            @foreach (var category in categories)
-            {
-                <tr>
-                    <td>@category.Name</td>
-                    <!--<td>
-                        <a @onclick="() => DeleteMovie(category.Id)"> <i class="fa fa-trash"></i></a>
-                    </td>-->
-                </tr>
-            }
-            </tbody>
-        </table>
-    }
-</div>
-</body>
-</html>
+    
+
+
+ <!-- =================== START OF RECENT ORDER =================== -->
+                
+
+                    @if (categories == null)
+                        {
+                            <p><em>Loading...</em></p>
+                        }
+                        else if (!categories.Any())
+                        {
+                            <p><em>No categories found.</em></p>
+                        }
+                        else
+                        {
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Nome</th>
+                        <th>Apagar</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var category in categories)
+                    {
+                                    <tr>
+                                        <td>@category.Name</td>
+                                                            <td>
+                                                                <a @onclick="() => DeleteMovie(category.Id)"> <i class="fa fa-trash"></i></a>
+                                                            </td>
+                                    </tr>
+                                }
+                                </tbody>
+                  </table>
+                        }
+                </div>
+                <!-- =================== END OF RECENT ORDER =================== -->
 
 @code
 {

@@ -7,59 +7,59 @@
 
 
 <AuthorizeView>
-    <NotAuthorized>
-        <br/><br/><br/><br/><br/>
-        <div style="text-align: center">
-            <h1>Bem-vindo à dashboard da VoteCine.</h1>
-            <h3>Se és admin, faz o teu login no canto superior direito.</h3>
-        </div>
-    </NotAuthorized>
     <Authorized>
-<h3>Estatísticas VOTECINE</h3>
-
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>Competition Name</th>
-            <th>Category Name</th>
-            <th>Movie Winner</th>
-            <th>Vote Count</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (statistics != null && statistics.Any())
-        {
-            var previousCompetitionName = "";
-            var categoryCount = 0;
-            foreach (var vote in statistics)
-            {
-                if (previousCompetitionName != vote.CompetitionName)
-                {
-                    previousCompetitionName = vote.CompetitionName;
-                    categoryCount = statistics.Count(v => v.CompetitionName == vote.CompetitionName);
-                }
-
-                <tr>
-                    @if (categoryCount > 0)
+<div class="recent-orders">
+                    <h1>Vencedores do momento </h1>
+    <br/>
+                  <table>
+                    <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Categoria</th>
+                        <th>Vencedor</th>
+                        <th>Votos</th>
+                    </tr>
+                    <br>
+                    </thead>
+                    <tbody>
+                    @if (statistics != null && statistics.Any())
                     {
-                        <td rowspan="@categoryCount" style="vertical-align: middle">@vote.CompetitionName</td>
-                        categoryCount = 0;
+                        var previousCompetitionName = "";
+                        var categoryCount = 0;
+                        foreach (var vote in statistics)
+                        {
+                            if (previousCompetitionName != vote.CompetitionName)
+                            {
+                                previousCompetitionName = vote.CompetitionName;
+                                categoryCount = statistics.Count(v => v.CompetitionName == vote.CompetitionName);
+                            }
+
+                            <tr>
+                                @if (categoryCount > 0)
+                                {
+                                    <td rowspan="@categoryCount" style="vertical-align: middle">@vote.CompetitionName</td>
+                                    categoryCount = 0;
+                                }
+                                <td>@vote.CategoryName</td>
+                                <td>@vote.MovieTitle</td>
+                                <td>@vote.VoteCount</td>
+                                
+                            </tr>
+                            
+                        }
                     }
-                    <td>@vote.CategoryName</td>
-                    <td>@vote.MovieTitle</td>
-                    <td>@vote.VoteCount</td>
-                </tr>
-            }
-        }
-        else
-        {
-            <tr>
-                <td colspan="4">Sem informação.</td>
-            </tr>
-        }
-    </tbody>
-</table>
+                    else
+                    {
+                        <tr>
+                            <td colspan="4">Sem informação.</td>
+                        </tr>
+                    }
+                                </tbody>
+                  </table>
+                        
+                </div>
+                <!-- =================== END OF RECENT ORDER =================== -->
+
 </Authorized>
 </AuthorizeView>
 

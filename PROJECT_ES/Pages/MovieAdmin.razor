@@ -8,98 +8,81 @@
 @inject MovieRepository movieRepository
 @inject NavigationManager NavigationManager
 
-
-<!doctype html>
-<html class="no-js" lang="en">
-<head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-</head>
-<body>
-<div class="container">
-<h1>Movies</h1>
-    <div class="row">
-        <div class="col-md-4">
-            <form @onsubmit="SearchMovies">
-                <div class="form-group">
-                    <label for="imdbId">Name of Movies</label>
-                    <br>
-                    <input style="border-radius: 20px;" type="text" class="form-control" id="imdbId" @bind="imdbname" required />
-                    <div style="color: red">@statusMessage</div>
-                </div>
-                <br>
-                <div>
-                    <button type="submit" class="btn btn-primary">Search</button>
-                </div>
-            </form>
-            <br>
-        </div>
+<div class="recent-orders">
+    <h1>Filmes</h1>
+    <br/>
+    <div class="wrapper">
+        <form @onsubmit="SearchMovies" style="display: flex;
+                                                      align-items: center;">
+            <input placeholder="Insere filme a adicionar" class="form-control" id="imdbId" @bind="imdbname" required/>
+            <button type="submit">
+                🔍
+            </button>
+        </form>
+        
     </div>
-    
-    @if (Movies != null)
-    {
-        <div class="row">
-            @foreach (var movie in Movies)
-            {
-                <div class="col-md-4">
-                    <img style="width: 60%"  src="@movie.Poster" class="card-img-top movie-img" alt="@movie.Title" @onclick="() => AddMovieAsync(movie)">
+    <span style="color: red;font-size: 18px; padding-bottom: 30px">@statusMessage</span>
 
-                    <div class="card-body">
-                        <h5 class="card-title">@movie.Title</h5>
+    <br/><br/>
+
+        @if (Movies != null){
+            <div class="wrapper-grid">
+                @foreach (var movie in Movies)
+                {
+                    <div class="container-banner-movie">
+                        <img class="banner-img" @onclick="() => AddMovieAsync(movie)" style="padding-bottom: 10px" src='@movie.Poster'>
+                        <div class="caption">@movie.Title</div>
                     </div>
-                </div>
-            }
-        </div>
+                }
+            </div>
 
-    }
+            }
     
 
+     @if (movies == null)
+                        {
+                        <p><em>Loading...</em></p>
+                        }
+                        else if (!movies.Any())
+                        {
+                        <p><em>No movies found.</em></p>
+                        }
+                        else
+                        {
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Título</th>
+                        <th>Descrição</th>
+                        <th>Diretore(s)</th>
+                        <th>Ator(es)</th>
+                        <th>Género</th>
+                        <th>Roteiristas</th>
+                        <th>Banner</th>
+                        <th>Lançamento</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var movie in movies)
+                    {
+                                    <tr>
+                                        <td>@movie.Title</td>
+                                        <td>@movie.Description</td>
+                                        <td>@movie.Diretor</td>
+                                        <td>@movie.Actor</td>
+                                        <td>@movie.Genre</td>
+                                        <td>@movie.Writers</td>
+                                        <td><img src="@movie.Image" width="50" height="70" /></td>
+                                        <td>@movie.Date</td>
+                                    </tr>
+                                }
+                                </tbody>
+                  </table>
+                        }
+                </div>
+                <!-- =================== END OF RECENT ORDER =================== -->
 
-    @if (movies == null)
-    {
-    <p><em>Loading...</em></p>
-    }
-    else if (!movies.Any())
-    {
-    <p><em>No movies found.</em></p>
-    }
-    else
-    {<table class="table">
-            <thead>
-            <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Director</th>
-            <th>Actor</th>
-            <th>Genre</th>
-            <th>Writers</th>
-            <th>Image</th>
-            <th>Date</th>
-            <!--<th>Actions</th>-->
-            </tr>
-            </thead>
-            <tbody>
-        @foreach (var movie in movies)
-        {
-            <tr>
-                <td>@movie.Title</td>
-                <td>@movie.Description</td>
-                <td>@movie.Diretor</td>
-                <td>@movie.Actor</td>
-                <td>@movie.Genre</td>
-                <td>@movie.Writers</td>
-                <td><img src="@movie.Image" width="50" height="70" /></td>
-                <td>@movie.Date</td>
-                <!--<td>
-                    <a @onclick="() => DeleteMovie(movie.Id)"> <i class="fa fa-trash"></i></a>
-                </td>-->
-            </tr>
-        }
-        </tbody>
-    </table>
-    }
-    </div>
-</body>
-</html>
+
 @code {
     private IEnumerable<Movie> movies;
 
@@ -140,6 +123,9 @@
         if (omdbResponse?.Response == "True")
         {
             Movies = omdbResponse.Search;
+        }
+        else        {
+            statusMessage = "Titulo de filme não encontrado pala API.";
         }
     }
     
