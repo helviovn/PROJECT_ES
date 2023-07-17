@@ -322,6 +322,9 @@ main .insights svg circle {
     transform: translate(5px, 5px);
 }
 
+.form-control {
+    margin-right: 10px;
+}
 main .insights .sales svg circle {
     stroke-dashoffset: -30;
     stroke-dasharray: 200;
@@ -750,4 +753,42 @@ button {
 
 button:hover {
     background-color: #dfdfdf;
+}
+
+
+/** movie banner*/
+.wrapper-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 14rem);
+    justify-content: center;
+}
+
+.container-banner-movie {
+    position: relative;
+    margin: 1rem;
+}
+
+.container-banner-movie img {
+    height: auto;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 8px;
+    font-size: 14px;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.container-banner-movie:hover .caption {
+    opacity: 1;
 }
