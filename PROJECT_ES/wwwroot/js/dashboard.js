@@ -1,4 +1,4 @@
-const menuBtn = document.querySelector("#menu-btn");
+﻿const menuBtn = document.querySelector("#menu-btn");
 const sideMenu = document.querySelector("aside");
 const closeBtn = document.querySelector("#close-btn");
 const themeToggler = document.querySelector(".theme-toggler");
@@ -28,11 +28,3 @@ themeToggler.addEventListener("click", () => {
     themeToggler.querySelector("span:last-child").classList.toggle("active");
 });
 
-
-
-// CHECK ON LOCAL STORAGE IS EMPTY OR NOT EMPTY
-if (localStorage.getItem("darkMode")) {
-    document.body.className = localStorage.getItem("darkMode");
-    themeToggler.querySelector("span:first-child").classList.remove("active");
-    themeToggler.querySelector("span:last-child").classList.add("active");
-}

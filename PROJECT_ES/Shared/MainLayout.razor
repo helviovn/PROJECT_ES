@@ -4,6 +4,7 @@
 
 <AuthorizeView>
   <Authorized>
+  
     <!-- =================== START OF CONTAINER =================== -->
     <div class="container">
       <!-- =================== START OF ASIDE =================== -->
@@ -29,10 +30,10 @@
     
         <!-- =================== START OF SIDEBAR =================== -->
         <div class="sidebar">
-              <a href="/">
-                <span class="material-icons-sharp">home</span>
-                <h3>Página Principal</h3>
-              </a>
+          <a href="/">
+            <span class="material-icons-sharp">home</span>
+            <h3>Página Principal</h3>
+          </a>
           <a href="welcome" class="active">
             <span class="material-icons-sharp">leaderboard</span>
             <h3>Geral</h3>
@@ -41,22 +42,22 @@
             <span class="material-icons-sharp">theaters</span>
             <h3>Filmes</h3>
           </a>          
-              <a href="competitions">
-                <span class="material-icons-sharp">folder_copy</span>
-                <h3>Competições</h3>
-              </a>
-              <a href="categories">
-                <span class="material-icons-sharp">storage</span>
-                <h3>Categorias</h3>
-              </a>
-              <a>
-                <span class="material-icons-sharp">logout</span>
-                <form method="post" action="Identity/Account/Logout">
-                  <button style="background-color:rgba(0,128,0,0);font-family: poppins, sans-serif;color: var(--color-info-dark);" type="submit"><h3>Terminar Sessão</h3></button>
-                </form>
-              </a>
+          <a href="competitions">
+            <span class="material-icons-sharp">folder_copy</span>
+            <h3>Competições</h3>
+          </a>
+          <a href="categories">
+            <span class="material-icons-sharp">storage</span>
+            <h3>Categorias</h3>
+          </a>
+          <a>
+            <span class="material-icons-sharp">logout</span>
+            <form method="post" action="Identity/Account/Logout">
+              <button style="background-color:rgba(0,128,0,0);font-family: poppins, sans-serif;color: var(--color-info-dark);" type="submit"><h3>Terminar Sessão</h3></button>
+            </form>
+          </a>
                   
-            </div>
+        </div>
         <!-- =================== END OF SIDEBAR =================== -->
       </aside>
       <!-- =================== END OF ASIDE =================== -->
@@ -83,7 +84,7 @@
                 <small style="color: red" class="text-muted">Admin</small>
               </div>
               <div class="profile-photo">
-                <img src="images/profile-pic.jpg" />
+                <img src="images/prof-pich.jpg" />
               </div>
             </div>
           </div>
@@ -102,5 +103,7 @@
           
     </div>
     <!-- =================== END OF CONTAINER =================== -->
+
   </Authorized>
+
 </AuthorizeView>
