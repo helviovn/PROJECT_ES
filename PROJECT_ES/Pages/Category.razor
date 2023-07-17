@@ -5,20 +5,27 @@
 @inject HttpClient httpClient
 @inject CategoryRepository categoryRepository
 @inject NavigationManager NavigationManager
+<div class="recent-orders">
+ <h1>Categorias</h1><br/>
+    <p>Cria uma categoria</p>
+    <div class="wrapper">
+        
+        <form @onsubmit="AddCategoryAsync" style="display: flex; align-items: center;">
 
-    <h1>Categories</h1>
-    <form @onsubmit="AddCategoryAsync">
-        <div class="col-md-4">
-            <label for="exampleInputEmail1" class="form-label">Insira o nome da Categoria</label>
-            <input style="border-radius: 20px;" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" @bind="categoryName" placeholder="Add Category">
-        </div><br>
-        <button type="submit" class="btn btn-primary">Add</button>
-    </form>
+            <input placeholder="Insere o da categoria" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" @bind="categoryName" required/>
+            <button type="submit">
+                🔍
+            </button>
+        </form>
+    </div>
+    
+    <br/>
+    
 
 
  <!-- =================== START OF RECENT ORDER =================== -->
-                <div class="recent-orders">
-                    
+                
+
                     @if (categories == null)
                         {
                             <p><em>Loading...</em></p>
