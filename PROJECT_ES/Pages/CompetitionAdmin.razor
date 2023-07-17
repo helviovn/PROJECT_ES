@@ -10,11 +10,26 @@
 
         <!-- =================== START OF RECENT ORDER =================== -->
                 <div class="recent-orders">
-                    <h1>Competições 
-                        </h1><a href="/createcompetition" class="btn btn-primary">Add Competition</a>
-                    <div class="form-group">
-                        <input style="border-radius: 20px;" class="form-control col-md-4" @bind-value="searchTerm" @bind-value:event="oninput" list="datalistOptions" id="exampleDataList" placeholder="Search Competition">
-                    </div>
+                    <h1>Competições
+                    </h1>
+                    
+                    
+                    
+                    <div style="display: flex; align-items: center;">
+                      
+                        <div class="wrapper" >
+                            <input @bind-value="searchTerm" @bind-value:event="oninput" list="datalistOptions" id="exampleDataList" placeholder="Procurar Competição">
+                            <button>
+                                🔍
+                            </button>
+                        
+                        </div>
+                        <a href="/createcompetition" style=";padding-left: 20px">
+                                                                        <img style="width: 50px; " src="/images/plus.png"/>
+                                                                      </a>
+</div>
+                    <br/>
+                   
                     @if (competitions == null)
                         {
                             <p><em>Loading...</em></p>
@@ -46,7 +61,8 @@
                                         </td>
                                         <td class="x">
                                             <a @onclick="() => ViewDetails(competition.Id)">
-                                                <span @onclick="() => ViewDetails(competition.Id)"><i class="fa fa-eye"></i></span>
+                                                <span @onclick="() => ViewDetails(competition.Id)"><i class="fa fa-eye"></i>
+                                                    </span>
                                                 
                                             </a>
 
