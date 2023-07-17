@@ -10,7 +10,8 @@
 
         <!-- =================== START OF RECENT ORDER =================== -->
                 <div class="recent-orders">
-                    <h1>Competitions <a href="/createcompetition" class="btn btn-primary">Add Competition</a></h1>
+                    <h1>Competições 
+                        </h1><a href="/createcompetition" class="btn btn-primary">Add Competition</a>
                     <div class="form-group">
                         <input style="border-radius: 20px;" class="form-control col-md-4" @bind-value="searchTerm" @bind-value:event="oninput" list="datalistOptions" id="exampleDataList" placeholder="Search Competition">
                     </div>
@@ -36,7 +37,6 @@
                                 {
                                     <tr>
                                         <td>@competition.Name</td>
-                                        
                                         <td>@competition.data_inicio</td>
                                         <td>@competition.data_fim</td>
                                         <td>
@@ -44,10 +44,10 @@
                                                 <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" @bind="competition.Ispublic" @onclick="() => UpdateIsPublic(competition)">
                                             </div>
                                         </td>
-                                        <td>
+                                        <td class="x">
                                             <a @onclick="() => ViewDetails(competition.Id)">
                                                 <span @onclick="() => ViewDetails(competition.Id)"><i class="fa fa-eye"></i></span>
-                                                aaaaaa
+                                                
                                             </a>
 
                                             <a @onclick="() => EditCompetition(competition.Id)">
@@ -65,6 +65,7 @@
                         }
                 </div>
                 <!-- =================== END OF RECENT ORDER =================== -->
+
 
 
 @code {
