@@ -6,8 +6,9 @@
 @inject CompetitionDetailsRepository CompetitionDetailsRepository
 @inject CompetitionRepository competitionRepository
 
-<h1>Edit Competition</h1>
-
+<div class="recent-orders">
+    <h1>Editar competição</h1><br/>
+    
 @if (competition != null && competition.Id != null)
 {
     <EditForm Model="@competition" OnValidSubmit="SaveChanges">
@@ -15,38 +16,38 @@
         <ValidationSummary/>
 
         <div class="form-group">
-            <label for="name">Name:</label>
+            <label for="name">Nome:</label>
             <input type="text" class="form-control" @bind="@competition.Name"/>
-        </div>
+        </div><br/>
 
         <div class="form-group">
-            <label for="description">Description:</label>
+            <label for="description">Descrição:</label>
             <input type="text" id="description" class="form-control" @bind="competition.Description"/>
-        </div>
+        </div><br/>
 
         <div class="form-group">
-            <label for="name">Start Date:</label>
+            <label for="name">Começa:</label>
             <input type="datetime" id="data_inicio" class="form-control" @bind="competition.data_inicio"/>
-        </div>
+        </div><br/>
         <div class="form-group">
-            <label for="name">End Date:</label>
+            <label for="name">Encerra:</label>
             <input type="datetime" id="data_inicio" class="form-control" @bind="competition.data_fim"/>
-        </div>
+        </div><br/>
         <div class="form-group">
-            <label for="name">Public</label>
+            <label for="name">Pública</label>
             <div class="form-check form-switch">
                                   <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" @bind="competition.Ispublic">
                                 </div>
         </div>
 
-        <button type="submit" class="btn btn-primary">Edit Competition</button>
+        <button type="submit" class="btn btn-primary">Editar</button>
     </EditForm>
 }
 else
 {
     <p><em>Loading...</em></p>
 }
-
+</div>
 @code {
     [Parameter]
     public int id { get; set; }
