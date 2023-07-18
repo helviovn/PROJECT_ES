@@ -138,31 +138,37 @@
 <div style="background: url('../images/tv-series-bg.jpg') no-repeat;!important;background-size: cover">
           <div style="padding-top: 150px;text-align: center ">
             <h2 class="h2 section-title" >@Model.Competition.Name</h2><br/>
-            <h3 class="h3 section-subtitle" style="font-size: 24px;!important;">@Model.Category.Name</h3><BR><br/>
-            <h3 class="h3 section-subtitle badge badge-outlineX" style="font-size: 20px; width: fit-content; display: inline-block;padding: 15px">Escolhe o filme e terás o teu voto validado!</h3>
-              
-            
-<form id="vote-form" method="post" action="@Url.Action("Vote", "Vote")">
-    <input type="hidden" name="competitionId" value="@Model.Competition.Id"/>
-    <input type="hidden" name="categoryId" value="@Model.Category.Id"/>
-    <input type="hidden" class="form-control" id="email" name="email" value="@User.Identity.Name">
-    
-    <div class="form-group" style="display: flex;
-                                       align-items: center;">
-        <div class="button-select-container" style="margin-right: 10px;">
-            <button type="submit" class="btn btn-primary">+</button>
-        </div>
-        <div class="select-container" style="flex-grow: 1;">
-            <select class="form-control" id="movie-select" name="movieId" required>
-                @foreach (var movie in Model.Movies)
-                {
-                    <option value="@movie.Id">@movie.Title</option>
-                }
-            </select>
-        </div>
-    </div>
-</form>
+            <h3 class="h3 section-subtitle" style="font-size: 24px;!important;">@Model.Category.Name</h3><BR>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                      <h3 class="h3 section-subtitle badge badge-outlineX" style="font-size: 20px; width: fit-content; display: inline-block;padding: 15px">Escolhe o filme e terás o teu voto validado!</h3>
 
+
+                      <form id="vote-form" method="post" action="@Url.Action("Vote", "Vote")">
+                        <input type="hidden" name="competitionId" value="@Model.Competition.Id"/>
+                        <input type="hidden" name="categoryId" value="@Model.Category.Id"/>
+                        <input type="hidden" class="form-control" id="email" name="email" value="@User.Identity.Name">
+
+                        <div class="form-group" style="display: flex;
+                                       align-items: center;">
+                          <div class="button-select-container" style="margin-right: 10px;">
+                            <button type="submit" class="btn btn-primary">+</button>
+                          </div>
+                          <div class="select-container" style="flex-grow: 1;">
+                            <select class="form-control" id="movie-select" name="movieId" required>
+                              @foreach (var movie in Model.Movies)
+                              {
+                                <option value="@movie.Id">@movie.Title</option>
+                              }
+                            </select>
+                          </div>
+                        </div>
+                      </form>
+                    }
+                    else
+                    {
+                      <h3 class="h3 section-subtitle badge badge-outlineXX" style="font-size: 16px; width: fit-content; display: inline-block;padding: 15px">Para votar tens que ter sessão iniciada.</h3><br/><br/>
+                    }
 
 
 

@@ -241,6 +241,7 @@ body.active { overflow: hidden; }
 
 .badge-outline { border-color: var(--white); }
 .badge-outlineX { border-color: #008000FF!important; }
+.badge-outlineXX { border-color: red!important; }
 .nparticipants {  font-size: var(--fs-8);  font-weight: var(--fw-300);}
 
 /**
