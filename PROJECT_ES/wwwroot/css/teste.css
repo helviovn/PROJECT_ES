@@ -84,7 +84,8 @@
 
 .popup {
     width: 400px;
-    background: #fff;
+    background: #181C2AFF;
+    border: 2px solid green;
     border-radius: 6px;
     position: absolute;
     top: 50%;
@@ -92,7 +93,7 @@
     transform: translate(-50%,-50%);
     text-align: center;
     padding: 0 30px 30px;
-    color: #333;
+    color: #ffffff;
 }
 .popup img{
     width: 100px;
@@ -111,7 +112,7 @@
     margin-top: 50px;
     padding: 10px 0;
     background: #6fd649;
-    color: #fff;
+    color: #ffffff;
     border: 0;
     outline: none;
     font-size: 18px;
@@ -239,7 +240,8 @@ body.active { overflow: hidden; }
 }
 
 .badge-outline { border-color: var(--white); }
-
+.badge-outlineX { border-color: #008000FF!important; }
+.badge-outlineXX { border-color: red!important; }
 .nparticipants {  font-size: var(--fs-8);  font-weight: var(--fw-300);}
 
 /**
@@ -401,11 +403,23 @@ body.active { overflow: hidden; }
     color: #e2d703;
     z-index: 1;
 }
+.movie-card .card-banner:hover .hover-textX {
+    display: none;
+    position: absolute;
+    font-size: var(--fs-4);  font-weight: var(--fw-700);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #e2d703;
+    z-index: 1;
+}
+.movie-card .card-banner:hover .hover-textX {
+    display: block;
+}
 .movie-card .card-banner .text-up {
     
     position: absolute;
-    font-weight: bold;
-    font-size: 18px;
+    font-size: var(--fs-4);  font-weight: var(--fw-700);
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -414,12 +428,11 @@ body.active { overflow: hidden; }
 }
     .movie-card .card-banner .vote-count {
         position: absolute;
-        font-weight: bold;
-        font-size: 18px;
+        font-size: var(--fs-6);  font-weight: var(--fw-500);
         top: 80%;
         left: 50%;
         transform: translate(-50%, -50%);
-        color: #f7f7f7;
+        color: var(--citrine);
     }
 
 .movie-card .card-banner:hover .hover-text {
@@ -916,6 +929,7 @@ body.active { overflow: hidden; }
     padding-block: 50px;
 
 }
+
 
 .cta .title-wrapper { margin-bottom: 25px; }
 

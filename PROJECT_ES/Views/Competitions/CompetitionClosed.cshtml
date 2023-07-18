@@ -144,76 +144,35 @@
     <p class="section-subtitle">Competição</p>
 
     <h2 class="h2 section-title">@Model.Competition.Name</h2>
-  
-    <ul class="movies-list" style="grid-template-columns: repeat(5, 1fr)">
-      @foreach (var vote in @Model.statistics)
-      {
-        <li>
-          
-          <p class="section-subtitle" style="font-size: 20px;text-align: center">@vote.CategoryName</p>
-          <div class="movie-card" style="width: 220px;">
-            <button class="comp-btn">
-              <figure class="card-banner">
-                <img src="@vote.MovieImage"/>
-                <div class="hover-text">
+    @if (@Model.statistics.Any())    {
+      <ul class="movies-list" style="grid-template-columns: repeat(5, 1fr)">
+        @foreach (var vote in @Model.statistics){
+
+          <li>
+            <p class="section-subtitle" style="font-size: 20px;text-align: center">@vote.CategoryName</p>
+            <div class="movie-card" style="width: 220px;">
+              <button class="comp-btn">
+                <figure class="card-banner">
+                  <img src="@vote.MovieImage"/>
+                  <div class="hover-text">
                     <div class="text-up" style="font-size: 24px">@vote.MovieTitle</div>
-                </div>
-                                    <div class="vote-count" style="font-size: 16px">@vote.VoteCount votos</div>
-              </figure>
-            </button>
-          </div>
-        </li>
+                  </div>
+                  <div class="vote-count" style="font-size: 16px">@vote.VoteCount votos</div>
+                </figure>
+              </button>
+            </div>
+          </li>
+  
         }
+      </ul>
+      }else{
+      <h2 class="h2 section-title" st>Sem votos</h2>
       }
-      else
-      {
-          <h2 class="h2 section-title" st>Sem votos</h2>
-      }
-      
-          
-    </ul>
+    
 
   </div>
 </section>
-<!--
 
-<section class="upcoming" >
-      <div class="container">
-        <div class="flex-wrapper">
-        </div>
-        <div class="slider-wrapper">
-          <ul class="movies-list  has-scrollbar " id="moviesSlider">
-            
-            @foreach (var vote in @Model.statistics)
-            {
-              <li>
-                <div class="movie-card">
-
-
-                  <figure class="card-banner">
-                    <img src=""/>
-                    <div class="hover-text">@vote.CategoryName</div>
-                  </figure>
-            
-                  <div class="title-wrapper">
-                    <button class="entrar-btn" data-competition-id="">
-                      <h3 class="card-title-alone">@vote.MovieTitle</h3>
-                    </button>
-                  </div>
-                  <div class="card-meta">
-                    <div class="badge nparticipants">@vote.VoteCount votos</div>
-                  </div>
-                </div>
-              </li>
-            }
-           
-          </ul>
-        </div>
-      </div>
-    </section>
-
-
--->
 
   <!-- 
     - #FOOTER

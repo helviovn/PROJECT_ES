@@ -17,6 +17,7 @@
         <ValidationSummary />
 
         <div class="row">
+
             <label for="name">Name:</label>
             <input type="text" class="form-control" @bind="competition.Name" />
         </div>
@@ -31,17 +32,21 @@
                 <div class="form-group">
                     <label for="begin">Begin:</label>
                     <input type="datetime" id="begin" class="form-control" @bind="competition.data_inicio" />
+
                 </div>
             </div>
+
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="end">End:</label>
                     <input type="datetime" id="end" class="form-control" @bind="competition.data_fim" />
                 </div>
+
             </div>
         </div>
 
         <div class="row">
+
             <div class="col-md-6">
                 <div class="form-group select-box-wrapper">
                     <label>Movies</label>
@@ -76,18 +81,21 @@
                     <br>
                     <select class="form-control select-box" size="9" multiple @bind="selectedCategoriesIds">
                         @if (categories != null)
+
                         {
                             @foreach (var category in categories)
                             {
                                 <option value="@category.Id">@category.Name</option>
                             }
                         }
+
                     </select>
                     <br />
                     <label>Selecionados:</label>
                     <br />
                     <div class="selected-items">
                         @foreach (var categoryId in selectedCategoriesIds)
+
                         {
                             var category = categories.FirstOrDefault(c => c.Id == categoryId);
                             if (category != null)

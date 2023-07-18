@@ -135,20 +135,48 @@
     </div>
   </header>
 
-<div style="background: url(../images/ft-bg.jpg) no-repeat;!important;background-size: cover">
-  <div style="padding-top: 150px; padding-bottom: 10px">
-    <h2 class="h2 section-title" >@Model.Competition.Name</h2><br/>
-    <h3 class="h3 section-subtitle" style="font-size: 24px;!important;">@Model.Category.Name</h3>
+<div style="background: url('../images/tv-series-bg.jpg') no-repeat;!important;background-size: cover">
+          <div style="padding-top: 150px;text-align: center ">
+            <h2 class="h2 section-title" >@Model.Competition.Name</h2><br/>
+            <h3 class="h3 section-subtitle" style="font-size: 24px;!important;">@Model.Category.Name</h3><BR>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                      <h3 class="h3 section-subtitle badge badge-outlineX" style="font-size: 20px; width: fit-content; display: inline-block;padding: 15px">Escolhe o filme e terás o teu voto validado!</h3>
 
-  </div>
 
-  <section class="upcoming" style="padding-top: 1px;!important ;background:url(../images) no-repeat;!important;">
+                      <form id="vote-form" method="post" action="@Url.Action("Vote", "Vote")">
+                        <input type="hidden" name="competitionId" value="@Model.Competition.Id"/>
+                        <input type="hidden" name="categoryId" value="@Model.Category.Id"/>
+                        <input type="hidden" class="form-control" id="email" name="email" value="@User.Identity.Name">
+
+                        <div class="form-group" style="display: flex;
+                                       align-items: center;">
+                          <div class="button-select-container" style="margin-right: 10px;">
+                            <button type="submit" class="btn btn-primary">+</button>
+                          </div>
+                          <div class="select-container" style="flex-grow: 1;">
+                            <select class="form-control" id="movie-select" name="movieId" required>
+                              @foreach (var movie in Model.Movies)
+                              {
+                                <option value="@movie.Id">@movie.Title</option>
+                              }
+                            </select>
+                          </div>
+                        </div>
+                      </form>
+                    }
+                    else
+                    {
+                      <h3 class="h3 section-subtitle badge badge-outlineXX" style="font-size: 16px; width: fit-content; display: inline-block;padding: 15px">Para votar tens que ter sessão iniciada.</h3><br/><br/>
+                    }
+
+
+
+            
+            
+            <section class="upcoming" style="padding-top: 1px;!important ;background:url(../images/) no-repeat;!important;padding-block: 0;!important;">
     <div class="container">
-      <div class="flex-wrapper">
-        <div class="title-wrapper">
-        </div>
-
-      </div>
+    </div>
       <div class="slider-wrapper">
         <div class="movies-list-container">
           <ul id="moviesSlider" class="movies-list has-scrollbarMovie">
@@ -189,48 +217,9 @@
       </div>
     </div>
   </section>
-
+<br/>
 </div>
 
-
-<p class="error-message" id="error-message" style="display:none;color: red;font-size: 25px;padding-bottom: 20px;padding-top: 20px">Já votaste nesta categoria!</p>
-
-<p class="success-message" id="success-message" style="display:none;color: green;font-size: 25px;padding-bottom: 20px;padding-top: 20px">O teu voto foi inserido com sucesso!</p>
-
-<section class="upcoming" id="form" style="padding-top: 20px;!important;padding-bottom: 20px;">
-  <div style="padding-top: 10px">
-    <h2 class="h2 section-title" style="text-align: center;">Insere o teu voto aqui</h2><br/>
-      
-  </div>
-
-  <form id="vote-form" method="post" action="@Url.Action("Vote", "Vote")">
-    <input type="hidden" name="competitionId" value="@Model.Competition.Id"/>
-    <input type="hidden" name="categoryId" value="@Model.Category.Id"/>
-
-    <div class="form-group">
-      <label for="name">Nome:</label>
-      <input type="text" class="form-control" id="name" name="name" required>
-    </div>
-
-    <div class="form-group">
-      <label for="email">Email:</label>
-      <input type="email" class="form-control" id="email" name="email" required>
-    </div>
-
-    <div class="form-group">
-      <label for="movie-select">Escolha um filme:</label>
-      <select class="form-control" id="movie-select" name="movieId" required>
-        @foreach (var movie in Model.Movies)
-        {
-          <option value="@movie.Id">@movie.Title</option>
-        }
-      </select>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Confirmar voto</button>
-  </form>
-
-</section>
 <!-- 
     - #FOOTER
   -->
@@ -336,7 +325,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
-    <script>
+<script>
         $(document).ready(function () {
             $('.category-slider').slick({
                 autoplay: true,
@@ -358,22 +347,41 @@
                 };
 
                 $.post('@Url.Action("Vote", "Vote")', formData, function (response) {
-                    if (response.done) {
-                        $('#form').hide();
-
-                        // Show the success popup
-                        var popupOverlay = $('<div class="popup-overlay"></div>');
-                        var popup = $('<div class="popup"><img src="/images/404-tick.png"><h2>Obrigado!</h2><p>O seu voto foi inserido com sucesso!</p><button id="redirect-button">OK</button></div>');
-
-                        popupOverlay.append(popup);
-                        $('body').append(popupOverlay);
-
-                        $('#redirect-button').on('click', function () {
-                            window.location.href = '/';
-                        });
+                   if (response.done) {
+                               $('#form').hide();
+                   
+                               // Show the success popup
+                               var popupOverlay = $('<div class="popup-overlay"></div>');
+                               var popup = $('<div class="popup"><img src="/images/404-tick.png"><h2>Obrigado!</h2><p>O seu voto foi inserido com sucesso!</p><button id="redirect-button" data-competition-id="@Model.Competition.Id">OK</button></div>');
+                   
+                               popupOverlay.append(popup);
+                               $('body').append(popupOverlay);
+                   
+                               $('#redirect-button').on('click', function() {
+                                   // Check if competitionId is defined before redirecting
+                                   var competitionId = '@Model.Competition.Id';
+                                   if (competitionId !== undefined && competitionId !== null && competitionId !== '') {
+                                       window.location.href = '/Category/CategoriesPage?competitionId=' + competitionId;
+                                   }
+                               });
                     } else if (response.error) {
                         $('#form').hide();
-                        $('#error-message').show();
+                       $('#form').hide();
+                                          
+                                                      // Show the success popup
+                                                      var popupOverlay = $('<div class="popup-overlay"></div>');
+                                                      var popup = $('<div class="popup" style="    border: 2px solid red;"><img src="/images/x.png"><h2>Voto Inválido!</h2><p>Já votaste nesta categoria anteriormente.</p><button style="    background: red;!importante" id="redirect-button" data-competition-id="@Model.Competition.Id">Voltar</button></div>');
+                                          
+                                                      popupOverlay.append(popup);
+                                                      $('body').append(popupOverlay);
+                                          
+                                                      $('#redirect-button').on('click', function() {
+                                                          // Check if competitionId is defined before redirecting
+                                                          var competitionId = '@Model.Competition.Id';
+                                                          if (competitionId !== undefined && competitionId !== null && competitionId !== '') {
+                                                              window.location.href = '/Category/CategoriesPage?competitionId=' + competitionId;
+                                                          }
+                                                      });
                     }
                 });
             });
@@ -391,6 +399,10 @@
                     window.addEventListener("click", function (e) {
                         if (!btn.contains(e.target)) toggleMenu.classList.remove("active");
                     });
+                    
+                    
+                    
+                    
     </script>
 </body>
 </html>
