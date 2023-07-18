@@ -20,12 +20,12 @@
         <div class="row">
             <div class="col-6">
                 <div class="form-group">
-                    <label for="name">Name:</label>
+                    <label for="name">Nome:</label>
                     <input type="text" class="form-control" @bind="competition.Name" />
                 </div>
                 <br/>
                 <div class="form-group">
-                    <label for="description">Description:</label>
+                    <label for="description">Descrição:</label>
                                                 <input type="text" id="description" class="form-control" @bind="competition.Description">
                                                 
                                    
@@ -36,11 +36,11 @@
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <label for="name">Begin:</label>
+                    <label for="name">Começa a:</label>
                     <input type="datetime" id="data_inicio" class="form-control" @bind="competition.data_inicio" />
                 </div><br/>
                 <div class="form-group">
-                    <label for="name">End:</label>
+                    <label for="name">Encerra a:</label>
                     <input type="datetime" id="data_inicio" class="form-control" @bind="competition.data_fim" />
                 </div><br/>
             </div>
@@ -48,7 +48,7 @@
         
         <div class="row">
             <div class="col-6">
-                <label>Movies</label>
+                <label>Filmes</label>
                 <select class="form-select form-select-sm" aria-label=".form-select-sm example" size="9" multiple @bind="selectedMovieIds">
                     @if (movies != null)
                     {
@@ -60,7 +60,7 @@
                 </select>
             </div><br/>
             <div class="col-6">
-                <label>Categories</label>
+                <label>Categorias</label>
                 <select class="form-select form-select-sm" aria-label=".form-select-sm example" size="9" multiple @bind="selectedCategoriesIds">
                     @if (categories != null)
                     {
