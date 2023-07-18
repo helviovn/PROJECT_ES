@@ -15,140 +15,155 @@
     <EditForm Model="@competition" OnValidSubmit="CreateCompetitionn">
         <DataAnnotationsValidator />
         <ValidationSummary />
+
         <div class="row">
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="name">Name:</label>
-                    <input type="text" class="form-control" @bind="competition.Name" />
-                </div>
-                <br/>
-                <div class="form-group">
-                    <label for="description">Description:</label>
-                    <input type="text" id="description" class="form-control" @bind="competition.Description" />
-                </div>
-                <br/>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="name">Begin:</label>
-                    <input type="datetime" id="data_inicio" class="form-control" @bind="competition.data_inicio" />
-                </div>
-                <br/>
-                <div class="form-group">
-                    <label for="name">End:</label>
-                    <input type="datetime" id="data_inicio" class="form-control" @bind="competition.data_fim" />
-                </div>
-                <br/>
-            </div>
+            <label for="name">Name:</label>
+            <input type="text" class="form-control" @bind="competition.Name" />
         </div>
-        
+
         <div class="row">
-            <div class="col-md-4 select-box-wrapper">
-                <label>Movies</label>
-                <select class="form-select form-select-sm bordered-select" aria-label=".form-select-sm example" size="9" multiple @bind="selectedMovieIds">
-                    @if (movies != null)
-                    {
-                        @foreach (var movie in movies)
-                        {
-                            <option value="@movie.Id">@movie.Title</option>
-                        }
-                    }
-                </select>
-            </div>
-            <br/>
-            <div class="col-md-4 select-box-wrapper">
-                <label>Categories</label>
-                <select class="form-select form-select-sm bordered-select" aria-label=".form-select-sm example" size="9" multiple @bind="selectedCategoriesIds">
-                    @if (categories != null)
-                    {
-                        @foreach (var category in categories)
-                        {
-                            <option value="@category.Id">@category.Name</option>
-                        }
-                    }
-                </select>
-            </div>
+            <label for="description">Description:</label>
+            <input type="text" id="description" class="form-control" @bind="competition.Description" />
         </div>
-        
+
         <div class="row">
             <div class="col-md-6">
-                <label>Selecionados</label>
-                <select class="form-select form-select-sm" aria-label=".form-select-sm example" size="3">
-                    @foreach (var movieId in selectedMovieIds)
-                    {
-                        var movie = movies.FirstOrDefault(m => m.Id == movieId);
-                        if (movie != null)
-                        {
-                            <option value="@movie.Id">@movie.Title</option>
-                        }
-                    }
-                </select>
+                <div class="form-group">
+                    <label for="begin">Begin:</label>
+                    <input type="datetime" id="begin" class="form-control" @bind="competition.data_inicio" />
+                </div>
             </div>
             <div class="col-md-6">
-                <label>Selecionadas</label>
-                <select class="form-select form-select-sm" aria-label=".form-select-sm example" size="3">
-                    @foreach (var categoryId in selectedCategoriesIds)
-                    {
-                        var category = categories.FirstOrDefault(c => c.Id == categoryId);
-                        if (category != null)
-                        {
-                            <option value="@category.Id">@category.Name</option>
-                        }
-                    }
-                </select>
+                <div class="form-group">
+                    <label for="end">End:</label>
+                    <input type="datetime" id="end" class="form-control" @bind="competition.data_fim" />
+                </div>
             </div>
         </div>
 
-        <br/>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group select-box-wrapper">
+                    <label>Movies</label>
+                    <br />
+                    <select class="form-control select-box" size="9" multiple @bind="selectedMovieIds">
+                        @if (movies != null)
+                        {
+                            @foreach (var movie in movies)
+                            {
+                                <option value="@movie.Id">@movie.Title</option>
+                            }
+                        }
+                    </select>
+                    <br />
+                    <label>Selecionados:</label>
+                    <br />
+                    <div class="selected-items">
+                        @foreach (var movieId in selectedMovieIds)
+                        {
+                            var movie = movies.FirstOrDefault(m => m.Id == movieId);
+                            if (movie != null)
+                            {
+                                <span class="selected-item">@movie.Title</span>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group select-box-wrapper">
+                    <label>Categories</label>
+                    <br>
+                    <select class="form-control select-box" size="9" multiple @bind="selectedCategoriesIds">
+                        @if (categories != null)
+                        {
+                            @foreach (var category in categories)
+                            {
+                                <option value="@category.Id">@category.Name</option>
+                            }
+                        }
+                    </select>
+                    <br />
+                    <label>Selecionados:</label>
+                    <br />
+                    <div class="selected-items">
+                        @foreach (var categoryId in selectedCategoriesIds)
+                        {
+                            var category = categories.FirstOrDefault(c => c.Id == categoryId);
+                            if (category != null)
+                            {
+                                <span class="selected-item">@category.Name</span>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <button type="submit" class="btn btn-primary">Criar</button>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Criar</button>
+        </div>
     </EditForm>
 </div>
+
 <style>
     .select-box-wrapper {
-      display: flex;
-      flex-direction: column;
+        position: relative;
     }
 
-    .bordered-select {
-      border: 2px solid black;
-      transition: border-color 0.3s ease;
+    .select-box {
+        height: 200px;
     }
 
-    .bordered-select:hover {
-      border-color: lightgreen;
+        .select-box option {
+            background: #fff;
+            color: #000;
+        }
+
+    .selected-items {
+        margin-top: 10px;
+    }
+
+    .selected-item {
+        display: inline-block;
+        padding: 5px 10px;
+        background: #f0f0f0;
+        color: #333;
+        border-radius: 3px;
+        margin-right: 5px;
+        margin-bottom: 5px;
+        font-size: 12px;
+    }
+
+    .row {
+        display: flex;
+        align-items: flex-start;
+    }
+
+    .col-md-6 {
+        flex: 0 0 50%;
+        max-width: 50%;
+        padding-right: 15px;
+        padding-left: 15px;
     }
 </style>
 
-
-
 @code {
-    
     private int[] selectedMovieIds = new int[0];
-    
     private int[] selectedCategoriesIds = new int[0];
-    
-
     private Competition competition = new();
-
     private List<Movie> movies;
     private List<Data.Category> categories;
-    
-    private IEnumerable<Data.Competition> Details;    
-    private IEnumerable<Data.Movie> Movies;
-    private IEnumerable<Data.Category> Categories;
-    
+
     protected override async Task OnInitializedAsync()
     {
         movies = (await movieRepository.GetMoviesAsync()).ToList();
         categories = (await categoryRepository.GetAllCategoriesAsync()).ToList();
     }
 
-    
     private async Task CreateCompetitionn()
     {
-        await competitionRepository.AddCompetitionWithMoviesAsync(competition, selectedMovieIds.ToList(),selectedCategoriesIds.ToList());
+        await competitionRepository.AddCompetitionWithMoviesAsync(competition, selectedMovieIds.ToList(), selectedCategoriesIds.ToList());
         NavigationManager.NavigateTo("/competitions");
     }
-
 }
