@@ -168,50 +168,10 @@
       }else{
       <h2 class="h2 section-title" st>Sem votos</h2>
       }
-      
-          
     
 
   </div>
 </section>
-
-
-<section class="upcoming" >
-      <div class="container">
-        <div class="flex-wrapper">
-        </div>
-        <div class="slider-wrapper">
-          <ul class="movies-list  has-scrollbar " id="moviesSlider">
-            
-            @foreach (var vote in @Model.statistics)
-            {
-              <li>
-                <div class="movie-card">
-
-
-                  <figure class="card-banner">
-                    <img src=""/>
-                    <div class="hover-text">@vote.CategoryName</div>
-                  </figure>
-            
-                  <div class="title-wrapper">
-                    <button class="entrar-btn" data-competition-id="">
-                      <h3 class="card-title-alone">@vote.MovieTitle</h3>
-                    </button>
-                  </div>
-                  <div class="card-meta">
-                    <div class="badge nparticipants">@vote.VoteCount votos</div>
-                  </div>
-                </div>
-              </li>
-            }
-           
-          </ul>
-        </div>
-      </div>
-    </section>
-
-
 -->
 
   <!-- 
