@@ -11,14 +11,12 @@
 @inject IJSRuntime JSRuntime
 
 <div class="recent-orders">
-
-        <h1>Criar competição</h1>
+    <h1>Criar competição</h1>
     <EditForm Model="@competition" OnValidSubmit="CreateCompetitionn">
         <DataAnnotationsValidator />
         <ValidationSummary />
-<br/>
         <div class="row">
-            <div class="col-6">
+            <div class="col-md-4">
                 <div class="form-group">
                     <label for="name">Name:</label>
                     <input type="text" class="form-control" @bind="competition.Name" />
@@ -26,30 +24,28 @@
                 <br/>
                 <div class="form-group">
                     <label for="description">Description:</label>
-                                                <input type="text" id="description" class="form-control" @bind="competition.Description">
-                                                
-                                   
-                    
-                    <input />
+                    <input type="text" id="description" class="form-control" @bind="competition.Description" />
                 </div>
                 <br/>
             </div>
-            <div class="col-6">
+            <div class="col-md-4">
                 <div class="form-group">
                     <label for="name">Begin:</label>
                     <input type="datetime" id="data_inicio" class="form-control" @bind="competition.data_inicio" />
-                </div><br/>
+                </div>
+                <br/>
                 <div class="form-group">
                     <label for="name">End:</label>
                     <input type="datetime" id="data_inicio" class="form-control" @bind="competition.data_fim" />
-                </div><br/>
+                </div>
+                <br/>
             </div>
         </div>
         
         <div class="row">
-            <div class="col-6">
+            <div class="col-md-4 select-box-wrapper">
                 <label>Movies</label>
-                <select class="form-select form-select-sm" aria-label=".form-select-sm example" size="9" multiple @bind="selectedMovieIds">
+                <select class="form-select form-select-sm bordered-select" aria-label=".form-select-sm example" size="9" multiple @bind="selectedMovieIds">
                     @if (movies != null)
                     {
                         @foreach (var movie in movies)
@@ -58,10 +54,11 @@
                         }
                     }
                 </select>
-            </div><br/>
-            <div class="col-6">
+            </div>
+            <br/>
+            <div class="col-md-4 select-box-wrapper">
                 <label>Categories</label>
-                <select class="form-select form-select-sm" aria-label=".form-select-sm example" size="9" multiple @bind="selectedCategoriesIds">
+                <select class="form-select form-select-sm bordered-select" aria-label=".form-select-sm example" size="9" multiple @bind="selectedCategoriesIds">
                     @if (categories != null)
                     {
                         @foreach (var category in categories)
@@ -72,13 +69,59 @@
                 </select>
             </div>
         </div>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <label>Selecionados</label>
+                <select class="form-select form-select-sm" aria-label=".form-select-sm example" size="3">
+                    @foreach (var movieId in selectedMovieIds)
+                    {
+                        var movie = movies.FirstOrDefault(m => m.Id == movieId);
+                        if (movie != null)
+                        {
+                            <option value="@movie.Id">@movie.Title</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label>Selecionadas</label>
+                <select class="form-select form-select-sm" aria-label=".form-select-sm example" size="3">
+                    @foreach (var categoryId in selectedCategoriesIds)
+                    {
+                        var category = categories.FirstOrDefault(c => c.Id == categoryId);
+                        if (category != null)
+                        {
+                            <option value="@category.Id">@category.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
 
-    <br>
+        <br/>
 
         <button type="submit" class="btn btn-primary">Criar</button>
     </EditForm>
-
 </div>
+<style>
+    .select-box-wrapper {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .bordered-select {
+      border: 2px solid black;
+      transition: border-color 0.3s ease;
+    }
+
+    .bordered-select:hover {
+      border-color: lightgreen;
+    }
+</style>
+
+
+
 @code {
     
     private int[] selectedMovieIds = new int[0];
