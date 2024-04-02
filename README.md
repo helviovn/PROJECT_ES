@@ -5,8 +5,8 @@ Para conseguir correr o projeto, o professor terá que nos fornecer o seu IP pú
 Para ter acesso à base de dados e aos dados/tabelas usamos a aplicação Azure Data Studio,os dados para aceder à base de dados são os seguintes:<br>
 Nome do servidor: es.database.windows.net<br>
 Authentication Type: SQL Login<br>
-Username: es<br>
-Password: 7kJY&2HzHerij*p<br>
+Username: <br>
+Password: <br>
 
 Caso queira aceder à DASHBOARD do administrador, estes são os dados de Login:<br>
 Email: admin@gmail.com<br>
